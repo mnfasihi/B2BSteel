@@ -1,166 +1,3 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B2BSteel | پلتفرم تخصصی صنعت فولاد، قالب فلزی و سوله</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-industry"></i>
-                </div>
-                <div class="logo-text">
-                    <h1>B2BSteel</h1>
-                    <p>پلتفرم تخصصی قالب فلزی بتن و سوله</p>
-                </div>
-            </div>
-            <div class="nav-links">
-                <a href="#home" class="nav-link active">خانه</a>
-                <a href="#features" class="nav-link">امکانات</a>
-                <a href="#how-it-works" class="nav-link">نحوه کار</a>
-                <a href="#contact" class="nav-link">تماس</a>
-                <div class="auth-buttons">
-                    <button class="btn btn-outline" onclick="showAuthModal('login')">ورود</button>
-                    <button class="btn btn-primary" onclick="showAuthModal('register')">ثبت‌نام</button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h2>اتصال مستقیم خریداران و فروشندگان صنعت فولاد</h2>
-                <p>اولین پلتفرم تخصصی قالب فلزی بتن و سوله با شفافیت قیمت و امنیت کامل</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="showAuthModal('register')">
-                        <i class="fas fa-user-tie"></i> من خریدار هستم
-                    </button>
-                    <button class="btn btn-success" onclick="showAuthModal('register')">
-                        <i class="fas fa-industry"></i> من فروشنده هستم
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features -->
-    <section id="features" class="section">
-        <div class="container">
-            <h2 class="section-title">چرا B2BSteel؟</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>امنیت و حریم خصوصی</h3>
-                    <p>اطلاعات شما تا زمان انتخاب نهایی کاملاً محرمانه می‌ماند</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>شفافیت قیمت</h3>
-                    <p>مقایسه قیمت‌ها از چندین فروشنده معتبر</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>سرعت بالا</h3>
-                    <p>دریافت پیشنهاد در کمتر از ۲۴ ساعت</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How it Works -->
-    <section id="how-it-works" class="section bg-light">
-        <div class="container">
-            <h2 class="section-title">چگونه کار می‌کند؟</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">۱</div>
-                    <h3>ثبت‌نام و تأیید</h3>
-                    <p>به صورت رایگان ثبت‌نام کنید و حساب خود را تأیید کنید</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">۲</div>
-                    <h3>ایجاد درخواست</h3>
-                    <p>درخواست خود را با جزئیات کامل ثبت کنید</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">۳</div>
-                    <h3>دریافت پیشنهاد</h3>
-                    <p>پیشنهادهای قیمت از فروشندگان معتبر دریافت کنید</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">۴</div>
-                    <h3>انتخاب و معامله</h3>
-                    <p>بهترین پیشنهاد را انتخاب و معامله را نهایی کنید</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">تماس با ما</h2>
-            <div class="contact-info">
-                <p><i class="fas fa-envelope"></i> info@B2BSteel.ir</p>
-                <p><i class="fas fa-phone"></i> ۰۲۱-۱۲۳۴۵۶۷۸</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>© ۱۴۰۳ B2BSteel. تمامی حقوق محفوظ است.</p>
-            <p>اولین پلتفرم تخصصی صنعت فولاد، قالب فلزی و سوله</p>
-        </div>
-    </footer>
-
-    <!-- Auth Modal -->
-    <div id="authModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">ورود به حساب کاربری</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="loginForm">
-                    <input type="email" id="loginEmail" placeholder="ایمیل" class="form-control">
-                    <input type="password" id="loginPassword" placeholder="رمز عبور" class="form-control">
-                    <button class="btn btn-primary" onclick="login()">ورود</button>
-                    <p class="text-center">حساب ندارید؟ <a href="#" onclick="showRegisterForm()">ثبت‌نام کنید</a></p>
-                </div>
-                <div id="registerForm" class="hidden">
-                    <input type="email" id="regEmail" placeholder="ایمیل" class="form-control">
-                    <input type="password" id="regPassword" placeholder="رمز عبور" class="form-control">
-                    <input type="password" id="regConfirmPassword" placeholder="تکرار رمز عبور" class="form-control">
-                    <select id="userType" class="form-control">
-                        <option value="buyer">خریدار</option>
-                        <option value="seller">فروشنده</option>
-                    </select>
-                    <button class="btn btn-primary" onclick="register()">ثبت‌نام</button>
-                    <p class="text-center">حساب دارید؟ <a href="#" onclick="showLoginForm()">وارد شوید</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="js/main.js"></script>
-</body>
-</html>
+<!-- کد ساده‌تر -->
+<h1>🛠️ سایت در دست ساخت است</h1>
+<p>به زودی با امکانات کامل بازمی‌گردیم</p>
