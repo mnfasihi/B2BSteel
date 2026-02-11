@@ -3605,7 +3605,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
         if (authError) throw authError;
         
         if (authData.user) {
-            // 2. اضافه کردن به جدول profiles
+            // 2. اضافه کردن به جدول profiles با نام فیلدهای صحیح
             const { error: profileError } = await supabase
                 .from('profiles')
                 .insert([
@@ -3616,7 +3616,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
                         seller_type: selectedUserType === 'seller' ? selectedSellerType : null,
                         company_name: company,
                         position: position,
-                        contact_person: contactPerson,
+                        full_name: contactPerson,  // ✅ تغییر از contact_person به full_name
                         phone: phone,
                         user_legal_type: selectedUserLegalType,
                         verification_status: 'pending',
@@ -3626,7 +3626,10 @@ document.getElementById('register-form').addEventListener('submit', async functi
                     }
                 ]);
             
-            if (profileError) throw profileError;
+            if (profileError) {
+                console.error('Profile Error:', profileError);
+                throw profileError;
+            }
             
             // 3. ذخیره کاربر فعلی
             currentUser = {
@@ -3634,7 +3637,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
                 email: email,
                 userType: selectedUserType,
                 sellerType: selectedUserType === 'seller' ? selectedSellerType : null,
-                contactPerson: contactPerson,
+                full_name: contactPerson,
                 companyName: company,
                 userLegalType: selectedUserLegalType,
                 isAdmin: false
@@ -3657,7 +3660,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
     } catch (error) {
         console.error('خطا در ثبت‌نام:', error);
         document.getElementById('register-error').textContent = 
-            error.message === 'User already registered' 
+            error.message?.includes('User already registered') 
                 ? 'این ایمیل قبلاً ثبت‌نام کرده است' 
                 : 'خطا در ثبت‌نام. لطفاً مجدداً تلاش کنید.';
     }
