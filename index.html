@@ -3597,10 +3597,21 @@ document.getElementById('register-form').addEventListener('submit', async functi
     
     try {
         // 1. ثبت‌نام در auth.users
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-        });
+       const { data: authData, error: authError } = await supabase.auth.signUp({
+  email: email,
+  password: password,
+  options: {
+    data: {
+      full_name: contactPerson,
+      phone: phone,
+      user_type: selectedUserType,
+      seller_type: selectedUserType === 'seller' ? selectedSellerType : null,
+      company_name: company,
+      position: position,
+      user_legal_type: selectedUserLegalType
+    }
+  }
+});
         
         if (authError) throw authError;
         
