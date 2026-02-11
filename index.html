@@ -3580,7 +3580,7 @@ body{background:var(--bg);color:var(--dark);font-family:'Vazirmatn',sans-serif;s
             }
         }
 
-// ==================== ثبت‌نام با Supabase ====================
+// ==================== ثبت‌نام با Supabase - نسخه نهایی ====================
 document.getElementById('register-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -3605,7 +3605,10 @@ document.getElementById('register-form').addEventListener('submit', async functi
         if (authError) throw authError;
         
         if (authData.user) {
-            // 2. اضافه کردن به جدول profiles - کامل
+            // 2. صبر کوتاه برای اطمینان از ثبت session
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // 3. اضافه کردن به جدول profiles - بدون نیاز به توکن دستی
             const { error: profileError } = await supabase
                 .from('profiles')
                 .insert([
@@ -3631,7 +3634,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
                 throw profileError;
             }
             
-            // 3. ذخیره کاربر فعلی
+            // 4. ذخیره کاربر فعلی
             currentUser = {
                 id: authData.user.id,
                 email: email,
@@ -3645,9 +3648,9 @@ document.getElementById('register-form').addEventListener('submit', async functi
             
             localStorage.setItem('current_user', JSON.stringify(currentUser));
             
-            alert('✅ ثبت‌نام با موفقیت انجام شد! لطفاً ایمیل خود را تأیید کنید.');
+            alert('✅ ثبت‌نام با موفقیت انجام شد!');
             
-            // 4. هدایت به صفحه مناسب
+            // 5. هدایت به صفحه مناسب
             if (selectedUserType === 'buyer') {
                 showPage('dashboard');
             } else if (selectedUserType === 'seller' && selectedSellerType === 'formwork') {
