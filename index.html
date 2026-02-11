@@ -3580,55 +3580,71 @@ body{background:var(--bg);color:var(--dark);font-family:'Vazirmatn',sans-serif;s
             }
         }
 
-        // ==================== فرم ثبت‌نام ====================
-        document.getElementById('register-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+// ==================== ثبت‌نام با Supabase ====================
+document.getElementById('register-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    if (!validatePassword()) {
+        return;
+    }
+    
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value;
+    const company = document.getElementById('reg-company').value || '';
+    const position = document.getElementById('reg-position').value || '';
+    const contactPerson = document.getElementById('reg-contact').value;
+    const phone = document.getElementById('reg-phone').value;
+    
+    try {
+        // 1. ثبت‌نام در auth.users
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        });
+        
+        if (authError) throw authError;
+        
+        if (authData.user) {
+            // 2. اضافه کردن به جدول profiles
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .insert([
+                    {
+                        user_id: authData.user.id,
+                        email: email,
+                        user_type: selectedUserType,
+                        seller_type: selectedUserType === 'seller' ? selectedSellerType : null,
+                        company_name: company,
+                        position: position,
+                        contact_person: contactPerson,
+                        phone: phone,
+                        user_legal_type: selectedUserLegalType,
+                        verification_status: 'pending',
+                        role: 'user',
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    }
+                ]);
             
-            if (!validatePassword()) {
-                return;
-            }
+            if (profileError) throw profileError;
             
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const company = document.getElementById('reg-company').value || '';
-            const position = document.getElementById('reg-position').value || '';
-            const contactPerson = document.getElementById('reg-contact').value;
-            const phone = document.getElementById('reg-phone').value;
-            
-            const existingUser = db.users.find(u => u.email === email);
-            if (existingUser) {
-                document.getElementById('register-error').textContent = 'این ایمیل قبلاً ثبت‌نام کرده است';
-                return;
-            }
-            
-            const newUser = {
-                id: db.users.length + 1,
-                email,
-                password,
+            // 3. ذخیره کاربر فعلی
+            currentUser = {
+                id: authData.user.id,
+                email: email,
                 userType: selectedUserType,
                 sellerType: selectedUserType === 'seller' ? selectedSellerType : null,
+                contactPerson: contactPerson,
                 companyName: company,
-                contactPerson,
-                phone,
-                verificationStatus: 'pending',
-                rating: 0,
-                totalTransactions: 0,
-                isAdmin: false,
                 userLegalType: selectedUserLegalType,
-                position,
-                totalPurchase: 0,
-                totalSales: 0,
-                createdAt: new Date().toISOString()
+                isAdmin: false
             };
             
-            db.users.push(newUser);
-            db.saveAll();
-            
-            currentUser = newUser;
             localStorage.setItem('current_user', JSON.stringify(currentUser));
             
-            alert('ثبت‌نام با موفقیت انجام شد!');
+            alert('✅ ثبت‌نام با موفقیت انجام شد! لطفاً ایمیل خود را تأیید کنید.');
             
+            // 4. هدایت به صفحه مناسب
             if (selectedUserType === 'buyer') {
                 showPage('dashboard');
             } else if (selectedUserType === 'seller' && selectedSellerType === 'formwork') {
@@ -3636,8 +3652,16 @@ body{background:var(--bg);color:var(--dark);font-family:'Vazirmatn',sans-serif;s
             } else if (selectedUserType === 'seller' && selectedSellerType === 'shed') {
                 showPage('seller-shed-dashboard');
             }
-        });
-
+        }
+        
+    } catch (error) {
+        console.error('خطا در ثبت‌نام:', error);
+        document.getElementById('register-error').textContent = 
+            error.message === 'User already registered' 
+                ? 'این ایمیل قبلاً ثبت‌نام کرده است' 
+                : 'خطا در ثبت‌نام. لطفاً مجدداً تلاش کنید.';
+    }
+});
         // ==================== فرم ورود ====================
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
