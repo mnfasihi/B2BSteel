@@ -3605,19 +3605,19 @@ document.getElementById('register-form').addEventListener('submit', async functi
         if (authError) throw authError;
         
         if (authData.user) {
-            // 2. اضافه کردن به جدول profiles با نام فیلدهای صحیح
+            // 2. اضافه کردن به جدول profiles - کامل
             const { error: profileError } = await supabase
                 .from('profiles')
                 .insert([
                     {
                         user_id: authData.user.id,
                         email: email,
+                        full_name: contactPerson,
+                        phone: phone,
                         user_type: selectedUserType,
                         seller_type: selectedUserType === 'seller' ? selectedSellerType : null,
                         company_name: company,
                         position: position,
-                        full_name: contactPerson,  // ✅ تغییر از contact_person به full_name
-                        phone: phone,
                         user_legal_type: selectedUserLegalType,
                         verification_status: 'pending',
                         role: 'user',
