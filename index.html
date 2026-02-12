@@ -3945,50 +3945,66 @@ document.getElementById('register-form').addEventListener('submit', async functi
             });
         }
 
-        function submitNewRequest() {
-            const title = document.getElementById('request-title').value;
-            const description = document.getElementById('request-description').value;
-            const material = document.getElementById('request-material').value;
-            const projectLocation = document.getElementById('request-project-location').value;
-            const year = document.getElementById('request-deadline-year').value;
-            const month = document.getElementById('request-deadline-month').value;
-            const day = document.getElementById('request-deadline-day').value;
-            
-            // جمع‌آوری اقلام انتخاب شده
-            const selectedItems = Array.from(document.querySelectorAll('input[name="request-items"]:checked')).map(cb => cb.value);
-            
-            if (!title || !description || !material || !projectLocation || !year || !month || !day) {
-                alert('لطفاً تمام فیلدهای ضروری را پر کنید.');
-                return;
-            }
-            
-            const newRequest = {
-                id: db.requests.length + 1,
-                title,
-                description,
-                items: selectedItems,
-                material,
-                projectLocation,
-                deadline: `${year}/${month}/${day}`,
-                buyerId: currentUser.id,
-                status: 'open',
-                createdAt: new Date().toISOString(),
-                images: [...currentRequestImages]
-            };
-            
-            db.requests.push(newRequest);
-            db.saveAll();
-            
-            document.getElementById('new-request-form').reset();
-            document.getElementById('request-image-preview').classList.remove('active');
-            currentRequestImages = [];
-            updateUploadedImages();
-            
-            closeModal('new-request-modal');
-            alert('درخواست شما با موفقیت ثبت شد!');
-            
-            loadDashboard();
-        }
+// ==================== ثبت درخواست قالب بتن در Supabase ====================
+async function submitNewRequest() {
+    if (!currentUser) {
+        alert('لطفاً ابتدا وارد حساب خود شوید.');
+        showPage('login');
+        return;
+    }
+    
+    const title = document.getElementById('request-title').value;
+    const description = document.getElementById('request-description').value;
+    const material = document.getElementById('request-material').value;
+    const projectLocation = document.getElementById('request-project-location').value;
+    const year = document.getElementById('request-deadline-year').value;
+    const month = document.getElementById('request-deadline-month').value;
+    const day = document.getElementById('request-deadline-day').value;
+    
+    const selectedItems = Array.from(document.querySelectorAll('input[name="request-items"]:checked')).map(cb => cb.value);
+    
+    if (!title || !description || !material || !projectLocation || !year || !month || !day) {
+        alert('لطفاً تمام فیلدهای ضروری را پر کنید.');
+        return;
+    }
+    
+    try {
+        const { data, error } = await supabase
+            .from('concrete_requests')
+            .insert([
+                {
+                    user_id: currentUser.id,
+                    title: title,
+                    description: description,
+                    items: selectedItems,
+                    material: material,
+                    project_location: projectLocation,
+                    deadline: `${year}/${month}/${day}`,
+                    status: 'open',
+                    images: currentRequestImages || [],
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                }
+            ]);
+        
+        if (error) throw error;
+        
+        alert('✅ درخواست شما با موفقیت در Supabase ثبت شد!');
+        
+        // ریست فرم
+        document.getElementById('new-request-form').reset();
+        document.getElementById('request-image-preview').classList.remove('active');
+        currentRequestImages = [];
+        updateUploadedImages();
+        
+        closeModal('new-request-modal');
+        loadDashboard();
+        
+    } catch (error) {
+        console.error('خطا در ثبت درخواست:', error);
+        alert('خطا در ثبت درخواست: ' + error.message);
+    }
+}
 
         // ==================== پنل ادمین ====================
         function loadAdminPanel() {
