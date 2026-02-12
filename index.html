@@ -2033,7 +2033,45 @@ window.showPage = function(pageId) {
     window.loadAllRequests = window.loadAllUsers;
     window.loadAllShedRequests = window.loadAllUsers;
     window.loadAllTransactions = window.loadAllUsers;
-    window.loadDashboard = window.loadAllUsers;
+    // ========== تابع داشبورد خریدار - نسخه نهایی ==========
+window.loadDashboard = function() {
+    console.log('🚀 داشبورد اجرا شد');
+    
+    if (!currentUser) {
+        console.log('❌ کاربر وارد نشده');
+        return;
+    }
+    
+    // نمایش نام کاربر
+    const nameEl = document.getElementById('user-name');
+    if (nameEl) {
+        nameEl.textContent = currentUser.full_name || 
+                            currentUser.contactPerson || 
+                            currentUser.email?.split('@')[0] || 
+                            'کاربر';
+    }
+    
+    // نمایش نوع حساب
+    const typeEl = document.getElementById('user-type');
+    if (typeEl) {
+        let typeText = 'کاربر عادی';
+        if (currentUser.isAdmin) typeText = 'مدیر سیستم';
+        else if (currentUser.userType === 'seller') typeText = 'فروشنده';
+        else if (currentUser.userType === 'buyer') typeText = 'خریدار';
+        typeEl.textContent = `نوع حساب: ${typeText}`;
+    }
+    
+    // آواتار
+    const avatarEl = document.getElementById('user-avatar');
+    if (avatarEl) {
+        const firstChar = (currentUser.full_name || currentUser.email || '?').charAt(0).toUpperCase();
+        avatarEl.textContent = firstChar;
+    }
+    
+    // دکمه ایجاد درخواست
+    const actionsEl = document.getElementById('buyer-actions');
+    if (actionsEl) actionsEl.classList.remove('hidden');
+};
     window.loadShedRequests = window.loadAllUsers;
 
     // ========== 9. توابع سوله ==========
