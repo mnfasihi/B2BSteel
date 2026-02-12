@@ -2072,7 +2072,67 @@ window.loadDashboard = function() {
     const actionsEl = document.getElementById('buyer-actions');
     if (actionsEl) actionsEl.classList.remove('hidden');
 };
-    window.loadShedRequests = window.loadAllUsers;
+    // ========== بارگذاری درخواست‌های سوله از Supabase ==========
+window.loadShedRequests = async function() {
+    console.log('🚀 لود درخواست‌های سوله');
+    
+    if (!currentUser) {
+        console.log('❌ کاربر وارد نشده');
+        return;
+    }
+    
+    const content = document.getElementById('dashboard-content');
+    if (!content) {
+        console.log('❌ المان dashboard-content پیدا نشد');
+        return;
+    }
+    
+    try {
+        const { data: requests, error } = await supabase
+            .from('shed_requests')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        console.log('✅ درخواست‌ها:', requests);
+        
+        if (!requests || requests.length === 0) {
+            content.innerHTML = `
+                <div class="requests-list">
+                    <div class="request-item">
+                        <p style="text-align: center; color: #6b7280;">📭 هنوز درخواست سوله‌ای ثبت نکرده‌اید.</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '<div class="requests-list">';
+        requests.forEach(request => {
+            html += `
+                <div class="request-item">
+                    <div class="request-header">
+                        <div class="request-title">🏭 سوله ${request.dimensions?.length || '?'}x${request.dimensions?.width || '?'} متر</div>
+                        <span class="request-badge badge-open">🟢 باز</span>
+                    </div>
+                    <div class="request-details">
+                        <div><strong>📍 محل:</strong> ${request.location}</div>
+                        <div><strong>📌 کارکرد:</strong> ${request.usage}</div>
+                        <div><strong>📅 تاریخ:</strong> ${new Date(request.created_at).toLocaleDateString('fa-IR')}</div>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        content.innerHTML = html;
+        
+    } catch (error) {
+        console.error('❌ خطا:', error);
+        content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
+    }
+};
 
     // ========== 9. توابع سوله ==========
     window.toggleDrawingUpload = function(show) {
