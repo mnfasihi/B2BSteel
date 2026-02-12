@@ -2026,9 +2026,94 @@ currentUser = {
     window.loadAllRequests = window.loadAllUsers;
     window.loadAllShedRequests = window.loadAllUsers;
     window.loadAllTransactions = window.loadAllUsers;
-    window.loadDashboard = window.loadAllUsers;
+    // ========== تابع داشبورد خریدار ==========
+window.loadDashboard = function() {
+    if (!currentUser) {
+        console.log('No current user');
+        return;
+    }
+    
+    console.log('Loading dashboard for:', currentUser.email);
+    
+    // نمایش اسم کاربر
+    const userName = currentUser.full_name || 
+                    currentUser.contactPerson || 
+                    currentUser.email?.split('@')[0] || 
+                    'کاربر';
+    document.getElementById('user-name').textContent = userName;
+    
+    // نمایش نوع حساب
+    let userTypeText = 'کاربر عادی';
+    if (currentUser.isAdmin) userTypeText = 'مدیر سیستم';
+    else if (currentUser.userType === 'seller') userTypeText = 'فروشنده';
+    else if (currentUser.userType === 'buyer') userTypeText = 'خریدار';
+    document.getElementById('user-type').textContent = `نوع حساب: ${userTypeText}`;
+    
+    // آواتار
+    const avatarChar = userName.charAt(0).toUpperCase();
+    document.getElementById('user-avatar').textContent = avatarChar;
+    
+    // آمار (فعلاً عدد ثابت)
+    document.getElementById('dashboard-stats').innerHTML = `
+        <div class="stat-card">
+            <h3>درخواست‌های قالب</h3>
+            <div class="value">۰</div>
+        </div>
+        <div class="stat-card">
+            <h3>درخواست‌های سوله</h3>
+            <div class="value">۰</div>
+        </div>
+        <div class="stat-card">
+            <h3>پیشنهادهای دریافتی</h3>
+            <div class="value">۰</div>
+        </div>
+        <div class="stat-card">
+            <h3>معاملات موفق</h3>
+            <div class="value">۰</div>
+        </div>
+    `;
+};
     window.loadShedRequests = window.loadAllUsers;
-
+// ========== تابع داشبورد خریدار ==========
+window.loadDashboard = function() {
+    if (!currentUser) {
+        console.log('کاربر وارد نشده');
+        return;
+    }
+    
+    console.log('داشبورد برای:', currentUser.email);
+    
+    // تنظیم نام کاربر
+    const nameElement = document.getElementById('user-name');
+    if (nameElement) {
+        const displayName = currentUser.full_name || 
+                          currentUser.contactPerson || 
+                          currentUser.email?.split('@')[0] || 
+                          'کاربر';
+        nameElement.textContent = displayName;
+    }
+    
+    // تنظیم نوع حساب
+    const typeElement = document.getElementById('user-type');
+    if (typeElement) {
+        let typeText = 'کاربر عادی';
+        if (currentUser.isAdmin) typeText = 'مدیر سیستم';
+        else if (currentUser.userType === 'seller') typeText = 'فروشنده';
+        else if (currentUser.userType === 'buyer') typeText = 'خریدار';
+        typeElement.textContent = `نوع حساب: ${typeText}`;
+    }
+    
+    // تنظیم آواتار
+    const avatarElement = document.getElementById('user-avatar');
+    if (avatarElement && currentUser.email) {
+        const firstChar = (currentUser.full_name || currentUser.email || '?').charAt(0).toUpperCase();
+        avatarElement.textContent = firstChar;
+    }
+    
+    // نمایش دکمه ایجاد درخواست
+    const buyerActions = document.getElementById('buyer-actions');
+    if (buyerActions) buyerActions.classList.remove('hidden');
+};
     // ========== 9. توابع سوله ==========
     window.toggleDrawingUpload = function(show) {
         const section = document.getElementById('drawing-upload-section');
