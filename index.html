@@ -5154,21 +5154,22 @@ async function submitNewRequest() {
         }
 
         // ==================== تابع ورود به سیستم قالب بتن ====================
-        function enterConcreteFormworkSystem() {
-            if (currentUser) {
-                if (currentUser.userType === 'buyer') {
-                    showPage('dashboard');
-                } else if (currentUser.userType === 'seller' && currentUser.sellerType === 'formwork') {
-                    showPage('seller-formwork-dashboard');
-                } else if (currentUser.userType === 'seller' && currentUser.sellerType === 'shed') {
-                    showPage('seller-shed-dashboard');
-                } else if (currentUser.isAdmin) {
-                    showPage('admin');
-                }
-            } else {
-                showPage('login');
-            }
+     // ==================== ورود به سیستم قالب بتن ====================
+window.enterConcreteFormworkSystem = function() {
+    if (currentUser) {
+        if (currentUser.userType === 'buyer') {
+            showPage('dashboard');
+        } else if (currentUser.userType === 'seller' && currentUser.sellerType === 'formwork') {
+            showPage('seller-formwork-dashboard');
+        } else if (currentUser.userType === 'seller' && currentUser.sellerType === 'shed') {
+            showPage('seller-shed-dashboard');
+        } else if (currentUser.isAdmin) {
+            showPage('admin');
         }
+    } else {
+        showPage('login');
+    }
+};
 
         // ==================== توابع نمونه برای توابع تعریف نشده ====================
         function loadFormworkSellerTransactions() {
@@ -5389,16 +5390,45 @@ window.selectUserLegalType = function(type) {
     }
 };
 
-window.selectSellerType = function(type) {
-    selectedSellerType = type;
-    const sellerTypeSelector = document.getElementById('seller-type-selector');
-    if (sellerTypeSelector) {
-        sellerTypeSelector.querySelectorAll('.user-type-btn[data-type]').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.type === type);
-        });
+// ==================== تابع به‌روزرسانی ناوبری ====================
+window.updateNavigation = function() {
+    const authButtons = document.getElementById('auth-buttons');
+    const userMenu = document.getElementById('user-menu');
+    const sellerFormworkMenu = document.getElementById('seller-formwork-menu');
+    const sellerShedMenu = document.getElementById('seller-shed-menu');
+    const adminMenu = document.getElementById('admin-menu');
+    
+    if (currentUser) {
+        authButtons?.classList.add('hidden');
+        if (currentUser.isAdmin) {
+            adminMenu?.classList.remove('hidden');
+            userMenu?.classList.add('hidden');
+            sellerFormworkMenu?.classList.add('hidden');
+            sellerShedMenu?.classList.add('hidden');
+        } else if (currentUser.userType === 'buyer') {
+            userMenu?.classList.remove('hidden');
+            adminMenu?.classList.add('hidden');
+            sellerFormworkMenu?.classList.add('hidden');
+            sellerShedMenu?.classList.add('hidden');
+        } else if (currentUser.userType === 'seller' && currentUser.sellerType === 'formwork') {
+            sellerFormworkMenu?.classList.remove('hidden');
+            userMenu?.classList.add('hidden');
+            adminMenu?.classList.add('hidden');
+            sellerShedMenu?.classList.add('hidden');
+        } else if (currentUser.userType === 'seller' && currentUser.sellerType === 'shed') {
+            sellerShedMenu?.classList.remove('hidden');
+            userMenu?.classList.add('hidden');
+            adminMenu?.classList.add('hidden');
+            sellerFormworkMenu?.classList.add('hidden');
+        }
+    } else {
+        authButtons?.classList.remove('hidden');
+        userMenu?.classList.add('hidden');
+        sellerFormworkMenu?.classList.add('hidden');
+        sellerShedMenu?.classList.add('hidden');
+        adminMenu?.classList.add('hidden');
     }
 };
-
 // ==================== توابع اصلی ====================
 async function submitNewRequest() {
     const { data: { user } } = await supabase.auth.getUser();
