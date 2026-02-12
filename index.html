@@ -3680,31 +3680,20 @@ document.getElementById('register-form').addEventListener('submit', async functi
     }
 });
         // ==================== فرم ورود ====================
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            const user = db.users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                currentUser = user;
-                localStorage.setItem('current_user', JSON.stringify(currentUser));
-                
-                if (user.isAdmin) {
-                    showPage('admin');
-                } else if (user.userType === 'buyer') {
-                    showPage('dashboard');
-                } else if (user.userType === 'seller' && user.sellerType === 'formwork') {
-                    showPage('seller-formwork-dashboard');
-                } else if (user.userType === 'seller' && user.sellerType === 'shed') {
-                    showPage('seller-shed-dashboard');
-                }
-            } else {
-                document.getElementById('login-error').textContent = 'ایمیل یا رمز عبور اشتباه است';
-            }
-        });
+       // بعد از اینکه user پیدا شد
+if (user) {
+    // گرفتن UUID واقعی از Supabase
+    const { data: { user: currentUserData } } = await supabase.auth.getUser();
+    
+    currentUser = {
+        id: currentUserData.id,  // ✅ UUID واقعی
+        email: user.email,
+        userType: user.userType,
+        // ... بقیه اطلاعات
+    };
+    
+    localStorage.setItem('current_user', JSON.stringify(currentUser));
+}
 
         // ==================== بارگذاری شمارنده‌ها ====================
         function loadCounters() {
@@ -3946,8 +3935,11 @@ document.getElementById('register-form').addEventListener('submit', async functi
         }
 
 // ==================== ثبت درخواست قالب بتن در Supabase ====================
+// ==================== ثبت درخواست قالب بتن در Supabase ====================
 async function submitNewRequest() {
-    if (!currentUser) {
+    // 1. گرفتن UUID واقعی از Supabase
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
         alert('لطفاً ابتدا وارد حساب خود شوید.');
         showPage('login');
         return;
@@ -3973,7 +3965,7 @@ async function submitNewRequest() {
             .from('concrete_requests')
             .insert([
                 {
-                    user_id: currentUser.id,
+                    user_id: user.id,  // ✅ UUID واقعی از Supabase
                     title: title,
                     description: description,
                     items: selectedItems,
