@@ -1749,36 +1749,29 @@ window.showPage = function(pageId) {
     };
 
     // ========== 4. توابع احراز هویت ==========
-    window.handleLogin = async function(email, password) {
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) throw error;
-            
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('user_id', data.user.id)
-                .single();
-            
-            currentUser = {
-                id: data.user.id,
-                email: data.user.email,
-                userType: profile?.user_type || 'buyer',
-                sellerType: profile?.seller_type,
-                full_name: profile?.full_name,
-                companyName: profile?.company_name,
-                userLegalType: profile?.user_legal_type,
-                isAdmin: profile?.role === 'admin' || false
-            };
-            
-            localStorage.setItem('current_user', JSON.stringify(currentUser));
-            window.currentUser = currentUser;
-            return { success: true, user: currentUser };
-        } catch (error) {
-            console.error('Login error:', error);
-            return { success: false, error: error.message };
-        }
-    };
+    // دریافت پروفایل کاربر - بدون خطای 406
+const { data: profiles, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('user_id', data.user.id);
+
+if (profileError) {
+    console.warn('Profile fetch warning:', profileError);
+}
+
+// استفاده از اولین پروفایل یا مقدار پیش‌فرض
+const userProfile = profiles && profiles.length > 0 ? profiles[0] : {};
+
+currentUser = {
+    id: data.user.id,
+    email: data.user.email,
+    userType: userProfile?.user_type || 'buyer',
+    sellerType: userProfile?.seller_type || null,
+    full_name: userProfile?.full_name || userProfile?.contactPerson || '',
+    companyName: userProfile?.company_name || '',
+    userLegalType: userProfile?.user_legal_type || 'company',
+    isAdmin: userProfile?.role === 'admin' || false
+};
 
     window.handleRegister = async function(userData) {
         try {
