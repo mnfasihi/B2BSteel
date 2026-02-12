@@ -3935,7 +3935,6 @@ if (user) {
         }
 
 // ==================== ثبت درخواست قالب بتن در Supabase ====================
-// ==================== ثبت درخواست قالب بتن در Supabase ====================
 async function submitNewRequest() {
     // 1. گرفتن UUID واقعی از Supabase
     const { data: { user } } = await supabase.auth.getUser();
@@ -5347,6 +5346,134 @@ async function submitNewRequest() {
         });
     </script>
 <script type="module" src="supabaseClient.js"></script>
+<script type="module" src="supabaseClient.js"></script>
+<script type="module">
+// ==================== متغیرهای سراسری ====================
+let currentUser = JSON.parse(localStorage.getItem('current_user')) || null;
+let selectedUserType = 'buyer';
+let selectedUserLegalType = 'company';
+let selectedSellerType = 'formwork';
+let currentRequestImages = [];
+let currentBidImages = [];
+let currentRating = 0;
+
+// ==================== توابع پایه ====================
+window.showPage = function(pageId) {
+    document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+    document.getElementById(`${pageId}-page`).classList.remove('hidden');
+    updateNavigation();
+};
+
+window.selectUserType = function(type) {
+    selectedUserType = type;
+    const mainSelector = document.getElementById('user-type-main-selector');
+    if (mainSelector) {
+        mainSelector.querySelectorAll('.user-type-btn[data-type]').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.type === type);
+        });
+    }
+    const sellerTypeSection = document.getElementById('seller-type-section');
+    if (sellerTypeSection) {
+        sellerTypeSection.classList.toggle('hidden', type !== 'seller');
+    }
+};
+
+window.selectUserLegalType = function(type) {
+    selectedUserLegalType = type;
+    const legalTypeSelector = document.getElementById('user-legal-type-selector');
+    if (legalTypeSelector) {
+        legalTypeSelector.querySelectorAll('.user-type-btn[data-type]').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.type === type);
+        });
+    }
+};
+
+window.selectSellerType = function(type) {
+    selectedSellerType = type;
+    const sellerTypeSelector = document.getElementById('seller-type-selector');
+    if (sellerTypeSelector) {
+        sellerTypeSelector.querySelectorAll('.user-type-btn[data-type]').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.type === type);
+        });
+    }
+};
+
+// ==================== توابع اصلی ====================
+async function submitNewRequest() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        alert('لطفاً ابتدا وارد حساب خود شوید.');
+        showPage('login');
+        return;
+    }
+    
+    const title = document.getElementById('request-title')?.value;
+    const description = document.getElementById('request-description')?.value;
+    const material = document.getElementById('request-material')?.value;
+    const projectLocation = document.getElementById('request-project-location')?.value;
+    const year = document.getElementById('request-deadline-year')?.value;
+    const month = document.getElementById('request-deadline-month')?.value;
+    const day = document.getElementById('request-deadline-day')?.value;
+    
+    const selectedItems = Array.from(document.querySelectorAll('input[name="request-items"]:checked')).map(cb => cb.value);
+    
+    if (!title || !description || !material || !projectLocation || !year || !month || !day) {
+        alert('لطفاً تمام فیلدهای ضروری را پر کنید.');
+        return;
+    }
+    
+    try {
+        const { error } = await supabase
+            .from('concrete_requests')
+            .insert([{
+                user_id: user.id,
+                title,
+                description,
+                items: selectedItems,
+                material,
+                project_location: projectLocation,
+                deadline: `${year}/${month}/${day}`,
+                status: 'open',
+                images: currentRequestImages || [],
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            }]);
+        
+        if (error) throw error;
+        
+        alert('✅ درخواست شما با موفقیت ثبت شد!');
+        closeModal('new-request-modal');
+        loadDashboard();
+    } catch (error) {
+        console.error('خطا:', error);
+        alert('خطا در ثبت درخواست');
+    }
+}
+
+// ==================== Event Listeners ====================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ پروژه B2BSteel با موفقیت بارگذاری شد');
+    
+    // حساب‌های نمونه
+    console.log('=== حساب‌های نمونه ===');
+    console.log('خریدار: buyer@example.com / 123456');
+    console.log('فروشنده قالب: seller-formwork@example.com / 123456');
+    console.log('فروشنده سوله: seller-shed@example.com / 123456');
+    console.log('ادمین: admin@example.com / admin123');
+    console.log('===================');
+    
+    // مقداردهی اولیه
+    if (currentUser) {
+        updateNavigation();
+        showPage('home');
+    } else {
+        showPage('home');
+    }
+});
+</script>
+</body>
+</html>
 </body>
 </html>
 
