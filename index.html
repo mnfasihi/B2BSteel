@@ -2170,11 +2170,75 @@ window.loadDashboard = function() {
         });
         
         // فرم سوله نو
-        document.getElementById('new-shed-form')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('✅ درخواست سوله با موفقیت ثبت شد!');
-            window.showPage('shed');
-        });
+        // ========== ثبت درخواست سوله در Supabase ==========
+document.getElementById('new-shed-form')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    if (!currentUser) {
+        alert('❌ لطفاً ابتدا وارد حساب خود شوید.');
+        window.showPage('login');
+        return;
+    }
+
+    // گرفتن UUID واقعی کاربر
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        alert('❌ خطا در احراز هویت');
+        return;
+    }
+
+    // جمع‌آوری داده‌ها
+    const shedData = {
+        user_id: user.id,
+        dimensions: {
+            length: parseFloat(document.getElementById('shed-length')?.value || 0),
+            width: parseFloat(document.getElementById('shed-width')?.value || 0),
+            height: parseFloat(document.getElementById('shed-height')?.value || 0)
+        },
+        usage: document.getElementById('shed-usage')?.value || '',
+        location: document.getElementById('shed-location')?.value || '',
+        has_drawing: document.querySelector('input[name="has-drawing"]:checked')?.value === 'yes',
+        needs_crane: document.querySelector('input[name="needs-crane"]:checked')?.value === 'yes',
+        crane_tonnage: document.getElementById('crane-tonnage')?.value || null,
+        foundation: document.querySelector('input[name="foundation"]:checked')?.value || 'no',
+        sandblast: document.querySelector('input[name="sandblast"]:checked')?.value || 'no',
+        paint_type: document.getElementById('paint-type')?.value || '',
+        other_paint_type: document.getElementById('other-paint-type')?.value || '',
+        paint_thickness: parseInt(document.getElementById('paint-thickness')?.value) || 50,
+        buyer_responsibilities: Array.from(document.querySelectorAll('input[name="responsibility"]:checked')).map(cb => cb.value),
+        weight: document.getElementById('shed-weight')?.value || null,
+        price_type: document.querySelector('input[name="price-type"]:checked')?.value || 'estimated',
+        status: 'open',
+        created_at: new Date().toISOString()
+    };
+
+    // اعتبارسنجی سریع
+    if (!shedData.dimensions.length || !shedData.dimensions.width || !shedData.dimensions.height) {
+        alert('❌ لطفاً ابعاد سوله را وارد کنید.');
+        return;
+    }
+
+    if (!shedData.usage || !shedData.location) {
+        alert('❌ لطفاً کارکرد و محل نصب را وارد کنید.');
+        return;
+    }
+
+    try {
+        const { error } = await supabase
+            .from('shed_requests')
+            .insert([shedData]);
+
+        if (error) throw error;
+
+        alert('✅ درخواست سوله با موفقیت در Supabase ثبت شد!');
+        window.showPage('shed');
+        e.target.reset();
+        
+    } catch (error) {
+        console.error('❌ خطا:', error);
+        alert('خطا در ثبت درخواست: ' + error.message);
+    }
+});
         
         // مقداردهی اولیه
         window.updateNavigation();
