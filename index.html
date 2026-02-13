@@ -1343,6 +1343,10 @@
                         <input type="password" id="login-password" class="form-control" required>
                     </div>
                     
+                    <div class="form-group" style="text-align: left;">
+                        <a href="#" onclick="window.showPage('forgot-password')" style="color: var(--primary); font-size: 0.9rem;">رمز عبور را فراموش کرده‌اید؟</a>
+                    </div>
+                    
                     <div id="login-error" style="color: red; margin-bottom: 1rem;"></div>
                     
                     <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">ورود</button>
@@ -1350,6 +1354,32 @@
                 
                 <p style="text-align: center; margin-top: 1rem;">
                     حساب ندارید؟ <a href="#" onclick="window.showPage('register')" style="color: var(--primary);">ثبت‌نام کنید</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- صفحه فراموشی رمز عبور (جدید) -->
+    <section id="forgot-password-page" class="page hidden">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2 class="auth-title">بازیابی رمز عبور</h2>
+                
+                <form id="forgot-password-form">
+                    <div class="form-group">
+                        <label for="reset-email">ایمیل خود را وارد کنید</label>
+                        <input type="email" id="reset-email" class="form-control" required placeholder="example@email.com">
+                        <small style="color: var(--muted); display: block; margin-top: 5px;">لینک بازیابی رمز عبور به این ایمیل ارسال خواهد شد.</small>
+                    </div>
+                    
+                    <div id="reset-message" style="color: green; margin-bottom: 1rem; text-align: center;"></div>
+                    <div id="reset-error" style="color: red; margin-bottom: 1rem; text-align: center;"></div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">ارسال لینک بازیابی</button>
+                </form>
+                
+                <p style="text-align: center; margin-top: 1rem;">
+                    <a href="#" onclick="window.showPage('login')" style="color: var(--primary);">بازگشت به صفحه ورود</a>
                 </p>
             </div>
         </div>
@@ -1454,7 +1484,7 @@
         </div>
     </section>
 
-    <!-- صفحه داشبورد فروشنده قالب -->
+    <!-- صفحه داشبورد فروشنده قالب (رفع مشکل) -->
     <section id="seller-formwork-dashboard-page" class="page hidden">
         <div class="container dashboard">
             <div class="dashboard-header">
@@ -1498,7 +1528,7 @@
         </div>
     </section>
 
-    <!-- صفحه داشبورد فروشنده سوله -->
+    <!-- صفحه داشبورد فروشنده سوله (رفع مشکل) -->
     <section id="seller-shed-dashboard-page" class="page hidden">
         <div class="container dashboard">
             <div class="dashboard-header">
@@ -1798,6 +1828,7 @@
         // توابع وابسته به صفحه
         if (pageId === 'dashboard' && currentUser?.userType === 'buyer') window.loadDashboard();
         else if (pageId === 'admin' && currentUser?.isAdmin) window.loadAdminPanel();
+        else if (pageId === 'seller-formwork-dashboard' && currentUser?.userType === 'seller' && currentUser?.sellerType === 'formwork') window.loadSellerFormworkDashboard();
         else if (pageId === 'seller-shed-dashboard' && currentUser?.userType === 'seller' && currentUser?.sellerType === 'shed') window.loadSellerShedDashboard();
         else if (pageId === 'home') { window.loadCounters(); window.initImageSlider(); }
     };
@@ -2350,6 +2381,57 @@
         if (actionsEl) actionsEl.classList.remove('hidden');
     };
     
+    // ========== تابع داشبورد فروشنده قالب (جدید) ==========
+    window.loadSellerFormworkDashboard = async function() {
+        console.log('🏗️ بارگذاری داشبورد فروشنده قالب');
+        
+        if (!currentUser) return;
+        
+        const nameEl = document.getElementById('seller-formwork-name');
+        if (nameEl) {
+            nameEl.textContent = currentUser.full_name || currentUser.email || 'فروشنده قالب';
+        }
+        
+        try {
+            const { data: requests, error } = await supabase
+                .from('concrete_requests')
+                .select('*')
+                .eq('status', 'open')
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            
+            const container = document.getElementById('seller-formwork-requests');
+            if (!container) return;
+            
+            if (!requests || requests.length === 0) {
+                container.innerHTML = '<div class="request-item"><p style="text-align: center;">درخواستی وجود ندارد</p></div>';
+                return;
+            }
+            
+            let html = '';
+            requests.forEach(req => {
+                html += `
+                    <div class="request-item">
+                        <div><strong>عنوان:</strong> ${req.title || 'بدون عنوان'}</div>
+                        <div><strong>محل:</strong> ${req.project_location || 'نامشخص'}</div>
+                        <div><strong>توضیحات:</strong> ${req.description?.substring(0, 50)}...</div>
+                        <button class="btn btn-primary btn-sm" onclick="alert('ارسال پیشنهاد - در حال توسعه')">ارسال پیشنهاد</button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+        } catch (error) {
+            console.error('❌ خطا در بارگذاری درخواست‌های قالب:', error);
+            const container = document.getElementById('seller-formwork-requests');
+            if (container) {
+                container.innerHTML = '<div style="color: red; text-align: center;">خطا در بارگذاری</div>';
+            }
+        }
+    };
+    
     // ========== تابع داشبورد فروشنده سوله ==========
     window.loadSellerShedDashboard = async function() {
         console.log('🏭 بارگذاری داشبورد فروشنده سوله');
@@ -2440,7 +2522,33 @@
         }
     };
 
-    // ========== 11. Event Listeners ==========
+    // ========== 11. قابلیت بازیابی رمز عبور (جدید) ==========
+    document.getElementById('forgot-password-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('reset-email').value;
+        const resetMessage = document.getElementById('reset-message');
+        const resetError = document.getElementById('reset-error');
+        
+        resetMessage.textContent = '';
+        resetError.textContent = '';
+        
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/reset-password',
+            });
+            
+            if (error) throw error;
+            
+            resetMessage.textContent = '✅ لینک بازیابی رمز عبور به ایمیل شما ارسال شد. لطفاً ایمیل خود را بررسی کنید.';
+            document.getElementById('reset-email').value = '';
+        } catch (error) {
+            console.error('❌ خطا در بازیابی رمز:', error);
+            resetError.textContent = error.message || 'خطا در ارسال ایمیل. لطفاً دوباره تلاش کنید.';
+        }
+    });
+
+    // ========== 12. Event Listeners ==========
     document.addEventListener('DOMContentLoaded', function() {
         console.log('✅ B2BSteel با موفقیت بارگذاری شد');
         
