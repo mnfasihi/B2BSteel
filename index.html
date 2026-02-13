@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B2BSteel | پلتفرم تخصصی صنعت فولاد و قالب بتن</title>
+    <title>B2BSteel | پلتفرم تخصصی قالب فلزی بتن و سوله</title>
     
     <!-- فونت و آیکون -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- استایل‌های یکپارچه -->
     <style>
         /* ========== متغیرهای رنگ ========== */
         :root {
@@ -93,6 +92,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -104,8 +104,8 @@
         .logo-icon {
             background: var(--primary);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -117,24 +117,30 @@
             font-size: 1.5rem;
             color: var(--primary);
             font-weight: 700;
+            line-height: 1.2;
         }
 
-        .logo-text p {
+        .logo-text .slogan {
             font-size: 0.8rem;
-            color: var(--muted);
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-link {
             color: #4b5563;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 6px;
             transition: all 0.3s;
+            font-size: 0.95rem;
+            white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -145,12 +151,13 @@
         /* ========== دکمه‌ها ========== */
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 6px;
             font-weight: 600;
             text-align: center;
             transition: all 0.3s;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -205,14 +212,14 @@
 
         .btn-sm {
             padding: 5px 10px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         /* ========== صفحه اصلی - هیرو ========== */
         .hero {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
             color: white;
-            padding: 6rem 0;
+            padding: 4rem 0;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -236,7 +243,7 @@
         }
 
         .hero h2 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
         }
@@ -291,7 +298,7 @@
         /* ========== اسلایدشو ========== */
         .image-slider {
             width: 100%;
-            height: 500px;
+            height: 450px;
             position: relative;
             overflow: hidden;
             margin: 2rem 0;
@@ -591,37 +598,35 @@
         }
 
         /* ========== ریسپانسیو ========== */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .nav-container {
                 flex-direction: column;
                 gap: 1rem;
             }
-
+            .nav-links {
+                justify-content: center;
+            }
+        }
+        @media (max-width: 768px) {
             .hero h2 {
                 font-size: 2rem;
             }
-
             .hero p {
                 font-size: 1rem;
             }
-
             .hero-buttons {
                 flex-direction: column;
                 align-items: center;
             }
-
             .image-slider {
                 height: 300px;
             }
-
             .counter-number {
                 font-size: 2rem;
             }
-
             .date-selector {
                 flex-direction: column;
             }
-
             .dashboard-header {
                 flex-direction: column;
                 gap: 1rem;
@@ -636,23 +641,11 @@
     <div class="container nav-container">
         <div class="logo">
             <div class="logo-icon">
-                <svg width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="32 6 52 16 52 38 32 50 12 38 12 16" fill="none" stroke="white" stroke-width="3"/>
-                    <line x1="32" y1="6" x2="32" y2="50" stroke="white" stroke-width="3"/>
-                    <line x1="12" y1="16" x2="52" y2="38" stroke="white" stroke-width="3"/>
-                    <line x1="12" y1="38" x2="52" y2="16" stroke="white" stroke-width="3"/>
-                    <circle cx="32" cy="6" r="3.6" fill="white"/>
-                    <circle cx="52" cy="16" r="3.6" fill="white"/>
-                    <circle cx="52" cy="38" r="3.6" fill="white"/>
-                    <circle cx="32" cy="50" r="3.6" fill="white"/>
-                    <circle cx="12" cy="38" r="3.6" fill="white"/>
-                    <circle cx="12" cy="16" r="3.6" fill="white"/>
-                    <circle cx="32" cy="32" r="4.5" fill="#E6B800"/>
-                </svg>
+                <i class="fas fa-cubes"></i>
             </div>
             <div class="logo-text">
                 <h1>B2BSteel</h1>
-                <p>پلتفرم تخصصی قالب فلزی بتن و سوله</p>
+                <div class="slogan">اعتماد - شفافیت - سرعت</div>
             </div>
         </div>
         
@@ -660,35 +653,34 @@
             <a href="#" class="nav-link" onclick="window.showPage('home')">خانه</a>
             <a href="#" class="nav-link" onclick="window.showPage('concrete-formwork')">قالب بتن</a>
             <a href="#" class="nav-link" onclick="window.showPage('shed')">سوله</a>
-            <a href="#" class="nav-link" onclick="window.showPage('marketing')">چرا B2BSteel؟</a>
-            <a href="#" class="nav-link" onclick="window.showPage('features')">امکانات</a>
-            <a href="#" class="nav-link" onclick="window.showPage('how-it-works')">نحوه کار</a>
             <a href="#" class="nav-link" onclick="window.showPage('blog')">بلاگ</a>
+            <a href="#" class="nav-link" onclick="window.showPage('terms')">قوانین</a>
+            <a href="#" class="nav-link" onclick="window.showPage('guide')">راهنما</a>
             
             <div id="auth-buttons">
-                <button class="btn btn-primary" onclick="window.showPage('login')">ورود</button>
-                <button class="btn btn-secondary" onclick="window.showPage('register')">ثبت‌نام</button>
+                <button class="btn btn-primary btn-sm" onclick="window.showPage('login')">ورود</button>
+                <button class="btn btn-secondary btn-sm" onclick="window.showPage('register')">ثبت‌نام</button>
             </div>
             
             <div id="user-menu" class="hidden">
-                <button class="btn btn-primary" onclick="window.showPage('dashboard')">داشبورد</button>
-                <button class="btn btn-danger" onclick="window.logout()">خروج</button>
+                <button class="btn btn-primary btn-sm" onclick="window.showPage('dashboard')">داشبورد</button>
+                <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
             </div>
             
             <div id="seller-formwork-menu" class="hidden">
-                <button class="btn btn-primary" onclick="window.showPage('seller-formwork-dashboard')">داشبورد فروشنده قالب</button>
-                <button class="btn btn-danger" onclick="window.logout()">خروج</button>
+                <button class="btn btn-primary btn-sm" onclick="window.showPage('seller-formwork-dashboard')">داشبورد فروشنده قالب</button>
+                <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
             </div>
             
             <div id="seller-shed-menu" class="hidden">
-                <button class="btn btn-success" onclick="window.showPage('seller-shed-dashboard')">داشبورد فروشنده سوله</button>
-                <button class="btn btn-danger" onclick="window.logout()">خروج</button>
+                <button class="btn btn-success btn-sm" onclick="window.showPage('seller-shed-dashboard')">داشبورد فروشنده سوله</button>
+                <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
             </div>
             
             <div id="admin-menu" class="hidden">
-                <button class="btn btn-warning" onclick="window.showPage('admin')">پنل ادمین</button>
-                <button class="btn btn-primary" onclick="window.showPage('dashboard')">داشبورد</button>
-                <button class="btn btn-danger" onclick="window.logout()">خروج</button>
+                <button class="btn btn-warning btn-sm" onclick="window.showPage('admin')">پنل ادمین</button>
+                <button class="btn btn-primary btn-sm" onclick="window.showPage('dashboard')">داشبورد</button>
+                <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
             </div>
         </div>
     </div>
@@ -701,14 +693,14 @@
     <section id="home-page" class="page">
         <div class="hero fade-in">
             <div class="container">
-                <h2 style="color: #E6B800;">✅ پلتفرم B2BSteel - ورود و داشبورد کاملاً عملیاتی</h2>
-                <p>حریم خصوصی محفوظ | تایید هویت اعضا | شفافیت قیمت</p>
+                <h2>پلتفرم B2BSteel</h2>
+                <p>اولین پلتفرم تخصصی ارتباط خریداران و فروشندگان سوله و قالب فلزی بتن</p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary" style="padding: 15px 30px; font-size: 1.1rem;" onclick="window.showPage('register')">
-                        <i class="fas fa-user-tie"></i> من خریدار هستم
+                    <button class="btn btn-primary" style="padding: 12px 25px;" onclick="window.showPage('register')">
+                        <i class="fas fa-user-tie"></i> ثبت‌نام خریدار
                     </button>
-                    <button class="btn btn-success" style="padding: 15px 30px; font-size: 1.1rem;" onclick="window.showPage('register')">
-                        <i class="fas fa-industry"></i> من فروشنده هستم
+                    <button class="btn btn-success" style="padding: 12px 25px;" onclick="window.showPage('register')">
+                        <i class="fas fa-industry"></i> ثبت‌نام فروشنده
                     </button>
                 </div>
             </div>
@@ -719,15 +711,15 @@
             <div class="container">
                 <div class="counters-grid">
                     <div class="counter-item">
-                        <div class="counter-number" id="counter-sellers">۱۲</div>
+                        <div class="counter-number" id="counter-sellers">۰</div>
                         <div class="counter-label">فروشنده ثبت‌نام شده</div>
                     </div>
                     <div class="counter-item">
-                        <div class="counter-number" id="counter-buyers">۲۵</div>
+                        <div class="counter-number" id="counter-buyers">۰</div>
                         <div class="counter-label">خریدار ثبت‌نام شده</div>
                     </div>
                     <div class="counter-item">
-                        <div class="counter-number" id="counter-transactions">۴۷</div>
+                        <div class="counter-number" id="counter-transactions">۰</div>
                         <div class="counter-label">فروش نهایی شده</div>
                     </div>
                 </div>
@@ -807,10 +799,10 @@
                 <h2>بخش قالب فلزی بتن</h2>
                 <p>خرید و فروش تخصصی انواع قالب فلزی بتن</p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary" style="padding: 15px 30px; font-size: 1.1rem;" onclick="window.showPage('register')">
+                    <button class="btn btn-primary" style="padding: 12px 25px;" onclick="window.showPage('register')">
                         <i class="fas fa-user-tie"></i> من خریدار هستم
                     </button>
-                    <button class="btn btn-success" style="padding: 15px 30px; font-size: 1.1rem;" onclick="window.showPage('register')">
+                    <button class="btn btn-success" style="padding: 12px 25px;" onclick="window.showPage('register')">
                         <i class="fas fa-industry"></i> من فروشنده هستم
                     </button>
                 </div>
@@ -881,6 +873,7 @@
             </div>
         </div>
     </section>
+    
     <!-- صفحه درخواست سوله نو -->
     <section id="new-shed-request-page" class="page hidden">
         <div class="container">
@@ -1085,6 +1078,155 @@
         </div>
     </section>
 
+    <!-- صفحه قوانین و شرایط -->
+    <section id="terms-page" class="page hidden">
+        <div class="container" style="max-width: 900px; margin: 0 auto; padding: 3rem 0;">
+            <div style="background: white; border-radius: 10px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <h1 class="section-title" style="margin-bottom: 2rem;">قوانین و شرایط استفاده از B2BSteel</h1>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۱. مقدمه و کلیات</h3>
+                    <p>پلتفرم B2BSteel یک بازارگاه آنلاین (Marketplace) برای ارتباط مستقیم بین خریداران و فروشندگان محصولات مرتبط با قالب‌های فلزی بتن و سازه‌های فولادی (سوله) است. این پلتفرم صرفاً به عنوان یک واسط فناوری‌محور عمل کرده و نقش آن محدود به نمایش درخواست‌ها و پیشنهادات است. هرگونه توافق نهایی، عقد قرارداد، مبادله کالا، پرداخت وجه و انجام تعهدات، مستقیماً و با مسئولیت کامل خریدار و فروشنده صورت می‌پذیرد. استفاده از این پلتفرم به معنای مطالعه و پذیرش کامل کلیه شرایط و قوانین زیر است.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۲. مسئولیت پلتفرم</h3>
+                    <p><strong>عدم مسئولیت در قبال معاملات:</strong> پلتفرم B2BSteel هیچ‌گونه مسئولیتی در قبال کیفیت کالاها، تحویل به موقع، تطابق کالا با مشخصات درخواستی، و یا انجام تعهدات مالی خریداران و فروشندگان ندارد. قرارداد نهایی فی‌مابین خریدار و فروشنده منعقد می‌شود و پلتفرم طرف هیچ‌یک از معاملات نیست.</p>
+                    <p><strong>عدم مسئولیت در قبال خسارات:</strong> پلتفرم مسئولیتی در قبال هرگونه خسارت مستقیم، غیرمستقیم، اتفاقی یا تبعی ناشی از استفاده از سایت یا عدم انجام تعهدات توسط طرفین معامله ندارد.</p>
+                    <p><strong>صحت اطلاعات:</strong> پلتفرم محتوای درج شده توسط کاربران (از جمله مشخصات فنی، قیمت‌ها و تصاویر) را تأیید یا تضمین نمی‌کند. کاربران موظف به تحقیق و بررسی دقیق قبل از هرگونه همکاری هستند.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۳. مسئولیت‌های کاربران (خریداران و فروشندگان)</h3>
+                    <p><strong>احراز هویت و اطلاعات:</strong> کاربران متعهد هستند اطلاعات صحیح، کامل و به‌روز خود (اعم از حقیقی یا حقوقی) را در فرآیند ثبت‌نام وارد نمایند. پلتفرم این حق را برای خود محفوظ می‌دارد که در صورت مشاهده هرگونه اطلاعات نادرست یا سوءاستفاده، حساب کاربری را مسدود نماید.</p>
+                    <p><strong>رعایت قوانین:</strong> کاربران موظف به رعایت کلیه قوانین جاری کشور جمهوری اسلامی ایران، از جمله قوانین مالیاتی، تجارت الکترونیک و مقررات صنفی مرتبط با فعالیت خود هستند.</p>
+                    <p><strong>پیشنهادات و درخواست‌ها:</strong> فروشندگان تنها مجاز به ارسال پیشنهاد برای درخواست‌هایی هستند که توانایی و تخصص اجرای آن‌ها را دارند. خریداران نیز باید درخواست‌های خود را با نهایت دقت و شفافیت ثبت نمایند.</p>
+                    <p><strong>امتیازدهی و نظرات:</strong> پس از انجام معامله، خریداران می‌توانند فروشنده را بر اساس معیارهایی مانند کیفیت، تحویل به‌موقع و ارتباطات امتیازدهی کرده و نظر خود را ثبت کنند. این امتیازات به سایر خریداران در انتخاب فروشنده مناسب کمک خواهد کرد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۴. قوانین مالی و پرداخت</h3>
+                    <p>تمامی تراکنش‌های مالی (اعم از پیش‌پرداخت، بیعانه یا تسویه نهایی) به طور مستقیم و خارج از بستر پلتفرم بین خریدار و فروشنده انجام می‌شود. پلتفرم B2BSteel در حال حاضر هیچ درگاه پرداختی را واسط‌گری نمی‌کند و مسئولیتی در قبال وجوه رد و بدل شده ندارد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۵. محرمانگی و حریم خصوصی</h3>
+                    <p>اطلاعات هویتی و تماس فروشندگان تا زمان انتخاب نهایی توسط خریدار، برای سایر کاربران مخفی می‌ماند. این ویژگی به منظور حفظ حریم خصوصی و جلوگیری از معاملات خارج از پلتفرم طراحی شده است. پلتفرم متعهد می‌شود از اطلاعات شخصی کاربران (نظیر شماره تماس، ایمیل و آدرس) صرفاً در راستای بهبود خدمات استفاده کرده و از افشای آن به اشخاص ثالث خودداری نماید، مگر در مواردی که الزام قانونی وجود داشته باشد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۶. حق مسدود کردن حساب</h3>
+                    <p>پلتفرم B2BSteel این حق را دارد که در صورت مشاهده هرگونه تخلف از قوانین سایت، ارائه اطلاعات نادرست، یا هرگونه اقدامی که به اعتبار پلتفرم لطمه بزند (مانند تبانی برای دور زدن سیستم)، بدون هیچ‌گونه اخطار قبلی، حساب کاربری فرد خاطی را مسدود کرده و دسترسی او را از پلتفرم قطع نماید.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۷. مالکیت فکری</h3>
+                    <p>کلیه محتوای سایت شامل کدها، طراحی گرافیکی، لوگو و متون، متعلق به پلتفرم B2BSteel بوده و هرگونه کپی‌برداری یا استفاده تجاری بدون مجوز کتبی، پیگرد قانونی دارد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۸. قوانین بازاریابی و ارتباطات</h3>
+                    <p>فروشندگان مجاز به ارسال پیام‌های تبلیغاتی مستقیم (اسپم) به خریداران نیستند. ارتباطات باید صرفاً در چارچوب درخواست‌های ثبت شده و با هدف انجام معامله صورت پذیرد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۹. تغییرات در قوانین</h3>
+                    <p>پلتفرم B2BSteel این حق را برای خود محفوظ می‌دارد که در هر زمان و بدون نیاز به اطلاع‌رسانی قبلی، نسبت به تغییر یا به‌روزرسانی این شرایط اقدام نماید. ادامه استفاده از سایت پس از تغییرات، به معنای پذیرش قوانین جدید خواهد بود.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۱۰. حل اختلاف</h3>
+                    <p>در صورت بروز هرگونه اختلاف میان کاربران، طرفین موظفند ابتدا از طریق مذاکره مستقیم مسئله را حل و فصل نمایند. در صورت عدم حصول نتیجه، اختلاف از طریق مراجع قضایی صالح قابل پیگیری خواهد بود.</p>
+                </div>
+                
+                <div style="background: #f8fafc; border-radius: 8px; padding: 1.5rem; margin-top: 2rem; text-align: center;">
+                    <p>آخرین به‌روزرسانی: بهمن ۱۴۰۴</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- صفحه راهنما -->
+    <section id="guide-page" class="page hidden">
+        <div class="container" style="padding: 4rem 0;">
+            <h2 class="section-title">راهنمای استفاده از B2BSteel</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۱</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">ثبت‌نام</h3>
+                    <p>به عنوان خریدار یا فروشنده ثبت‌نام کنید و اطلاعات خود را تکمیل نمایید.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۲</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">ایجاد درخواست</h3>
+                    <p>خریداران درخواست خود را با جزئیات کامل ثبت می‌کنند.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۳</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">دریافت پیشنهاد</h3>
+                    <p>فروشندگان معتبر پیشنهادات خود را ارسال می‌کنند.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۴</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">انتخاب و ارتباط</h3>
+                    <p>خریدار بهترین پیشنهاد را انتخاب کرده و اطلاعات فروشنده را دریافت می‌کند.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۵</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">انجام معامله</h3>
+                    <p>طرفین قرارداد خود را منعقد کرده و فرآیند اجرا آغاز می‌شود.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۶</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">ثبت نظر و امتیاز</h3>
+                    <p>پس از اتمام کار، خریدار می‌تواند نظر و امتیاز خود را ثبت کند.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- صفحه بلاگ -->
+    <section id="blog-page" class="page hidden">
+        <div class="container" style="padding: 4rem 0;">
+            <h2 class="section-title">مقالات و اخبار</h2>
+            <div class="blog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="blog-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-cubes" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="blog-content" style="padding: 1.5rem;">
+                        <h3 class="blog-title" style="color: var(--primary); margin-bottom: 0.5rem;">انواع قالب فلزی بتن و کاربردهای آنها</h3>
+                        <div class="blog-date" style="color: var(--muted); margin-bottom: 1rem;">۱۴۰۲/۱۲/۱۵</div>
+                        <p class="blog-excerpt" style="color: #4b5563;">قالب فلزی بتن به عنوان یکی از پرکاربردترین سیستم‌های قالب‌بندی در صنعت ساختمان شناخته می‌شود...</p>
+                        <a href="#" class="read-more" style="color: var(--primary); font-weight: 600; display: inline-block; margin-top: 1rem;">ادامه مطلب</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #047857, #10b981); display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-building" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">نکات کلیدی در انتخاب قالب مناسب</h3>
+                        <div class="blog-date">۱۴۰۲/۱۲/۱۰</div>
+                        <p class="blog-excerpt">انتخاب قالب مناسب می‌تواند تأثیر زیادی در کیفیت نهایی، سرعت اجرا و هزینه‌های پروژه داشته باشد...</p>
+                        <a href="#" class="read-more">ادامه مطلب</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #7c3aed, #a855f7); display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-industry" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">مزایای قالب مدولار در ساخت‌وساز</h3>
+                        <div class="blog-date">۱۴۰۲/۱۲/۰۵</div>
+                        <p class="blog-excerpt">قالب مدولار به دلیل انعطاف‌پذیری و سرعت نصب بالا، تبدیل به یکی از محبوب‌ترین سیستم‌های قالب‌بندی شده است...</p>
+                        <a href="#" class="read-more">ادامه مطلب</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- صفحه ثبت‌نام -->
     <section id="register-page" class="page hidden">
         <div class="auth-container">
@@ -1160,6 +1302,16 @@
                     <div class="form-group">
                         <label for="reg-phone">تلفن تماس</label>
                         <input type="tel" id="reg-phone" class="form-control" required placeholder="۰۹۱۲۱۲۳۴۵۶۷">
+                    </div>
+                    
+                    <!-- چک‌باکس پذیرش قوانین -->
+                    <div class="form-group">
+                        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="accept-terms" required style="margin-top: 3px; width: 18px; height: 18px;">
+                            <span>
+                                <a href="#" onclick="window.showPage('terms'); return false;" style="color: var(--primary); text-decoration: underline;">قوانین و شرایط</a> پلتفرم B2BSteel را مطالعه کرده‌ام و می‌پذیرم.
+                            </span>
+                        </label>
                     </div>
                     
                     <div id="register-error" style="color: red; margin-bottom: 1rem;"></div>
@@ -1244,6 +1396,7 @@
             </div>
         </div>
     </section>
+
     <!-- صفحه پنل ادمین -->
     <section id="admin-page" class="page hidden">
         <div class="container admin-panel">
@@ -1301,83 +1454,89 @@
         </div>
     </section>
 
-    <!-- صفحه بلاگ -->
-    <section id="blog-page" class="page hidden">
-        <div class="container blog-page" style="padding: 4rem 0;">
-            <h2 class="section-title">مقالات و اخبار</h2>
+    <!-- صفحه داشبورد فروشنده قالب -->
+    <section id="seller-formwork-dashboard-page" class="page hidden">
+        <div class="container dashboard">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <div class="user-avatar">🏗️</div>
+                    <div>
+                        <h2>داشبورد فروشنده قالب</h2>
+                        <p id="seller-formwork-name">در حال بارگذاری...</p>
+                    </div>
+                </div>
+                <button class="btn btn-danger" onclick="window.logout()">خروج</button>
+            </div>
             
-            <div class="blog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                <div class="blog-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-cubes" style="font-size: 4rem;"></i>
-                    </div>
-                    <div class="blog-content" style="padding: 1.5rem;">
-                        <h3 class="blog-title" style="color: var(--primary); margin-bottom: 0.5rem;">انواع قالب فلزی بتن و کاربردهای آنها</h3>
-                        <div class="blog-date" style="color: var(--muted); margin-bottom: 1rem;">۱۴۰۲/۱۲/۱۵</div>
-                        <p class="blog-excerpt" style="color: #4b5563;">قالب فلزی بتن به عنوان یکی از پرکاربردترین سیستم‌های قالب‌بندی در صنعت ساختمان شناخته می‌شود...</p>
-                        <a href="#" class="read-more" style="color: var(--primary); font-weight: 600; display: inline-block; margin-top: 1rem;">ادامه مطلب</a>
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>پیشنهادات ارسالی</h3>
+                    <div class="value">۰</div>
                 </div>
-                
-                <div class="blog-card">
-                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #047857, #10b981); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-building" style="font-size: 4rem;"></i>
-                    </div>
-                    <div class="blog-content">
-                        <h3 class="blog-title">نکات کلیدی در انتخاب قالب مناسب</h3>
-                        <div class="blog-date">۱۴۰۲/۱۲/۱۰</div>
-                        <p class="blog-excerpt">انتخاب قالب مناسب می‌تواند تأثیر زیادی در کیفیت نهایی، سرعت اجرا و هزینه‌های پروژه داشته باشد...</p>
-                        <a href="#" class="read-more">ادامه مطلب</a>
-                    </div>
+                <div class="stat-card">
+                    <h3>پیشنهادات منتخب</h3>
+                    <div class="value">۰</div>
                 </div>
-                
-                <div class="blog-card">
-                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #7c3aed, #a855f7); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-industry" style="font-size: 4rem;"></i>
-                    </div>
-                    <div class="blog-content">
-                        <h3 class="blog-title">مزایای قالب مدولار در ساخت‌وساز</h3>
-                        <div class="blog-date">۱۴۰۲/۱۲/۰۵</div>
-                        <p class="blog-excerpt">قالب مدولار به دلیل انعطاف‌پذیری و سرعت نصب بالا، تبدیل به یکی از محبوب‌ترین سیستم‌های قالب‌بندی شده است...</p>
-                        <a href="#" class="read-more">ادامه مطلب</a>
+                <div class="stat-card">
+                    <h3>در انتظار بررسی</h3>
+                    <div class="value">۰</div>
+                </div>
+                <div class="stat-card">
+                    <h3>امتیاز شما</h3>
+                    <div class="value">۰</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">درخواست‌های جدید قالب</h3>
+                <div id="seller-formwork-requests" class="requests-list">
+                    <div class="request-item">
+                        <p style="text-align: center; color: var(--muted);">در حال بارگذاری درخواست‌ها...</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- صفحه امکانات -->
-    <section id="features-page" class="page hidden">
-        <div class="container" style="padding: 4rem 0;">
-            <h2 class="section-title">امکانات پلتفرم</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
+    <!-- صفحه داشبورد فروشنده سوله -->
+    <section id="seller-shed-dashboard-page" class="page hidden">
+        <div class="container dashboard">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <div class="user-avatar">🏭</div>
+                    <div>
+                        <h2>داشبورد فروشنده سوله</h2>
+                        <p id="seller-shed-name">در حال بارگذاری...</p>
                     </div>
-                    <h3>تایید هویت اعضا</h3>
-                    <p>تمام اعضا پس از بررسی مدارک تایید می‌شوند.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>دسترسی به بازار گسترده</h3>
-                    <p>فروشندگان به درخواست‌های واقعی در سراسر کشور دسترسی دارند.</p>
+                <button class="btn btn-danger" onclick="window.logout()">خروج</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>پیشنهادات ارسالی</h3>
+                    <div class="value">۰</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h3>سیستم امتیازدهی</h3>
-                    <p>رتبه‌بندی و نظرات برای افزایش اعتماد بین کاربران.</p>
+                <div class="stat-card">
+                    <h3>پیشنهادات منتخب</h3>
+                    <div class="value">۰</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-images"></i>
+                <div class="stat-card">
+                    <h3>در انتظار بررسی</h3>
+                    <div class="value">۰</div>
+                </div>
+                <div class="stat-card">
+                    <h3>امتیاز شما</h3>
+                    <div class="value">۰</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">درخواست‌های جدید سوله</h3>
+                <div id="seller-shed-requests" class="requests-list">
+                    <div class="request-item">
+                        <p style="text-align: center; color: var(--muted);">در حال بارگذاری درخواست‌ها...</p>
                     </div>
-                    <h3>آپلود عکس</h3>
-                    <p>امکان آپلود و مشاهده عکس برای خریدار و فروشنده.</p>
                 </div>
             </div>
         </div>
@@ -1587,8 +1746,9 @@
                         <li><a href="#" onclick="window.showPage('home')">خانه</a></li>
                         <li><a href="#" onclick="window.showPage('concrete-formwork')">قالب بتن</a></li>
                         <li><a href="#" onclick="window.showPage('shed')">سوله</a></li>
-                        <li><a href="#" onclick="window.showPage('marketing')">چرا B2BSteel؟</a></li>
                         <li><a href="#" onclick="window.showPage('blog')">بلاگ</a></li>
+                        <li><a href="#" onclick="window.showPage('terms')">قوانین</a></li>
+                        <li><a href="#" onclick="window.showPage('guide')">راهنما</a></li>
                     </ul>
                 </div>
                 
@@ -1603,11 +1763,12 @@
             </div>
             
             <div class="footer-bottom">
-                <p>© ۱۴۰۲ کلیه حقوق برای پلتفرم B2BSteel محفوظ است.</p>
+                <p>© ۱۴۰۴ کلیه حقوق برای پلتفرم B2BSteel محفوظ است.</p>
             </div>
         </div>
     </footer>
 </main>
+
 <!-- ========== کتابخانه‌ها و اسکریپت اصلی ========== -->
 <script type="importmap">
     {
@@ -1621,19 +1782,26 @@
 <script type="module">
     // ========== 1. ایمپورت و متغیرهای سراسری ==========
     import { supabase } from './supabaseClient.js';
-// در ابتدای اسکریپت، بعد از import
-console.log('✅ Script loaded, defining window functions...');
+    
+    console.log('✅ Script loaded, defining window functions...');
     window.supabase = supabase;
 
-// ========== تعریف showPage در اولین خط ==========
-window.showPage = function(pageId) {
-    console.log('showPage called with:', pageId);
-    document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-    const targetPage = document.getElementById(`${pageId}-page`);
-    if (targetPage) targetPage.classList.remove('hidden');
-    if (typeof window.updateNavigation === 'function') window.updateNavigation();
-};
+    // ========== تعریف showPage در اولین خط ==========
+    window.showPage = function(pageId) {
+        console.log('showPage called with:', pageId);
+        document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+        const targetPage = document.getElementById(`${pageId}-page`);
+        if (targetPage) targetPage.classList.remove('hidden');
+        if (typeof window.updateNavigation === 'function') window.updateNavigation();
+        
+        // توابع وابسته به صفحه
+        if (pageId === 'dashboard' && currentUser?.userType === 'buyer') window.loadDashboard();
+        else if (pageId === 'admin' && currentUser?.isAdmin) window.loadAdminPanel();
+        else if (pageId === 'seller-shed-dashboard' && currentUser?.userType === 'seller' && currentUser?.sellerType === 'shed') window.loadSellerShedDashboard();
+        else if (pageId === 'home') { window.loadCounters(); window.initImageSlider(); }
+    };
+    
     // متغیرهای اصلی
     let currentUser = JSON.parse(localStorage.getItem('current_user')) || null;
     window.currentUser = currentUser;
@@ -1688,20 +1856,6 @@ window.showPage = function(pageId) {
     };
 
     // ========== 3. توابع ناوبری ==========
-    window.showPage = function(pageId) {
-        document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
-        document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
-        const targetPage = document.getElementById(`${pageId}-page`);
-        if (targetPage) targetPage.classList.remove('hidden');
-        window.updateNavigation();
-        
-        // توابع وابسته به صفحه
-        if (pageId === 'dashboard' && currentUser?.userType === 'buyer') window.loadDashboard();
-        else if (pageId === 'admin' && currentUser?.isAdmin) window.loadAdminPanel();
-        else if (pageId === 'home') { window.loadCounters(); window.initImageSlider(); }
-        else if (pageId === 'secondhand-shed') window.loadSecondhandSheds();
-    };
-
     window.updateNavigation = function() {
         const authButtons = document.getElementById('auth-buttons');
         const userMenu = document.getElementById('user-menu');
@@ -1991,11 +2145,27 @@ window.showPage = function(pageId) {
     };
 
     // ========== 7. توابع صفحه اصلی ==========
-    window.loadCounters = function() {
-        // این تابع بعداً با آمار واقعی از Supabase تکمیل میشود
-        document.getElementById('counter-sellers').textContent = '۱۲';
-        document.getElementById('counter-buyers').textContent = '۲۵';
-        document.getElementById('counter-transactions').textContent = '۴۷';
+    window.loadCounters = async function() {
+        try {
+            const { count: sellers } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_type', 'seller');
+            
+            const { count: buyers } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_type', 'buyer');
+            
+            // تعداد تراکنش‌های موفق (فعلاً ۰)
+            const transactions = 0;
+            
+            document.getElementById('counter-sellers').textContent = sellers || 0;
+            document.getElementById('counter-buyers').textContent = buyers || 0;
+            document.getElementById('counter-transactions').textContent = transactions;
+        } catch (error) {
+            console.error('❌ خطا در شمارنده‌ها:', error);
+        }
     };
 
     window.initImageSlider = function() {
@@ -2009,182 +2179,228 @@ window.showPage = function(pageId) {
         }, 5000);
     };
 
-  // ========== پنل ادمین واقعی ==========
-window.loadAdminPanel = async function() {
-    if (!currentUser?.isAdmin) {
-        window.showPage('home');
-        return;
-    }
-
-    try {
-        // 1. تعداد کل کاربران
-        const { count: totalUsers } = await supabase
-            .from('profiles')
-            .select('*', { count: 'exact', head: true });
-
-        // 2. تعداد خریداران
-        const { count: totalBuyers } = await supabase
-            .from('profiles')
-            .select('*', { count: 'exact', head: true })
-            .eq('user_type', 'buyer');
-
-        // 3. تعداد فروشندگان قالب
-        const { count: formworkSellers } = await supabase
-            .from('profiles')
-            .select('*', { count: 'exact', head: true })
-            .eq('user_type', 'seller')
-            .eq('seller_type', 'formwork');
-
-        // 4. تعداد فروشندگان سوله
-        const { count: shedSellers } = await supabase
-            .from('profiles')
-            .select('*', { count: 'exact', head: true })
-            .eq('user_type', 'seller')
-            .eq('seller_type', 'shed');
-
-        // 5. تعداد کل درخواست‌ها (بتن + سوله)
-        const { count: concreteRequests } = await supabase
-            .from('concrete_requests')
-            .select('*', { count: 'exact', head: true });
-
-        const { count: shedRequests } = await supabase
-            .from('shed_requests')
-            .select('*', { count: 'exact', head: true });
-
-        // 6. تعداد تراکنش‌های موفق (فعلاً 0)
-        const totalTransactions = 0;
-
-        // نمایش آمار واقعی
-        document.getElementById('admin-total-users').textContent = totalUsers || 0;
-        document.getElementById('admin-total-buyers').textContent = totalBuyers || 0;
-        document.getElementById('admin-formwork-sellers').textContent = formworkSellers || 0;
-        document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
-        document.getElementById('admin-total-requests').textContent = (concreteRequests || 0) + (shedRequests || 0);
-        document.getElementById('admin-total-transactions').textContent = totalTransactions;
-
-    } catch (error) {
-        console.error('❌ خطا در پنل ادمین:', error);
-    }
-};
-// ========== نمایش لیست کاربران در پنل ادمین ==========
-window.loadAllUsers = async function() {
-    console.log('👥 بارگذاری لیست کاربران');
-    
-    const content = document.getElementById('admin-content');
-    if (!content) {
-        console.log('❌ المان admin-content پیدا نشد');
-        return;
-    }
-
-    // نمایش لودینگ
-    content.innerHTML = '<div style="text-align: center; padding: 2rem;">⏳ در حال بارگذاری...</div>';
-
-    try {
-        const { data: users, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-        if (error) throw error;
-
-        if (!users || users.length === 0) {
-            content.innerHTML = '<div style="text-align: center; padding: 2rem;">👥 کاربری یافت نشد</div>';
+    // ========== پنل ادمین واقعی ==========
+    window.loadAdminPanel = async function() {
+        if (!currentUser?.isAdmin) {
+            window.showPage('home');
             return;
         }
 
-        let html = '<div class="requests-list">';
+        try {
+            // 1. تعداد کل کاربران
+            const { count: totalUsers } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true });
+
+            // 2. تعداد خریداران
+            const { count: totalBuyers } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_type', 'buyer');
+
+            // 3. تعداد فروشندگان قالب
+            const { count: formworkSellers } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_type', 'seller')
+                .eq('seller_type', 'formwork');
+
+            // 4. تعداد فروشندگان سوله
+            const { count: shedSellers } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_type', 'seller')
+                .eq('seller_type', 'shed');
+
+            // 5. تعداد کل درخواست‌ها (بتن + سوله)
+            const { count: concreteRequests } = await supabase
+                .from('concrete_requests')
+                .select('*', { count: 'exact', head: true });
+
+            const { count: shedRequests } = await supabase
+                .from('shed_requests')
+                .select('*', { count: 'exact', head: true });
+
+            // 6. تعداد تراکنش‌های موفق (فعلاً 0)
+            const totalTransactions = 0;
+
+            // نمایش آمار واقعی
+            document.getElementById('admin-total-users').textContent = totalUsers || 0;
+            document.getElementById('admin-total-buyers').textContent = totalBuyers || 0;
+            document.getElementById('admin-formwork-sellers').textContent = formworkSellers || 0;
+            document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
+            document.getElementById('admin-total-requests').textContent = (concreteRequests || 0) + (shedRequests || 0);
+            document.getElementById('admin-total-transactions').textContent = totalTransactions;
+
+        } catch (error) {
+            console.error('❌ خطا در پنل ادمین:', error);
+        }
+    };
+    
+    // ========== نمایش لیست کاربران در پنل ادمین ==========
+    window.loadAllUsers = async function() {
+        console.log('👥 بارگذاری لیست کاربران');
         
-        users.forEach(user => {
-            // تشخیص نقش کاربر
-            let userTypeText = '';
-            let badgeClass = 'badge-info';
-            
-            if (user.role === 'admin') {
-                userTypeText = '👑 ادمین';
-                badgeClass = 'badge-warning';
-            } else if (user.user_type === 'buyer') {
-                userTypeText = '🛒 خریدار';
-                badgeClass = 'badge-open';
-            } else if (user.user_type === 'seller') {
-                if (user.seller_type === 'formwork') {
-                    userTypeText = '🏗️ فروشنده قالب';
-                    badgeClass = 'badge-success';
-                } else if (user.seller_type === 'shed') {
-                    userTypeText = '🏭 فروشنده سوله';
-                    badgeClass = 'badge-info';
-                } else {
-                    userTypeText = '📦 فروشنده';
-                }
-            } else {
-                userTypeText = '👤 کاربر';
+        const content = document.getElementById('admin-content');
+        if (!content) {
+            console.log('❌ المان admin-content پیدا نشد');
+            return;
+        }
+
+        content.innerHTML = '<div style="text-align: center; padding: 2rem;">⏳ در حال بارگذاری...</div>';
+
+        try {
+            const { data: users, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (!users || users.length === 0) {
+                content.innerHTML = '<div style="text-align: center; padding: 2rem;">👥 کاربری یافت نشد</div>';
+                return;
             }
 
-            html += `
-                <div class="request-item">
-                    <div class="request-header">
-                        <div class="request-title">${user.full_name || 'بدون نام'}</div>
-                        <span class="request-badge ${badgeClass}">${userTypeText}</span>
-                    </div>
-                    <div class="request-details">
-                        <div><strong>ایمیل:</strong> ${user.email}</div>
-                        <div><strong>شرکت:</strong> ${user.company_name || '—'}</div>
-                        <div><strong>تلفن:</strong> ${user.phone || '—'}</div>
-                        <div><strong>تاریخ ثبت:</strong> ${new Date(user.created_at).toLocaleDateString('fa-IR')}</div>
-                    </div>
-                </div>
-            `;
-        });
-        
-        html += '</div>';
-        content.innerHTML = html;
+            let html = '<div class="requests-list">';
+            
+            users.forEach(user => {
+                let userTypeText = '';
+                let badgeClass = 'badge-info';
+                
+                if (user.role === 'admin') {
+                    userTypeText = '👑 ادمین';
+                    badgeClass = 'badge-warning';
+                } else if (user.user_type === 'buyer') {
+                    userTypeText = '🛒 خریدار';
+                    badgeClass = 'badge-open';
+                } else if (user.user_type === 'seller') {
+                    if (user.seller_type === 'formwork') {
+                        userTypeText = '🏗️ فروشنده قالب';
+                        badgeClass = 'badge-success';
+                    } else if (user.seller_type === 'shed') {
+                        userTypeText = '🏭 فروشنده سوله';
+                        badgeClass = 'badge-info';
+                    } else {
+                        userTypeText = '📦 فروشنده';
+                    }
+                } else {
+                    userTypeText = '👤 کاربر';
+                }
 
-    } catch (error) {
-        console.error('❌ خطا:', error);
-        content.innerHTML = '<div style="color: red; text-align: center; padding: 2rem;">❌ خطا در بارگذاری کاربران</div>';
-    }
-};
-// ========== تابع داشبورد خریدار ==========
-window.loadDashboard = function() {
-    console.log('🚀 loadDashboard اجرا شد');
+                html += `
+                    <div class="request-item">
+                        <div class="request-header">
+                            <div class="request-title">${user.full_name || 'بدون نام'}</div>
+                            <span class="request-badge ${badgeClass}">${userTypeText}</span>
+                        </div>
+                        <div class="request-details">
+                            <div><strong>ایمیل:</strong> ${user.email}</div>
+                            <div><strong>شرکت:</strong> ${user.company_name || '—'}</div>
+                            <div><strong>تلفن:</strong> ${user.phone || '—'}</div>
+                            <div><strong>تاریخ ثبت:</strong> ${new Date(user.created_at).toLocaleDateString('fa-IR')}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            content.innerHTML = html;
+
+        } catch (error) {
+            console.error('❌ خطا:', error);
+            content.innerHTML = '<div style="color: red; text-align: center; padding: 2rem;">❌ خطا در بارگذاری کاربران</div>';
+        }
+    };
     
-    if (!currentUser) {
-        console.log('❌ currentUser نیست');
-        return;
-    }
-
-    // نمایش اسم کاربر
-    const nameEl = document.getElementById('user-name');
-    if (nameEl) {
-        nameEl.textContent = currentUser.full_name || 
-                            currentUser.contactPerson || 
-                            currentUser.email?.split('@')[0] || 
-                            'کاربر';
-        console.log('✅ نام تنظیم شد:', nameEl.textContent);
-    }
-
-    // نمایش نوع حساب
-    const typeEl = document.getElementById('user-type');
-    if (typeEl) {
-        let typeText = 'کاربر عادی';
-        if (currentUser.isAdmin) typeText = 'مدیر سیستم';
-        else if (currentUser.userType === 'seller') typeText = 'فروشنده';
-        else if (currentUser.userType === 'buyer') typeText = 'خریدار';
+    // ========== تابع داشبورد خریدار ==========
+    window.loadDashboard = function() {
+        console.log('🚀 loadDashboard اجرا شد');
         
-        typeEl.textContent = `نوع حساب: ${typeText}`;
-        console.log('✅ نوع حساب تنظیم شد:', typeText);
-    }
+        if (!currentUser) {
+            console.log('❌ currentUser نیست');
+            return;
+        }
 
-    // آواتار
-    const avatarEl = document.getElementById('user-avatar');
-    if (avatarEl) {
-        const firstChar = (currentUser.full_name || currentUser.email || '?').charAt(0).toUpperCase();
-        avatarEl.textContent = firstChar;
-    }
+        const nameEl = document.getElementById('user-name');
+        if (nameEl) {
+            nameEl.textContent = currentUser.full_name || 
+                                currentUser.contactPerson || 
+                                currentUser.email?.split('@')[0] || 
+                                'کاربر';
+        }
 
-    // دکمه ایجاد درخواست
-    const actionsEl = document.getElementById('buyer-actions');
-    if (actionsEl) actionsEl.classList.remove('hidden');
-};
+        const typeEl = document.getElementById('user-type');
+        if (typeEl) {
+            let typeText = 'کاربر عادی';
+            if (currentUser.isAdmin) typeText = 'مدیر سیستم';
+            else if (currentUser.userType === 'seller') typeText = 'فروشنده';
+            else if (currentUser.userType === 'buyer') typeText = 'خریدار';
+            
+            typeEl.textContent = `نوع حساب: ${typeText}`;
+        }
+
+        const avatarEl = document.getElementById('user-avatar');
+        if (avatarEl) {
+            const firstChar = (currentUser.full_name || currentUser.email || '?').charAt(0).toUpperCase();
+            avatarEl.textContent = firstChar;
+        }
+
+        const actionsEl = document.getElementById('buyer-actions');
+        if (actionsEl) actionsEl.classList.remove('hidden');
+    };
+    
+    // ========== تابع داشبورد فروشنده سوله ==========
+    window.loadSellerShedDashboard = async function() {
+        console.log('🏭 بارگذاری داشبورد فروشنده سوله');
+        
+        if (!currentUser) return;
+        
+        const nameEl = document.getElementById('seller-shed-name');
+        if (nameEl) {
+            nameEl.textContent = currentUser.full_name || currentUser.email || 'فروشنده سوله';
+        }
+        
+        try {
+            const { data: requests, error } = await supabase
+                .from('shed_requests')
+                .select('*')
+                .eq('status', 'open')
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            
+            const container = document.getElementById('seller-shed-requests');
+            if (!container) return;
+            
+            if (!requests || requests.length === 0) {
+                container.innerHTML = '<div class="request-item"><p style="text-align: center;">درخواستی وجود ندارد</p></div>';
+                return;
+            }
+            
+            let html = '';
+            requests.forEach(req => {
+                html += `
+                    <div class="request-item">
+                        <div><strong>کاربری:</strong> ${req.usage || 'بدون توضیح'}</div>
+                        <div><strong>مکان:</strong> ${req.location || 'نامشخص'}</div>
+                        <div><strong>ابعاد:</strong> ${req.dimensions?.length || '?'}×${req.dimensions?.width || '?'}×${req.dimensions?.height || '?'}</div>
+                        <button class="btn btn-primary btn-sm" onclick="alert('ارسال پیشنهاد - در حال توسعه')">ارسال پیشنهاد</button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+        } catch (error) {
+            console.error('❌ خطا در بارگذاری درخواست‌های سوله:', error);
+            const container = document.getElementById('seller-shed-requests');
+            if (container) {
+                container.innerHTML = '<div style="color: red; text-align: center;">خطا در بارگذاری</div>';
+            }
+        }
+    };
+    
     // ========== 9. توابع سوله ==========
     window.toggleDrawingUpload = function(show) {
         const section = document.getElementById('drawing-upload-section');
@@ -2231,6 +2447,14 @@ window.loadDashboard = function() {
         // فرم ثبت‌نام
         document.getElementById('register-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // بررسی پذیرش قوانین
+            const acceptTerms = document.getElementById('accept-terms');
+            if (!acceptTerms || !acceptTerms.checked) {
+                alert('❌ برای ثبت‌نام باید قوانین و شرایط پلتفرم را بپذیرید.');
+                return;
+            }
+            
             const password = document.getElementById('reg-password').value;
             const confirm = document.getElementById('reg-password-confirm').value;
             
@@ -2281,91 +2505,77 @@ window.loadDashboard = function() {
         });
         
         // فرم سوله نو
-        // ========== ثبت درخواست سوله در Supabase ==========
-document.getElementById('new-shed-form')?.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    if (!currentUser) {
-        alert('❌ لطفاً ابتدا وارد حساب خود شوید.');
-        window.showPage('login');
-        return;
-    }
+        document.getElementById('new-shed-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                alert('❌ لطفاً ابتدا وارد حساب خود شوید.');
+                window.showPage('login');
+                return;
+            }
 
-    // گرفتن UUID واقعی کاربر
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-        alert('❌ خطا در احراز هویت');
-        return;
-    }
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                alert('❌ خطا در احراز هویت');
+                return;
+            }
 
-    // جمع‌آوری داده‌ها
-    const shedData = {
-        user_id: user.id,
-        dimensions: {
-            length: parseFloat(document.getElementById('shed-length')?.value || 0),
-            width: parseFloat(document.getElementById('shed-width')?.value || 0),
-            height: parseFloat(document.getElementById('shed-height')?.value || 0)
-        },
-        usage: document.getElementById('shed-usage')?.value || '',
-        location: document.getElementById('shed-location')?.value || '',
-        has_drawing: document.querySelector('input[name="has-drawing"]:checked')?.value === 'yes',
-        needs_crane: document.querySelector('input[name="needs-crane"]:checked')?.value === 'yes',
-        crane_tonnage: document.getElementById('crane-tonnage')?.value || null,
-        foundation: document.querySelector('input[name="foundation"]:checked')?.value || 'no',
-        sandblast: document.querySelector('input[name="sandblast"]:checked')?.value || 'no',
-        paint_type: document.getElementById('paint-type')?.value || '',
-        other_paint_type: document.getElementById('other-paint-type')?.value || '',
-        paint_thickness: parseInt(document.getElementById('paint-thickness')?.value) || 50,
-        buyer_responsibilities: Array.from(document.querySelectorAll('input[name="responsibility"]:checked')).map(cb => cb.value),
-        weight: document.getElementById('shed-weight')?.value || null,
-        price_type: document.querySelector('input[name="price-type"]:checked')?.value || 'estimated',
-        status: 'open',
-        created_at: new Date().toISOString()
-    };
+            const shedData = {
+                user_id: user.id,
+                dimensions: {
+                    length: parseFloat(document.getElementById('shed-length')?.value || 0),
+                    width: parseFloat(document.getElementById('shed-width')?.value || 0),
+                    height: parseFloat(document.getElementById('shed-height')?.value || 0)
+                },
+                usage: document.getElementById('shed-usage')?.value || '',
+                location: document.getElementById('shed-location')?.value || '',
+                has_drawing: document.querySelector('input[name="has-drawing"]:checked')?.value === 'yes',
+                needs_crane: document.querySelector('input[name="needs-crane"]:checked')?.value === 'yes',
+                crane_tonnage: document.getElementById('crane-tonnage')?.value || null,
+                foundation: document.querySelector('input[name="foundation"]:checked')?.value || 'no',
+                sandblast: document.querySelector('input[name="sandblast"]:checked')?.value || 'no',
+                paint_type: document.getElementById('paint-type')?.value || '',
+                other_paint_type: document.getElementById('other-paint-type')?.value || '',
+                paint_thickness: parseInt(document.getElementById('paint-thickness')?.value) || 50,
+                buyer_responsibilities: Array.from(document.querySelectorAll('input[name="responsibility"]:checked')).map(cb => cb.value),
+                weight: document.getElementById('shed-weight')?.value || null,
+                price_type: document.querySelector('input[name="price-type"]:checked')?.value || 'estimated',
+                status: 'open',
+                created_at: new Date().toISOString()
+            };
 
-console.log('📦 shedData:', shedData);
-    // اعتبارسنجی سریع
-    if (!shedData.dimensions.length || !shedData.dimensions.width || !shedData.dimensions.height) {
-        alert('❌ لطفاً ابعاد سوله را وارد کنید.');
-        return;
-    }
+            if (!shedData.dimensions.length || !shedData.dimensions.width || !shedData.dimensions.height) {
+                alert('❌ لطفاً ابعاد سوله را وارد کنید.');
+                return;
+            }
 
-    if (!shedData.usage || !shedData.location) {
-        alert('❌ لطفاً کارکرد و محل نصب را وارد کنید.');
-        return;
-    }
+            if (!shedData.usage || !shedData.location) {
+                alert('❌ لطفاً کارکرد و محل نصب را وارد کنید.');
+                return;
+            }
 
-    try {
-        const { error } = await supabase
-            .from('shed_requests')
-            .insert([shedData]);
+            try {
+                const { error } = await supabase
+                    .from('shed_requests')
+                    .insert([shedData]);
 
-        if (error) throw error;
+                if (error) throw error;
 
-        alert('✅ درخواست شما با موفقیت ثبت شد!');
-
-        window.showPage('shed');
-        e.target.reset();
-        
-    } catch (error) {
-        console.error('❌ خطا:', error);
-        alert('خطا در ثبت درخواست: ' + error.message);
-    }
-});
+                alert('✅ درخواست شما با موفقیت ثبت شد!');
+                window.showPage('shed');
+                e.target.reset();
+                
+            } catch (error) {
+                console.error('❌ خطا:', error);
+                alert('خطا در ثبت درخواست: ' + error.message);
+            }
+        });
         
         // مقداردهی اولیه
         window.updateNavigation();
         window.showPage('home');
         window.loadCounters();
         window.initImageSlider();
-        
-        // نمایش حساب‌های نمونه در کنسول
-        console.log('=== حساب‌های نمونه ===');
-        console.log('خریدار: buyer@example.com / 123456');
-        console.log('فروشنده قالب: seller-formwork@example.com / 123456');
-        console.log('فروشنده سوله: seller-shed@example.com / 123456');
-        console.log('ادمین: admin@example.com / admin123');
-        console.log('===================');
     });
 </script>
 </body>
