@@ -2009,131 +2009,140 @@ window.showPage = function(pageId) {
         }, 5000);
     };
 
-    // ========== 8. توابع پنل ادمین ==========
-    window.loadAdminPanel = function() {
-        if (!currentUser?.isAdmin) {
-            window.showPage('home');
-            return;
-        }
-        // آمار موقت - بعداً از Supabase گرفته شود
-        document.getElementById('admin-total-users').textContent = '۴';
-        document.getElementById('admin-total-buyers').textContent = '۱';
-        document.getElementById('admin-formwork-sellers').textContent = '۱';
-        document.getElementById('admin-shed-sellers').textContent = '۱';
-        document.getElementById('admin-total-requests').textContent = '۳';
-        document.getElementById('admin-total-transactions').textContent = '۰';
-    };
+  // ========== پنل ادمین واقعی ==========
+window.loadAdminPanel = async function() {
+    if (!currentUser?.isAdmin) {
+        window.showPage('home');
+        return;
+    }
 
-    window.loadAllUsers = function() {
-        const content = document.getElementById('admin-content');
-        if (!content) return;
-        content.innerHTML = '<div class="requests-list"><div class="request-item"><p style="text-align: center;">در حال توسعه...</p></div></div>';
-    };
-
-    window.loadAllRequests = window.loadAllUsers;
-    window.loadAllShedRequests = window.loadAllUsers;
-    window.loadAllTransactions = window.loadAllUsers;
-    // ========== تابع داشبورد خریدار - نسخه نهایی ==========
-window.loadDashboard = function() {
-    console.log('🚀 داشبورد اجرا شد');
-    
-    if (!currentUser) {
-        console.log('❌ کاربر وارد نشده');
-        return;
-    }
-    
-    // نمایش نام کاربر
-    const nameEl = document.getElementById('user-name');
-    if (nameEl) {
-        nameEl.textContent = currentUser.full_name || 
-                            currentUser.contactPerson || 
-                            currentUser.email?.split('@')[0] || 
-                            'کاربر';
-    }
-    
-    // نمایش نوع حساب
-    const typeEl = document.getElementById('user-type');
-    if (typeEl) {
-        let typeText = 'کاربر عادی';
-        if (currentUser.isAdmin) typeText = 'مدیر سیستم';
-        else if (currentUser.userType === 'seller') typeText = 'فروشنده';
-        else if (currentUser.userType === 'buyer') typeText = 'خریدار';
-        typeEl.textContent = `نوع حساب: ${typeText}`;
-    }
-    
-    // آواتار
-    const avatarEl = document.getElementById('user-avatar');
-    if (avatarEl) {
-        const firstChar = (currentUser.full_name || currentUser.email || '?').charAt(0).toUpperCase();
-        avatarEl.textContent = firstChar;
-    }
-    
-    // دکمه ایجاد درخواست
-    const actionsEl = document.getElementById('buyer-actions');
-    if (actionsEl) actionsEl.classList.remove('hidden');
-};
-    // ========== بارگذاری درخواست‌های سوله از Supabase ==========
-window.loadShedRequests = async function() {
-    console.log('🚀 لود درخواست‌های سوله');
-    
-    if (!currentUser) {
-        console.log('❌ کاربر وارد نشده');
-        return;
-    }
-    
-    const content = document.getElementById('dashboard-content');
-    if (!content) {
-        console.log('❌ المان dashboard-content پیدا نشد');
-        return;
-    }
-    
     try {
-        const { data: requests, error } = await supabase
+        // 1. تعداد کل کاربران
+        const { count: totalUsers } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true });
+
+        // 2. تعداد خریداران
+        const { count: totalBuyers } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_type', 'buyer');
+
+        // 3. تعداد فروشندگان قالب
+        const { count: formworkSellers } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_type', 'seller')
+            .eq('seller_type', 'formwork');
+
+        // 4. تعداد فروشندگان سوله
+        const { count: shedSellers } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_type', 'seller')
+            .eq('seller_type', 'shed');
+
+        // 5. تعداد کل درخواست‌ها (بتن + سوله)
+        const { count: concreteRequests } = await supabase
+            .from('concrete_requests')
+            .select('*', { count: 'exact', head: true });
+
+        const { count: shedRequests } = await supabase
             .from('shed_requests')
+            .select('*', { count: 'exact', head: true });
+
+        // 6. تعداد تراکنش‌های موفق (فعلاً 0)
+        const totalTransactions = 0;
+
+        // نمایش آمار واقعی
+        document.getElementById('admin-total-users').textContent = totalUsers || 0;
+        document.getElementById('admin-total-buyers').textContent = totalBuyers || 0;
+        document.getElementById('admin-formwork-sellers').textContent = formworkSellers || 0;
+        document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
+        document.getElementById('admin-total-requests').textContent = (concreteRequests || 0) + (shedRequests || 0);
+        document.getElementById('admin-total-transactions').textContent = totalTransactions;
+
+    } catch (error) {
+        console.error('❌ خطا در پنل ادمین:', error);
+    }
+};
+// ========== نمایش لیست کاربران در پنل ادمین ==========
+window.loadAllUsers = async function() {
+    console.log('👥 بارگذاری لیست کاربران');
+    
+    const content = document.getElementById('admin-content');
+    if (!content) {
+        console.log('❌ المان admin-content پیدا نشد');
+        return;
+    }
+
+    // نمایش لودینگ
+    content.innerHTML = '<div style="text-align: center; padding: 2rem;">⏳ در حال بارگذاری...</div>';
+
+    try {
+        const { data: users, error } = await supabase
+            .from('profiles')
             .select('*')
-            .eq('user_id', currentUser.id)
             .order('created_at', { ascending: false });
-        
+
         if (error) throw error;
-        
-        console.log('✅ درخواست‌ها:', requests);
-        
-        if (!requests || requests.length === 0) {
-            content.innerHTML = `
-                <div class="requests-list">
-                    <div class="request-item">
-                        <p style="text-align: center; color: #6b7280;">📭 هنوز درخواست سوله‌ای ثبت نکرده‌اید.</p>
-                    </div>
-                </div>
-            `;
+
+        if (!users || users.length === 0) {
+            content.innerHTML = '<div style="text-align: center; padding: 2rem;">👥 کاربری یافت نشد</div>';
             return;
         }
-        
+
         let html = '<div class="requests-list">';
-        requests.forEach(request => {
+        
+        users.forEach(user => {
+            // تشخیص نقش کاربر
+            let userTypeText = '';
+            let badgeClass = 'badge-info';
+            
+            if (user.role === 'admin') {
+                userTypeText = '👑 ادمین';
+                badgeClass = 'badge-warning';
+            } else if (user.user_type === 'buyer') {
+                userTypeText = '🛒 خریدار';
+                badgeClass = 'badge-open';
+            } else if (user.user_type === 'seller') {
+                if (user.seller_type === 'formwork') {
+                    userTypeText = '🏗️ فروشنده قالب';
+                    badgeClass = 'badge-success';
+                } else if (user.seller_type === 'shed') {
+                    userTypeText = '🏭 فروشنده سوله';
+                    badgeClass = 'badge-info';
+                } else {
+                    userTypeText = '📦 فروشنده';
+                }
+            } else {
+                userTypeText = '👤 کاربر';
+            }
+
             html += `
                 <div class="request-item">
                     <div class="request-header">
-                        <div class="request-title">🏭 سوله ${request.dimensions?.length || '?'}x${request.dimensions?.width || '?'} متر</div>
-                        <span class="request-badge badge-open">🟢 باز</span>
+                        <div class="request-title">${user.full_name || 'بدون نام'}</div>
+                        <span class="request-badge ${badgeClass}">${userTypeText}</span>
                     </div>
                     <div class="request-details">
-                        <div><strong>📍 محل:</strong> ${request.location}</div>
-                        <div><strong>📌 کارکرد:</strong> ${request.usage}</div>
-                        <div><strong>📅 تاریخ:</strong> ${new Date(request.created_at).toLocaleDateString('fa-IR')}</div>
+                        <div><strong>ایمیل:</strong> ${user.email}</div>
+                        <div><strong>شرکت:</strong> ${user.company_name || '—'}</div>
+                        <div><strong>تلفن:</strong> ${user.phone || '—'}</div>
+                        <div><strong>تاریخ ثبت:</strong> ${new Date(user.created_at).toLocaleDateString('fa-IR')}</div>
                     </div>
                 </div>
             `;
         });
+        
         html += '</div>';
         content.innerHTML = html;
-        
+
     } catch (error) {
         console.error('❌ خطا:', error);
-        content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
+        content.innerHTML = '<div style="color: red; text-align: center; padding: 2rem;">❌ خطا در بارگذاری کاربران</div>';
     }
 };
-
     // ========== 9. توابع سوله ==========
     window.toggleDrawingUpload = function(show) {
         const section = document.getElementById('drawing-upload-section');
@@ -2272,6 +2281,7 @@ document.getElementById('new-shed-form')?.addEventListener('submit', async funct
         created_at: new Date().toISOString()
     };
 
+console.log('📦 shedData:', shedData);
     // اعتبارسنجی سریع
     if (!shedData.dimensions.length || !shedData.dimensions.width || !shedData.dimensions.height) {
         alert('❌ لطفاً ابعاد سوله را وارد کنید.');
@@ -2290,7 +2300,8 @@ document.getElementById('new-shed-form')?.addEventListener('submit', async funct
 
         if (error) throw error;
 
-        alert('✅ درخواست سوله با موفقیت در Supabase ثبت شد!');
+        alert('✅ درخواست شما با موفقیت ثبت شد!');
+
         window.showPage('shed');
         e.target.reset();
         
