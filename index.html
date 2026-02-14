@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B2BSteel | پلتفرم تخصصی قالب بتن و سوله</title>
+    <title>B2BSteel | پلتفرم تخصصی صنعت فولاد و قالب بتن</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -15,96 +15,96 @@
         .navbar { background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
         .logo { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { background: #004586; color: white; width: 45px; height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .logo-text h1 { font-size: 1.5rem; color: #004586; font-weight: 700; }
-        .logo-text .slogan { font-size: 0.8rem; color: #E6B800; font-weight: 600; }
+        .logo-icon { background: #3b82f6; color: white; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .logo-text h1 { font-size: 1.5rem; color: #1e3a8a; }
+        .logo-text p { font-size: 0.8rem; color: #6b7280; }
         .nav-links { display: flex; gap: 25px; align-items: center; flex-wrap: wrap; }
-        .nav-link { color: #4b5563; padding: 8px 16px; border-radius: 6px; transition: all 0.3s; font-size: 1.3rem; white-space: nowrap; }
-        .nav-link:hover { background: #f3f4f6; color: #004586; }
+        .nav-link { color: #4b5563; padding: 8px 16px; border-radius: 6px; transition: all 0.3s; font-size: 1.35rem; white-space: nowrap; }
+        .nav-link:hover { background: #f3f4f6; color: #3b82f6; }
         .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; font-weight: 600; text-align: center; transition: all 0.3s; border: none; font-size: 1rem; }
-        .btn-primary { background: #004586; color: white; }
-        .btn-primary:hover { background: #002f5c; transform: translateY(-2px); }
-        .btn-success { background: #10b981; color: white; }
-        .btn-success:hover { background: #059669; transform: translateY(-2px); }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-warning { background: #f59e0b; color: white; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; }
         .btn-secondary { background: #6b7280; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
         .btn-sm { padding: 5px 10px; font-size: 0.9rem; }
         .btn-info { background: #3b82f6; color: white; }
-        .hero { background: linear-gradient(135deg, #002f5c, #004586); color: white; padding: 4rem 0; text-align: center; }
-        .hero h2 { font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700; }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 800px; margin: 0 auto 2rem; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .hero { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 4rem 0; text-align: center; }
+        .hero h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
         .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
         .counters { background: white; padding: 3rem 0; margin: 2rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .counters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
         .counter-item { text-align: center; padding: 1.5rem; }
-        .counter-number { font-size: 3rem; font-weight: bold; color: #004586; margin-bottom: 0.5rem; }
+        .counter-number { font-size: 3rem; font-weight: bold; color: #3b82f6; margin-bottom: 0.5rem; }
         .counter-label { font-size: 1.2rem; color: #4b5563; }
         .image-slider { width: 100%; height: 500px; position: relative; overflow: hidden; margin: 2rem 0; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .slider-image { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; }
         .slider-image.active { opacity: 1; }
         .features { padding: 4rem 0; }
-        .section-title { text-align: center; margin-bottom: 3rem; color: #004586; font-size: 2rem; }
+        .section-title { text-align: center; margin-bottom: 3rem; color: #1e3a8a; font-size: 2rem; }
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .feature-card { background: white; border-radius: 14px; padding: 2rem; box-shadow: 0 4px 8px rgba(0,0,0,0.06); transition: all 0.35s; height: 100%; }
-        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
-        .feature-icon { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #004586, #E6B800); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.7rem; margin-bottom: 1rem; }
+        .feature-card { background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s; height: 100%; }
+        .feature-card:hover { transform: translateY(-5px); }
+        .feature-icon { background: #3b82f6; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
         .auth-container { max-width: 500px; margin: 2rem auto; padding: 2rem; }
         .auth-card { background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .auth-title { text-align: center; margin-bottom: 2rem; color: #004586; }
+        .auth-title { text-align: center; margin-bottom: 2rem; color: #1e3a8a; }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #4b5563; }
         .form-control { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; }
-        .form-control:focus { outline: none; border-color: #004586; }
+        .form-control:focus { outline: none; border-color: #3b82f6; }
         .user-type-selector { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-        .user-type-btn { flex: 1; padding: 15px; border: 2px solid #d1d5db; border-radius: 6px; background: white; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .user-type-btn.active { border-color: #004586; background: #eff6ff; color: #004586; }
+        .user-type-btn { flex: 1; padding: 15px; border: 2px solid #d1d5db; border-radius: 6px; background: white; text-align: center; cursor: pointer; }
+        .user-type-btn.active { border-color: #3b82f6; background: #eff6ff; color: #3b82f6; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 10px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
         .modal-header { padding: 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { color: #004586; }
+        .modal-header h3 { color: #1e3a8a; }
         .close-modal { background: none; border: none; font-size: 1.5rem; color: #6b7280; cursor: pointer; }
         .modal-body { padding: 1.5rem; }
         .modal-footer { padding: 1.5rem; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 10px; }
         .dashboard { padding: 2rem 0; }
         .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
         .user-info { display: flex; align-items: center; gap: 15px; }
-        .user-avatar { width: 50px; height: 50px; border-radius: 50%; background: #004586; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .stat-card { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .stat-card h3 { color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem; }
-        .stat-card .value { font-size: 2rem; font-weight: bold; color: #004586; }
+        .stat-card .value { font-size: 2rem; font-weight: bold; color: #1e3a8a; }
         .dashboard-actions { display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap; }
         .requests-list { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .request-item { padding: 1.5rem; border-bottom: 1px solid #e5e7eb; }
         .request-item:last-child { border-bottom: none; }
         .request-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-        .request-title { font-size: 1.2rem; color: #004586; }
+        .request-title { font-size: 1.2rem; color: #1e3a8a; }
         .request-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
         .badge-open { background: #d1fae5; color: #065f46; }
-        .badge-closed { background: #e5e7eb; color: #374151; }
+        .badge-in-progress { background: #fef3c7; color: #92400e; }
         .badge-success { background: #d1fae5; color: #065f46; }
-        .badge-info { background: #dbeafe; color: #004586; }
+        .badge-info { background: #dbeafe; color: #1e3a8a; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
         .request-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; color: #6b7280; font-size: 0.9rem; }
         .request-actions { display: flex; gap: 10px; flex-wrap: wrap; }
         .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .admin-stat-card { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
         .admin-stat-card h3 { color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem; }
-        .admin-stat-card .value { font-size: 2rem; font-weight: bold; color: #004586; }
+        .admin-stat-card .value { font-size: 2rem; font-weight: bold; color: #1e3a8a; }
         .admin-actions { display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap; }
-        .shed-page { padding: 3rem 0; background: url('https://5.imimg.com/data5/SELLER/Default/2022/10/LA/DX/AG/58754110/steel-shed-designing.png') no-repeat center center fixed; background-size: cover; min-height: 600px; position: relative; }
-        .shed-page::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1; }
+        .shed-page { padding: 3rem 0; background: url('https://5.imimg.com/data5/SELLER/Default/2022/10/LA/DX/AG/58754110/steel-shed-designing.png') no-repeat center center fixed; background-size: cover; position: relative; }
+        .shed-page::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1; }
         .shed-page .container { position: relative; z-index: 2; }
-        .shed-page h2, .shed-page p { color: white; }
         .shed-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin: 3rem 0; }
-        .shed-option-card { background: rgba(255,255,255,0.9); border-radius: 10px; padding: 2.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; backdrop-filter: blur(5px); }
-        .shed-option-icon { width: 70px; height: 70px; background: #004586; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.8rem; color: white; }
-        .footer { background: #002f5c; color: #ddd; padding: 4rem 0; margin-top: 4rem; }
-        .footer h3 { color: #E6B800; margin-bottom: 1rem; }
-        .footer a { color: #ccc; transition: color 0.2s; }
-        .footer a:hover { color: #E6B800; }
+        .shed-option-card { background: white; border-radius: 10px; padding: 2.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .shed-option-icon { width: 70px; height: 70px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.8rem; color: white; }
+        .footer { background: #1e293b; color: white; padding: 3rem 0; margin-top: 4rem; }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .footer-section h3 { margin-bottom: 1rem; color: #e5e7eb; }
+        .footer-section ul { list-style: none; }
+        .footer-section a { color: #9ca3af; transition: color 0.3s; }
+        .footer-section a:hover { color: white; }
         .footer-bottom { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid #374151; color: #9ca3af; }
         .hidden { display: none !important; }
         @media (max-width: 768px) {
@@ -122,7 +122,7 @@
                 <div class="logo-icon"><i class="fas fa-cubes"></i></div>
                 <div class="logo-text">
                     <h1>B2BSteel</h1>
-                    <div class="slogan">اعتماد - شفافیت - سرعت</div>
+                    <p>پلتفرم تخصصی قالب فلزی بتن و سوله</p>
                 </div>
             </div>
             <div class="nav-links">
@@ -151,6 +151,7 @@
                 </div>
                 <div id="admin-menu" class="hidden">
                     <button class="btn btn-warning" onclick="showPage('admin')">پنل ادمین</button>
+                    <button class="btn btn-primary" onclick="showPage('dashboard')">داشبورد</button>
                     <button class="btn btn-danger" onclick="logout()">خروج</button>
                 </div>
             </div>
@@ -162,20 +163,24 @@
         <section id="home-page" class="page">
             <div class="hero fade-in">
                 <div class="container">
-                    <h2>پلتفرم B2BSteel</h2>
-                    <p>اولین پلتفرم تخصصی ارتباط خریداران و فروشندگان سوله و قالب فلزی بتن</p>
+                    <h2>ارتباط مستقیم خریدار و فروشنده قالب فلزی بتن و سوله</h2>
+                    <p>حریم خصوصی محفوظ | تایید هویت اعضا | شفافیت قیمت</p>
                     <div class="hero-buttons">
-                        <button class="btn btn-primary" style="padding: 12px 25px;" onclick="showPage('register')"><i class="fas fa-user-tie"></i> ثبت‌نام خریدار</button>
-                        <button class="btn btn-success" style="padding: 12px 25px;" onclick="showPage('register')"><i class="fas fa-industry"></i> ثبت‌نام فروشنده</button>
+                        <button class="btn btn-primary" style="padding: 15px 30px; font-size: 1.1rem;" onclick="showPage('register')">
+                            <i class="fas fa-user-tie"></i> من خریدار هستم
+                        </button>
+                        <button class="btn btn-success" style="padding: 15px 30px; font-size: 1.1rem;" onclick="showPage('register')">
+                            <i class="fas fa-industry"></i> من فروشنده هستم
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="counters">
                 <div class="container">
                     <div class="counters-grid">
-                        <div class="counter-item"><div class="counter-number" id="counter-sellers">۰</div><div class="counter-label">فروشنده ثبت‌نام شده</div></div>
-                        <div class="counter-item"><div class="counter-number" id="counter-buyers">۰</div><div class="counter-label">خریدار ثبت‌نام شده</div></div>
-                        <div class="counter-item"><div class="counter-number" id="counter-transactions">۰</div><div class="counter-label">فروش نهایی شده</div></div>
+                        <div class="counter-item"><div class="counter-number" id="counter-sellers">۱۲</div><div class="counter-label">فروشنده ثبت‌نام شده</div></div>
+                        <div class="counter-item"><div class="counter-number" id="counter-buyers">۲۵</div><div class="counter-label">خریدار ثبت‌نام شده</div></div>
+                        <div class="counter-item"><div class="counter-number" id="counter-transactions">۴۷</div><div class="counter-label">فروش نهایی شده</div></div>
                     </div>
                 </div>
             </div>
@@ -192,7 +197,10 @@
                     <div class="features-grid">
                         <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-lock"></i></div><h3>حریم خصوصی کاملاً محفوظ</h3><p>اطلاعات هویتی فروشندگان تا زمان انتخاب نهایی مخفی می‌ماند.</p></div>
                         <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><h3>شفافیت کامل قیمت</h3><p>خریدار می‌تواند تمام پیشنهادات قیمت را به صورت شفاف مشاهده و مقایسه کند.</p></div>
-                        <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-handshake"></i></div><h3>ارتباط مستقیم و سریع</h3><p>ارتباط مستقیم بین خریداران و فروشندگان معتبر بدون واسطه.</p></div>
+                        <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-handshake"></i></div><h3>ارتباط مستقیم و سریع</h3><p>ایجاد ارتباط مستقیم بین خریداران و فروشندگان معتبر بدون واسطه.</p></div>
+                        <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>تایید هویت اعضا</h3><p>تمام اعضا پس از بررسی مدارک تایید می‌شوند.</p></div>
+                        <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-trophy"></i></div><h3>گارانتی و تضمین کیفیت</h3><p>تمام فروشندگان متعهد به ارائه گارانتی محصولات هستند.</p></div>
+                        <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3>پشتیبانی ۲۴ ساعته</h3><p>تیم پشتیبانی ما به صورت ۲۴ ساعته آماده پاسخگویی است.</p></div>
                     </div>
                 </div>
             </div>
@@ -217,101 +225,107 @@
                     <div class="feature-card fade-in"><div class="feature-icon"><i class="fas fa-bridge"></i></div><h3>قالب تونل و پل</h3><p>قالب‌های تخصصی برای پروژه‌های بزرگ عمرانی</p></div>
                 </div>
                 <div style="text-align: center; margin-top: 3rem;">
-                    <button class="btn btn-primary" style="padding: 15px 40px; font-size: 1.2rem;" onclick="enterConcreteFormworkSystem()"><i class="fas fa-sign-in-alt"></i> ورود به سیستم قالب بتن</button>
+                    <button class="btn btn-primary" style="padding: 15px 40px; font-size: 1.2rem;" onclick="enterConcreteFormworkSystem()">
+                        <i class="fas fa-sign-in-alt"></i> ورود به سیستم قالب بتن
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- صفحه سوله با بک‌گراند -->
+        <!-- صفحه سوله با بک‌گراند محو -->
         <section id="shed-page" class="page hidden">
             <div class="shed-page">
                 <div class="container">
-                    <h2 class="section-title" style="color: white;">بخش سوله</h2>
-                    <p style="color: white; text-align: center; max-width: 800px; margin: 0 auto 2rem;">
+                    <h2 class="section-title" style="color: #1e3a8a;">بخش سوله</h2>
+                    <p style="color: #4b5563; text-align: center; max-width: 800px; margin: 0 auto 2rem;">
                         انتخاب خدمات مورد نیاز خود در حوزه سوله
                     </p>
                     <div class="shed-options">
                         <div class="shed-option-card">
                             <div class="shed-option-icon"><i class="fas fa-plus-circle"></i></div>
-                            <h3 style="color: #004586; margin-bottom: 1rem;">سوله نو</h3>
-                            <button class="btn btn-primary" onclick="showPage('new-shed-request')" style="width: 100%;"><i class="fas fa-file-alt"></i> پر کردن پرسشنامه سوله نو</button>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1rem;">سوله نو</h3>
+                            <button class="btn btn-primary" onclick="showPage('new-shed-request')" style="width: 100%;">
+                                <i class="fas fa-file-alt"></i> پر کردن پرسشنامه سوله نو
+                            </button>
                         </div>
                         <div class="shed-option-card">
                             <div class="shed-option-icon"><i class="fas fa-warehouse"></i></div>
-                            <h3 style="color: #004586; margin-bottom: 1rem;">سوله دست دوم</h3>
-                            <button class="btn btn-success" onclick="loadSecondhandSheds()" style="width: 100%;"><i class="fas fa-search"></i> مشاهده آگهی‌ها</button>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1rem;">سوله دست دوم</h3>
+                            <button class="btn btn-success" onclick="loadSecondhandSheds()" style="width: 100%;">
+                                <i class="fas fa-search"></i> مشاهده آگهی‌ها
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- صفحه درخواست سوله نو (کامل) -->
+        <!-- صفحه درخواست سوله نو (کامل - بدون تغییر) -->
         <section id="new-shed-request-page" class="page hidden">
             <div class="container">
                 <div style="max-width: 800px; margin: 0 auto; padding: 2rem 0;">
                     <div style="text-align: center; margin-bottom: 2rem;">
-                        <h1 style="color: #004586; margin-bottom: 0.5rem;">پرسشنامه درخواست سوله نو</h1>
+                        <h1 style="color: #1e3a8a; margin-bottom: 0.5rem;">پرسشنامه درخواست سوله نو</h1>
                         <p style="color: #6b7280;">لطفاً اطلاعات پروژه خود را با دقت وارد کنید</p>
                     </div>
                     <form id="new-shed-form">
                         <!-- ابعاد سوله -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-ruler-combined"></i> ابعاد سوله</h3>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-ruler-combined"></i> ابعاد سوله</h3>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                                <div class="form-group"><label for="shed-length">طول (متر)</label><input type="number" id="shed-length" class="form-control" required min="10" step="0.5"></div>
-                                <div class="form-group"><label for="shed-width">عرض (متر)</label><input type="number" id="shed-width" class="form-control" required min="10" step="0.5"></div>
-                                <div class="form-group"><label for="shed-height">ارتفاع (متر)</label><input type="number" id="shed-height" class="form-control" required min="4" step="0.5"></div>
+                                <div class="form-group"><label for="shed-length">طول سوله (متر)</label><input type="number" id="shed-length" class="form-control" required min="10" step="0.5" placeholder="مثال: 100"></div>
+                                <div class="form-group"><label for="shed-width">عرض سوله (متر)</label><input type="number" id="shed-width" class="form-control" required min="10" step="0.5" placeholder="مثال: 30"></div>
+                                <div class="form-group"><label for="shed-height">ارتفاع کنار سوله (متر)</label><input type="number" id="shed-height" class="form-control" required min="4" step="0.5" placeholder="مثال: 6"></div>
                             </div>
                         </div>
                         <!-- نقشه سازه -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-drafting-compass"></i> نقشه سازه</h3>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-drafting-compass"></i> نقشه سازه</h3>
                             <div class="form-group">
                                 <label>آیا فایل نقشه سازه دارید؟</label>
                                 <div style="display: flex; gap: 1.5rem;">
-                                    <label><input type="radio" name="has-drawing" value="yes" onclick="toggleDrawingUpload(true)"> بله</label>
-                                    <label><input type="radio" name="has-drawing" value="no" checked onclick="toggleDrawingUpload(false)"> خیر</label>
+                                    <label><input type="radio" name="has-drawing" value="yes" onclick="toggleDrawingUpload(true)"> بله، دارم</label>
+                                    <label><input type="radio" name="has-drawing" value="no" checked onclick="toggleDrawingUpload(false)"> خیر، نیاز به طراحی دارم</label>
                                 </div>
                             </div>
                             <div id="drawing-upload-section" class="hidden">
-                                <div class="form-group"><label for="shed-drawing">آپلود فایل نقشه</label><input type="file" id="shed-drawing" class="form-control" accept=".pdf,.dwg,.jpg,.png"></div>
+                                <div class="form-group"><label for="shed-drawing">آپلود فایل نقشه (اختیاری)</label><input type="file" id="shed-drawing" class="form-control" accept=".pdf,.dwg,.jpg,.jpeg,.png"></div>
                             </div>
                         </div>
                         <!-- اطلاعات پروژه -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-info-circle"></i> اطلاعات پروژه</h3>
-                            <div class="form-group"><label for="shed-usage">کارکرد سوله</label><textarea id="shed-usage" class="form-control" rows="3" required></textarea></div>
-                            <div class="form-group"><label for="shed-location">محل نصب</label><input type="text" id="shed-location" class="form-control" required></div>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-info-circle"></i> اطلاعات پروژه</h3>
+                            <div class="form-group"><label for="shed-usage">کارکرد سوله</label><textarea id="shed-usage" class="form-control" rows="3" required placeholder="برای چه منظوری نیاز به سوله دارید؟"></textarea></div>
+                            <div class="form-group"><label for="shed-location">محل نصب سوله</label><input type="text" id="shed-location" class="form-control" required placeholder="استان، شهر، آدرس دقیق"></div>
                         </div>
                         <!-- جرثقیل سقفی -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-crane"></i> جرثقیل سقفی</h3>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-crane"></i> جرثقیل سقفی</h3>
                             <div class="form-group">
-                                <label>آیا به جرثقیل نیاز دارید؟</label>
+                                <label>آیا به جرثقیل سقفی نیاز دارید؟</label>
                                 <div style="display: flex; gap: 1.5rem;">
-                                    <label><input type="radio" name="needs-crane" value="yes" onclick="toggleCraneDetails(true)"> بله</label>
-                                    <label><input type="radio" name="needs-crane" value="no" checked onclick="toggleCraneDetails(false)"> خیر</label>
+                                    <label><input type="radio" name="needs-crane" value="yes" onclick="toggleCraneDetails(true)"> بله، نیاز دارم</label>
+                                    <label><input type="radio" name="needs-crane" value="no" checked onclick="toggleCraneDetails(false)"> خیر، نیازی نیست</label>
                                 </div>
                             </div>
                             <div id="crane-details-section" class="hidden">
-                                <div class="form-group"><label for="crane-tonnage">تناژ (تن)</label><input type="number" id="crane-tonnage" class="form-control" min="1" step="0.5"></div>
+                                <div class="form-group"><label for="crane-tonnage">تناژ جرثقیل سقفی (تن)</label><input type="number" id="crane-tonnage" class="form-control" min="1" max="100" step="0.5" placeholder="مثال: 5"></div>
                             </div>
                         </div>
                         <!-- فونداسیون -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-layer-group"></i> فونداسیون</h3>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-layer-group"></i> فونداسیون</h3>
                             <div class="form-group">
                                 <label>آیا فونداسیون آماده است؟</label>
                                 <div style="display: flex; gap: 1.5rem;">
-                                    <label><input type="radio" name="foundation" value="yes"> بله</label>
-                                    <label><input type="radio" name="foundation" value="no" checked> خیر</label>
+                                    <label><input type="radio" name="foundation" value="yes"> بله، آماده است</label>
+                                    <label><input type="radio" name="foundation" value="no" checked> خیر، نیاز به اجرا دارم</label>
                                 </div>
                             </div>
                         </div>
                         <!-- سندبلاست و رنگ -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-paint-roller"></i> سندبلاست و رنگ</h3>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-paint-roller"></i> سندبلاست و رنگ</h3>
                             <div class="form-group">
                                 <label>آیا به سندبلاست نیاز دارید؟</label>
                                 <div style="display: flex; gap: 1.5rem;">
@@ -320,7 +334,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="paint-type">نوع رنگ</label>
+                                <label for="paint-type">نوع رنگ مورد نیاز</label>
                                 <select id="paint-type" class="form-control" onchange="toggleOtherPaintType()">
                                     <option value="">انتخاب کنید</option>
                                     <option value="ضد زنگ">ضد زنگ</option>
@@ -329,13 +343,13 @@
                                     <option value="اپوکسی">اپوکسی</option>
                                     <option value="other">سایر</option>
                                 </select>
-                                <input type="text" id="other-paint-type" class="form-control hidden" placeholder="نوع رنگ" style="margin-top: 10px;">
+                                <input type="text" id="other-paint-type" class="form-control hidden" placeholder="نوع رنگ را وارد کنید" style="margin-top: 10px;">
                             </div>
-                            <div class="form-group"><label for="paint-thickness">ضخامت رنگ (میکرون)</label><input type="number" id="paint-thickness" class="form-control" value="50" min="20" max="200"></div>
+                            <div class="form-group"><label for="paint-thickness">ضخامت رنگ (میکرون)</label><input type="number" id="paint-thickness" class="form-control" value="50" min="20" max="200" step="5"></div>
                         </div>
                         <!-- مسئولیت‌های خریدار -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-tasks"></i> مسئولیت‌های خریدار</h3>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-tasks"></i> مسئولیت‌های خریدار</h3>
                             <div style="display: flex; gap: 1.5rem;">
                                 <label><input type="checkbox" name="responsibility" value="steel"> تهیه آهن آلات</label>
                                 <label><input type="checkbox" name="responsibility" value="bolts"> تهیه پیچ و مهره</label>
@@ -344,8 +358,8 @@
                         </div>
                         <!-- وزن و قیمت -->
                         <div style="background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <h3 style="color: #004586; margin-bottom: 1.5rem;"><i class="fas fa-balance-scale"></i> وزن و قیمت</h3>
-                            <div class="form-group"><label for="shed-weight">وزن سوله (تن) - در صورت اطلاع</label><input type="number" id="shed-weight" class="form-control" min="1" step="0.1"></div>
+                            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;"><i class="fas fa-balance-scale"></i> وزن و قیمت</h3>
+                            <div class="form-group"><label for="shed-weight">وزن سوله (تن) - در صورت اطلاع</label><input type="number" id="shed-weight" class="form-control" min="1" step="0.1" placeholder="وزن تقریبی"></div>
                             <div class="form-group">
                                 <label>نوع قیمت‌گذاری</label>
                                 <div style="display: flex; gap: 1.5rem;">
@@ -382,8 +396,8 @@
                     <div id="seller-type-section" class="form-group hidden">
                         <label>نوع فروشنده</label>
                         <div class="user-type-selector" id="seller-type-selector">
-                            <div class="user-type-btn active" data-type="formwork" onclick="selectSellerType('formwork')">قالب</div>
-                            <div class="user-type-btn" data-type="shed" onclick="selectSellerType('shed')">سوله</div>
+                            <div class="user-type-btn active" data-type="formwork" onclick="selectSellerType('formwork')">فروشنده قالب</div>
+                            <div class="user-type-btn" data-type="shed" onclick="selectSellerType('shed')">فروشنده سوله</div>
                         </div>
                     </div>
                     <form id="register-form">
@@ -391,10 +405,11 @@
                         <div class="form-group"><label for="reg-password">رمز عبور</label><input type="password" id="reg-password" class="form-control" required></div>
                         <div class="form-group"><label for="reg-password-confirm">تکرار رمز عبور</label><input type="password" id="reg-password-confirm" class="form-control" required></div>
                         <div id="company-fields">
-                            <div class="form-group"><label for="reg-company" id="company-label">نام شرکت</label><input type="text" id="reg-company" class="form-control" placeholder="اختیاری"></div>
+                            <div class="form-group"><label for="reg-company" id="company-label">نام شرکت</label><input type="text" id="reg-company" class="form-control" placeholder="مثال: شرکت ساختمانی پیشرو"></div>
+                            <div class="form-group"><label for="reg-position">سمت سازمانی (اختیاری)</label><input type="text" id="reg-position" class="form-control" placeholder="مثال: مدیر بازرگانی"></div>
                         </div>
-                        <div class="form-group"><label for="reg-contact">نام شخص رابط</label><input type="text" id="reg-contact" class="form-control" required></div>
-                        <div class="form-group"><label for="reg-phone">تلفن تماس</label><input type="tel" id="reg-phone" class="form-control" required></div>
+                        <div class="form-group"><label for="reg-contact">نام شخص رابط</label><input type="text" id="reg-contact" class="form-control" required placeholder="نام و نام خانوادگی"></div>
+                        <div class="form-group"><label for="reg-phone">تلفن تماس</label><input type="tel" id="reg-phone" class="form-control" required placeholder="۰۹۱۲۱۲۳۴۵۶۷"></div>
                         <div class="form-group"><label style="display: flex; align-items: center; gap: 10px;"><input type="checkbox" id="accept-terms" required> <a href="#" onclick="showPage('terms'); return false;">قوانین</a> را می‌پذیرم.</label></div>
                         <div id="register-error" style="color: red; margin-bottom: 1rem;"></div>
                         <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">ثبت‌نام</button>
@@ -462,7 +477,7 @@
             </div>
         </section>
 
-        <!-- صفحه داشبورد فروشنده قالب (با فرم پاسخ pro) -->
+        <!-- صفحه داشبورد فروشنده قالب (اصلاح شده) -->
         <section id="seller-formwork-dashboard-page" class="page hidden">
             <div class="container dashboard">
                 <div class="dashboard-header">
@@ -488,7 +503,7 @@
             </div>
         </section>
 
-        <!-- صفحه داشبورد فروشنده سوله (با فرم پاسخ pro) -->
+        <!-- صفحه داشبورد فروشنده سوله (اصلاح شده) -->
         <section id="seller-shed-dashboard-page" class="page hidden">
             <div class="container dashboard">
                 <div class="dashboard-header">
@@ -514,7 +529,7 @@
             </div>
         </section>
 
-        <!-- صفحه پنل ادمین (جدید) -->
+        <!-- صفحه پنل ادمین (جدید با ۴ زبانه) -->
         <section id="admin-page" class="page hidden">
             <div class="container admin-panel">
                 <h2 class="section-title">پنل مدیریت ادمین</h2>
@@ -540,7 +555,7 @@
             </div>
         </section>
 
-        <!-- سایر صفحات (موقت) -->
+        <!-- سایر صفحات (بدون تغییر) -->
         <section id="blog-page" class="page hidden"><div class="hero"><div class="container"><h2>بلاگ</h2></div></div></section>
         <section id="marketing-page" class="page hidden"><div class="hero"><div class="container"><h2>چرا B2BSteel؟</h2></div></div></section>
         <section id="features-page" class="page hidden"><div class="hero"><div class="container"><h2>امکانات</h2></div></div></section>
@@ -548,7 +563,7 @@
         <section id="secondhand-shed-page" class="page hidden"><div class="hero"><div class="container"><h2>سوله دست دوم</h2></div></div></section>
     </main>
 
-    <!-- مودال درخواست قالب جدید -->
+    <!-- مودال‌ها (بدون تغییرات اساسی) -->
     <div id="new-concrete-request-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h3>درخواست قالب جدید</h3><button class="close-modal" onclick="closeModal('new-concrete-request-modal')">&times;</button></div>
@@ -567,7 +582,6 @@
         </div>
     </div>
 
-    <!-- مودال درخواست سوله جدید -->
     <div id="new-shed-request-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h3>درخواست سوله جدید</h3><button class="close-modal" onclick="closeModal('new-shed-request-modal')">&times;</button></div>
@@ -588,7 +602,6 @@
         </div>
     </div>
 
-    <!-- مودال ارسال پیشنهاد (برای فروشنده قالب) -->
     <div id="submit-bid-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h3>ارسال پیشنهاد قیمت (قالب)</h3><button class="close-modal" onclick="closeModal('submit-bid-modal')">&times;</button></div>
@@ -609,7 +622,6 @@
         </div>
     </div>
 
-    <!-- مودال ارسال پیشنهاد سوله -->
     <div id="submit-shed-bid-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h3>ارسال پیشنهاد قیمت (سوله)</h3><button class="close-modal" onclick="closeModal('submit-shed-bid-modal')">&times;</button></div>
@@ -630,7 +642,6 @@
         </div>
     </div>
 
-    <!-- مودال ویرایش پیشنهاد -->
     <div id="edit-bid-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h3>ویرایش پیشنهاد</h3><button class="close-modal" onclick="closeModal('edit-bid-modal')">&times;</button></div>
@@ -650,13 +661,42 @@
         </div>
     </div>
 
+    <div id="rating-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3>امتیازدهی به فروشنده</h3><button class="close-modal" onclick="closeModal('rating-modal')">&times;</button></div>
+            <div class="modal-body">
+                <form id="rating-form">
+                    <input type="hidden" id="rating-transaction-id">
+                    <div class="form-group">
+                        <label>امتیاز (۱ تا ۵)</label>
+                        <div class="rating-stars" style="display: flex; gap: 10px; font-size: 2rem;">
+                            <i class="far fa-star" onclick="setRating(1)"></i>
+                            <i class="far fa-star" onclick="setRating(2)"></i>
+                            <i class="far fa-star" onclick="setRating(3)"></i>
+                            <i class="far fa-star" onclick="setRating(4)"></i>
+                            <i class="far fa-star" onclick="setRating(5)"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating-comment">نظر شما</label>
+                        <textarea id="rating-comment" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('rating-modal')">بعداً</button>
+                <button class="btn btn-primary" onclick="submitRating()">ثبت امتیاز</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section"><h3>B2BSteel</h3><p>پلتفرم تخصصی قالب فلزی بتن و سوله</p></div>
-                <div class="footer-section"><h3>لینک‌ها</h3><ul><li><a href="#" onclick="showPage('home')">خانه</a></li><li><a href="#" onclick="showPage('concrete-formwork')">قالب بتن</a></li><li><a href="#" onclick="showPage('shed')">سوله</a></li><li><a href="#" onclick="showPage('terms')">قوانین</a></li></ul></div>
+                <div class="footer-section"><h3>لینک‌ها</h3><ul><li><a href="#" onclick="showPage('home')">خانه</a></li><li><a href="#" onclick="showPage('concrete-formwork')">قالب بتن</a></li><li><a href="#" onclick="showPage('shed')">سوله</a></li></ul></div>
             </div>
-            <div class="footer-bottom"><p>© ۱۴۰۴ B2BSteel</p></div>
+            <div class="footer-bottom"><p>© ۱۴۰۲ B2BSteel</p></div>
         </div>
     </footer>
 
@@ -670,6 +710,7 @@
         let selectedUserType = 'buyer';
         let selectedUserLegalType = 'company';
         let selectedSellerType = 'formwork';
+        let currentRating = 0;
 
         function showPage(pageId) {
             document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
@@ -677,8 +718,9 @@
             document.getElementById(pageId + '-page').classList.remove('hidden');
             updateNavigation();
             if (pageId === 'dashboard' && currentUser?.userType === 'buyer') loadBuyerDashboard();
-            else if (pageId === 'seller-formwork-dashboard') loadFormworkSellerDashboard();
-            else if (pageId === 'seller-shed-dashboard') loadShedSellerDashboard();
+            else if (pageId === 'seller-formwork-dashboard' && currentUser?.userType === 'seller' && currentUser?.sellerType === 'formwork') loadFormworkSellerDashboard();
+            else if (pageId === 'seller-shed-dashboard' && currentUser?.userType === 'seller' && currentUser?.sellerType === 'shed') loadShedSellerDashboard();
+            else if (pageId === 'admin' && currentUser?.isAdmin) loadAdminPanel();
             else if (pageId === 'home') initImageSlider();
         }
 
@@ -807,6 +849,43 @@
             container.innerHTML = html;
         };
 
+        window.loadFormworkSellerBids = async function() {
+            const { data: bids } = await supabase.from('bids').select('*, concrete_requests(*)').eq('seller_id', currentUser.id).order('created_at', { ascending: false });
+            const container = document.getElementById('seller-formwork-dashboard-content');
+            if (!bids?.length) { container.innerHTML = '<div class="requests-list"><div class="request-item"><p style="text-align: center;">پیشنهادی نیست</p></div></div>'; return; }
+            let html = '<div class="requests-list">';
+            bids.forEach(b => {
+                html += `<div class="request-item">
+                    <div class="request-header"><span class="request-title">${b.concrete_requests?.title || 'بدون عنوان'}</span><span class="request-badge badge-info">ارسال شده</span></div>
+                    <div class="request-details"><div>قیمت: ${(b.price || 0).toLocaleString('fa-IR')} ریال</div><div>تحویل: ${b.delivery_days || '?'} روز</div></div>
+                    <div class="request-actions">
+                        <button class="btn btn-warning btn-sm" onclick="editBid('${b.id}')">ویرایش</button>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        };
+
+        window.loadShedSellerBids = async function() {
+            const { data: bids } = await supabase.from('shed_bids').select('*, shed_requests(*)').eq('seller_id', currentUser.id).order('created_at', { ascending: false });
+            const container = document.getElementById('seller-shed-dashboard-content');
+            if (!bids?.length) { container.innerHTML = '<div class="requests-list"><div class="request-item"><p style="text-align: center;">پیشنهادی نیست</p></div></div>'; return; }
+            let html = '<div class="requests-list">';
+            bids.forEach(b => {
+                const dims = b.shed_requests?.dimensions || {};
+                html += `<div class="request-item">
+                    <div class="request-header"><span class="request-title">سوله ${dims.length || '?'}×${dims.width || '?'}</span><span class="request-badge badge-info">ارسال شده</span></div>
+                    <div class="request-details"><div>قیمت: ${(b.price || 0).toLocaleString('fa-IR')} ریال</div><div>تحویل: ${b.delivery_days || '?'} روز</div></div>
+                    <div class="request-actions">
+                        <button class="btn btn-warning btn-sm" onclick="editShedBid('${b.id}')">ویرایش</button>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        };
+
         window.viewRequestDetails = async function(id) {
             const { data } = await supabase.from('concrete_requests').select('*').eq('id', id).single();
             alert(`عنوان: ${data.title}\nتوضیحات: ${data.description}\nمکان: ${data.project_location}\nمهلت: ${data.deadline}`);
@@ -856,6 +935,155 @@
             if (error) alert(error.message); else { alert('پیشنهاد ارسال شد'); closeModal('submit-shed-bid-modal'); }
         };
 
+        window.editBid = async function(bidId) {
+            const { data: bid } = await supabase.from('bids').select('*').eq('id', bidId).single();
+            if (!bid) return;
+            document.getElementById('edit-bid-id').value = bid.id;
+            document.getElementById('edit-bid-price').value = bid.price.toLocaleString('fa-IR');
+            document.getElementById('edit-bid-delivery').value = bid.delivery_days;
+            document.getElementById('edit-bid-warranty').value = bid.warranty_months;
+            document.getElementById('edit-bid-notes').value = bid.notes || '';
+            document.getElementById('edit-bid-modal').classList.add('active');
+        };
+
+        window.editShedBid = async function(bidId) {
+            const { data: bid } = await supabase.from('shed_bids').select('*').eq('id', bidId).single();
+            if (!bid) return;
+            document.getElementById('edit-bid-id').value = bid.id;
+            document.getElementById('edit-bid-price').value = bid.price.toLocaleString('fa-IR');
+            document.getElementById('edit-bid-delivery').value = bid.delivery_days;
+            document.getElementById('edit-bid-warranty').value = bid.warranty_months;
+            document.getElementById('edit-bid-notes').value = bid.notes || '';
+            document.getElementById('edit-bid-modal').classList.add('active');
+        };
+
+        window.updateBid = async function() {
+            const id = document.getElementById('edit-bid-id').value;
+            const price = parseInt(document.getElementById('edit-bid-price').value.replace(/[^\d]/g, '')) || 0;
+            const delivery = parseInt(document.getElementById('edit-bid-delivery').value);
+            const warranty = parseInt(document.getElementById('edit-bid-warranty').value) || 0;
+            const notes = document.getElementById('edit-bid-notes').value;
+            const { error } = await supabase.from('bids').update({ price, delivery_days: delivery, warranty_months: warranty, notes }).eq('id', id);
+            if (error) alert(error.message); else { alert('ویرایش شد'); closeModal('edit-bid-modal'); loadFormworkSellerBids(); }
+        };
+
+        window.setRating = function(rating) {
+            currentRating = rating;
+            document.querySelectorAll('.rating-stars i').forEach((star, i) => {
+                if (i < rating) star.className = 'fas fa-star';
+                else star.className = 'far fa-star';
+            });
+        };
+
+        window.submitRating = async function() {
+            const transactionId = document.getElementById('rating-transaction-id').value;
+            const comment = document.getElementById('rating-comment').value;
+            if (!currentRating) return alert('لطفاً امتیاز دهید');
+            const { error } = await supabase.from('ratings').insert([{
+                transaction_id: transactionId,
+                user_id: currentUser.id,
+                rating: currentRating,
+                comment: comment
+            }]);
+            if (error) alert(error.message); else { alert('امتیاز ثبت شد'); closeModal('rating-modal'); }
+        };
+
+        window.loadAdminPanel = async function() {
+            const { count: total } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+            const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
+            const { count: formwork } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'formwork');
+            const { count: shedSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'shed');
+            const { count: concReqs } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true });
+            const { count: shedReqs } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true });
+            document.getElementById('admin-total-users').textContent = total || 0;
+            document.getElementById('admin-total-buyers').textContent = buyers || 0;
+            document.getElementById('admin-formwork-sellers').textContent = formwork || 0;
+            document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
+            document.getElementById('admin-concrete-requests').textContent = concReqs || 0;
+            document.getElementById('admin-shed-requests').textContent = shedReqs || 0;
+        };
+
+        window.loadAllUsers = async function() {
+            const { data: users } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
+            const container = document.getElementById('admin-content');
+            if (!users?.length) { container.innerHTML = '<div class="requests-list"><div class="request-item"><p style="text-align: center;">کاربری نیست</p></div></div>'; return; }
+            let html = '<div class="requests-list">';
+            users.forEach(u => {
+                let type = 'کاربر';
+                if (u.role === 'admin') type = 'ادمین';
+                else if (u.user_type === 'buyer') type = 'خریدار';
+                else if (u.user_type === 'seller') type = u.seller_type === 'formwork' ? 'فروشنده قالب' : 'فروشنده سوله';
+                html += `<div class="request-item">
+                    <div class="request-header"><span class="request-title">${u.full_name || 'بدون نام'}</span><span class="request-badge badge-info">${type}</span></div>
+                    <div class="request-details"><div>${u.email}</div><div>${u.phone || ''}</div></div>
+                </div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        };
+
+        window.loadAllConcreteRequestsAdmin = async function() {
+            const { data: requests } = await supabase.from('concrete_requests').select('*, profiles(full_name)').order('created_at', { ascending: false });
+            const container = document.getElementById('admin-content');
+            if (!requests?.length) { container.innerHTML = '<div class="requests-list"><div class="request-item"><p style="text-align: center;">درخواستی نیست</p></div></div>'; return; }
+            let html = '<div class="requests-list">';
+            for (const r of requests) {
+                const { data: bids } = await supabase.from('bids').select('*, profiles(full_name)').eq('request_id', r.id);
+                html += `<div class="request-item" style="border: 2px solid #3b82f6; margin-bottom: 10px;">
+                    <div class="request-header"><span class="request-title">${r.title || 'بدون عنوان'}</span><span class="request-badge badge-open">${r.status || 'باز'}</span></div>
+                    <div class="request-details"><div>${r.description || ''}</div><div>خریدار: ${r.profiles?.full_name || '?'}</div></div>`;
+                if (bids && bids.length > 0) {
+                    html += '<div style="margin-top: 10px; padding: 10px; background: #f3f4f6; border-radius: 6px;"><strong>پاسخ فروشندگان:</strong>';
+                    bids.forEach(b => {
+                        html += `<div style="border-top: 1px solid #ccc; padding: 5px 0;">فروشنده: ${b.profiles?.full_name || '?'} - قیمت: ${b.price.toLocaleString('fa-IR')} ریال</div>`;
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        };
+
+        window.loadAllShedRequestsAdmin = async function() {
+            const { data: requests } = await supabase.from('shed_requests').select('*, profiles(full_name)').order('created_at', { ascending: false });
+            const container = document.getElementById('admin-content');
+            if (!requests?.length) { container.innerHTML = '<div class="requests-list"><div class="request-item"><p style="text-align: center;">درخواستی نیست</p></div></div>'; return; }
+            let html = '<div class="requests-list">';
+            for (const r of requests) {
+                const { data: bids } = await supabase.from('shed_bids').select('*, profiles(full_name)').eq('request_id', r.id);
+                const dims = r.dimensions || {};
+                html += `<div class="request-item" style="border: 2px solid #10b981; margin-bottom: 10px;">
+                    <div class="request-header"><span class="request-title">سوله ${dims.length || '?'}×${dims.width || '?'}</span><span class="request-badge badge-open">${r.status || 'باز'}</span></div>
+                    <div class="request-details"><div>${r.usage || ''}</div><div>خریدار: ${r.profiles?.full_name || '?'}</div></div>`;
+                if (bids && bids.length > 0) {
+                    html += '<div style="margin-top: 10px; padding: 10px; background: #f3f4f6; border-radius: 6px;"><strong>پاسخ فروشندگان:</strong>';
+                    bids.forEach(b => {
+                        html += `<div style="border-top: 1px solid #ccc; padding: 5px 0;">فروشنده: ${b.profiles?.full_name || '?'} - قیمت: ${b.price.toLocaleString('fa-IR')} ریال</div>`;
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        };
+
+        window.loadAllTransactionsAdmin = async function() {
+            const { data: trans } = await supabase.from('transactions').select('*, buyer:profiles!buyer_id(full_name), seller:profiles!seller_id(full_name)').order('created_at', { ascending: false });
+            const container = document.getElementById('admin-content');
+            if (!trans?.length) { container.innerHTML = '<div class="requests-list"><div class="request-item"><p style="text-align: center;">تراکنشی نیست</p></div></div>'; return; }
+            let html = '<div class="requests-list">';
+            trans.forEach(t => {
+                html += `<div class="request-item">
+                    <div class="request-header"><span class="request-title">تراکنش ${t.id}</span><span class="request-badge badge-success">انجام شده</span></div>
+                    <div class="request-details"><div>خریدار: ${t.buyer?.full_name || '?'}</div><div>فروشنده: ${t.seller?.full_name || '?'}</div><div>مبلغ: ${(t.amount || 0).toLocaleString('fa-IR')} ریال</div></div>
+                </div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        };
+
         window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
         window.toggleDrawingUpload = function(show) { document.getElementById('drawing-upload-section').classList.toggle('hidden', !show); };
         window.toggleCraneDetails = function(show) { document.getElementById('crane-details-section').classList.toggle('hidden', !show); };
@@ -893,11 +1121,32 @@
             if (error) alert(error.message); else { alert('ثبت شد'); closeModal('new-shed-request-modal'); loadBuyerShedRequests(); }
         };
 
+        window.selectUserType = function(type) {
+            selectedUserType = type;
+            document.querySelectorAll('#user-type-main-selector .user-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+            document.getElementById('seller-type-section').classList.toggle('hidden', type !== 'seller');
+        };
+
+        window.selectUserLegalType = function(type) {
+            selectedUserLegalType = type;
+            document.querySelectorAll('#user-legal-type-selector .user-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+            document.getElementById('company-fields').style.display = type === 'company' ? 'block' : 'none';
+        };
+
+        window.selectSellerType = function(type) {
+            selectedSellerType = type;
+            document.querySelectorAll('#seller-type-selector .user-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+        };
+
         document.getElementById('register-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const pwd = document.getElementById('reg-password').value;
             if (pwd !== document.getElementById('reg-password-confirm').value) return alert('رمز مطابقت ندارد');
-            const { data, error } = await supabase.auth.signUp({ email: document.getElementById('reg-email').value, password: pwd });
+            const { data, error } = await supabase.auth.signUp({ 
+                email: document.getElementById('reg-email').value, 
+                password: pwd,
+                options: { data: { full_name: document.getElementById('reg-contact').value, phone: document.getElementById('reg-phone').value, user_type: selectedUserType, seller_type: selectedUserType === 'seller' ? selectedSellerType : null } }
+            });
             if (error) alert(error.message);
             else { alert('ثبت‌نام موفق'); showPage('login'); }
         });
