@@ -234,87 +234,7 @@
             font-size: 0.85rem;
         }
 
-        /* ========== صفحه اصلی - هیرو ========== */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 20%, rgba(230,184,0,0.15), transparent 70%),
-                        radial-gradient(circle at 80% 80%, rgba(0,69,134,0.2), transparent 70%);
-            z-index: 0;
-        }
-
-        .hero .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0.95;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* ========== شمارنده‌ها ========== */
-        .counters {
-            background: white;
-            padding: 3rem 0;
-            margin: 2rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .counters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .counter-item {
-            text-align: center;
-            padding: 1.5rem;
-        }
-
-        .counter-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .counter-label {
-            font-size: 1.2rem;
-            color: #4b5563;
-        }
-
-        /* ========== اسلایدشو جدید ========== */
+        /* ========== صفحه اصلی - اسلایدشو ========== */
         .hero-slideshow {
             width: 100%;
             height: 500px;
@@ -372,55 +292,70 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        /* صفحه سوله با بکگراند اسلایدشو */
+        /* ========== شمارنده‌ها ========== */
+        .counters {
+            background: white;
+            padding: 3rem 0;
+            margin: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .counters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .counter-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .counter-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .counter-label {
+            font-size: 1.2rem;
+            color: #4b5563;
+        }
+
+        /* ========== صفحه سوله با بکگراند محو ========== */
         #shed-page {
             position: relative;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .shed-background-slideshow {
+        .shed-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-        }
-
-        .shed-bg-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            background-image: url('https://khomesteel.com/wp-content/uploads/2022/04/8-basic-knowledge-about-steel-structure.png');
             background-size: cover;
             background-position: center;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .shed-bg-slide.active {
-            opacity: 0.3;
-        }
-
-        .shed-bg-slide::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background-repeat: no-repeat;
+            filter: blur(5px) brightness(0.5);
+            transform: scale(1.1);
         }
 
         .shed-content {
-            position: relative;
-            z-index: 2;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(5px);
+            width: 70%;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         /* ========== کارت‌های ویژگی‌ها ========== */
@@ -891,45 +826,6 @@
             border-top: 1px solid #374151;
             color: #9ca3af;
         }
-
-        /* ========== ریسپانسیو ========== */
-        @media (max-width: 992px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .nav-links {
-                justify-content: center;
-            }
-            .hero-slide-content h2 {
-                font-size: 2rem;
-            }
-        }
-        @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .image-slider {
-                height: 300px;
-            }
-            .counter-number {
-                font-size: 2rem;
-            }
-            .date-selector {
-                flex-direction: column;
-            }
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
     </style>
 </head>
 <body>
@@ -986,21 +882,26 @@
 <!-- ========== صفحات اصلی ========== -->
 <main id="pages">
 
-    <!-- صفحه اصلی با اسلایدشو جدید -->
+    <!-- صفحه اصلی با اسلایدشو ۳ عکسی -->
     <section id="home-page" class="page">
         <div class="hero-slideshow">
+            <!-- عکس اول - قالب بتن -->
             <div class="hero-slide active" style="background-image: url('https://img.edilportale.com/product-thumbs/b_P300-Pilosio-611087-rel51b5c439.jpg');">
                 <div class="hero-slide-content">
                     <h2>قالب فلزی بتن با کیفیت</h2>
                     <p>بهترین انتخاب برای پروژه‌های ساختمانی شما</p>
                 </div>
             </div>
+            
+            <!-- عکس دوم - قالب بتن -->
             <div class="hero-slide" style="background-image: url('https://img.edilportale.com/product-thumbs/b_P300-Pilosio-611087-rel991e93b7.jpg');">
                 <div class="hero-slide-content">
                     <h2>سیستم‌های مدرن قالب‌بندی</h2>
                     <p>سرعت و دقت در اجرا با تکنولوژی روز</p>
                 </div>
             </div>
+            
+            <!-- عکس سوم - سوله -->
             <div class="hero-slide" style="background-image: url('https://khomesteel.com/wp-content/uploads/2022/04/8-basic-knowledge-about-steel-structure.png');">
                 <div class="hero-slide-content">
                     <h2>سوله‌های صنعتی</h2>
@@ -1131,12 +1032,9 @@
         </div>
     </section>
 
-    <!-- صفحه سوله با بکگراند اسلایدشو -->
+    <!-- صفحه سوله با بکگراند محو -->
     <section id="shed-page" class="page hidden">
-        <div class="shed-background-slideshow">
-            <div class="shed-bg-slide active" style="background-image: url('https://5.imimg.com/data5/SELLER/Default/2022/10/LA/DX/AG/58754110/steel-shed-designing.png');"></div>
-            <div class="shed-bg-slide" style="background-image: url('https://khomesteel.com/wp-content/uploads/2022/04/8-basic-knowledge-about-steel-structure.png');"></div>
-        </div>
+        <div class="shed-background"></div>
         
         <div class="container shed-content">
             <h2 class="section-title">بخش سوله</h2>
@@ -1325,8 +1223,66 @@
     <section id="terms-page" class="page hidden">
         <div class="container" style="max-width: 900px; margin: 0 auto; padding: 3rem 0;">
             <div style="background: white; border-radius: 10px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <h1 class="section-title">قوانین و شرایط استفاده</h1>
-                <!-- محتوای قوانین ثابت باقی می‌ماند -->
+                <h1 class="section-title">قوانین و شرایط استفاده از B2BSteel</h1>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۱. مقدمه و کلیات</h3>
+                    <p>پلتفرم B2BSteel یک بازارگاه آنلاین (Marketplace) برای ارتباط مستقیم بین خریداران و فروشندگان محصولات مرتبط با قالب‌های فلزی بتن و سازه‌های فولادی (سوله) است. این پلتفرم صرفاً به عنوان یک واسط فناوری‌محور عمل کرده و نقش آن محدود به نمایش درخواست‌ها و پیشنهادات است. هرگونه توافق نهایی، عقد قرارداد، مبادله کالا، پرداخت وجه و انجام تعهدات، مستقیماً و با مسئولیت کامل خریدار و فروشنده صورت می‌پذیرد. استفاده از این پلتفرم به معنای مطالعه و پذیرش کامل کلیه شرایط و قوانین زیر است.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۲. مسئولیت پلتفرم</h3>
+                    <p><strong>عدم مسئولیت در قبال معاملات:</strong> پلتفرم B2BSteel هیچ‌گونه مسئولیتی در قبال کیفیت کالاها، تحویل به موقع، تطابق کالا با مشخصات درخواستی، و یا انجام تعهدات مالی خریداران و فروشندگان ندارد. قرارداد نهایی فی‌مابین خریدار و فروشنده منعقد می‌شود و پلتفرم طرف هیچ‌یک از معاملات نیست.</p>
+                    <p><strong>عدم مسئولیت در قبال خسارات:</strong> پلتفرم مسئولیتی در قبال هرگونه خسارت مستقیم، غیرمستقیم، اتفاقی یا تبعی ناشی از استفاده از سایت یا عدم انجام تعهدات توسط طرفین معامله ندارد.</p>
+                    <p><strong>صحت اطلاعات:</strong> پلتفرم محتوای درج شده توسط کاربران (از جمله مشخصات فنی، قیمت‌ها و تصاویر) را تأیید یا تضمین نمی‌کند. کاربران موظف به تحقیق و بررسی دقیق قبل از هرگونه همکاری هستند.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۳. مسئولیت‌های کاربران (خریداران و فروشندگان)</h3>
+                    <p><strong>احراز هویت و اطلاعات:</strong> کاربران متعهد هستند اطلاعات صحیح، کامل و به‌روز خود (اعم از حقیقی یا حقوقی) را در فرآیند ثبت‌نام وارد نمایند. پلتفرم این حق را برای خود محفوظ می‌دارد که در صورت مشاهده هرگونه اطلاعات نادرست یا سوءاستفاده، حساب کاربری را مسدود نماید.</p>
+                    <p><strong>رعایت قوانین:</strong> کاربران موظف به رعایت کلیه قوانین جاری کشور جمهوری اسلامی ایران، از جمله قوانین مالیاتی، تجارت الکترونیک و مقررات صنفی مرتبط با فعالیت خود هستند.</p>
+                    <p><strong>پیشنهادات و درخواست‌ها:</strong> فروشندگان تنها مجاز به ارسال پیشنهاد برای درخواست‌هایی هستند که توانایی و تخصص اجرای آن‌ها را دارند. خریداران نیز باید درخواست‌های خود را با نهایت دقت و شفافیت ثبت نمایند.</p>
+                    <p><strong>امتیازدهی و نظرات:</strong> پس از انجام معامله، خریداران می‌توانند فروشنده را بر اساس معیارهایی مانند کیفیت، تحویل به‌موقع و ارتباطات امتیازدهی کرده و نظر خود را ثبت کنند. این امتیازات به سایر خریداران در انتخاب فروشنده مناسب کمک خواهد کرد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۴. قوانین مالی و پرداخت</h3>
+                    <p>تمامی تراکنش‌های مالی (اعم از پیش‌پرداخت، بیعانه یا تسویه نهایی) به طور مستقیم و خارج از بستر پلتفرم بین خریدار و فروشنده انجام می‌شود. پلتفرم B2BSteel در حال حاضر هیچ درگاه پرداختی را واسط‌گری نمی‌کند و مسئولیتی در قبال وجوه رد و بدل شده ندارد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۵. محرمانگی و حریم خصوصی</h3>
+                    <p>اطلاعات هویتی و تماس فروشندگان تا زمان انتخاب نهایی توسط خریدار، برای سایر کاربران مخفی می‌ماند. این ویژگی به منظور حفظ حریم خصوصی و جلوگیری از معاملات خارج از پلتفرم طراحی شده است. پلتفرم متعهد می‌شود از اطلاعات شخصی کاربران (نظیر شماره تماس، ایمیل و آدرس) صرفاً در راستای بهبود خدمات استفاده کرده و از افشای آن به اشخاص ثالث خودداری نماید، مگر در مواردی که الزام قانونی وجود داشته باشد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۶. حق مسدود کردن حساب</h3>
+                    <p>پلتفرم B2BSteel این حق را دارد که در صورت مشاهده هرگونه تخلف از قوانین سایت، ارائه اطلاعات نادرست، یا هرگونه اقدامی که به اعتبار پلتفرم لطمه بزند (مانند تبانی برای دور زدن سیستم)، بدون هیچ‌گونه اخطار قبلی، حساب کاربری فرد خاطی را مسدود کرده و دسترسی او را از پلتفرم قطع نماید.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۷. مالکیت فکری</h3>
+                    <p>کلیه محتوای سایت شامل کدها، طراحی گرافیکی، لوگو و متون، متعلق به پلتفرم B2BSteel بوده و هرگونه کپی‌برداری یا استفاده تجاری بدون مجوز کتبی، پیگرد قانونی دارد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۸. قوانین بازاریابی و ارتباطات</h3>
+                    <p>فروشندگان مجاز به ارسال پیام‌های تبلیغاتی مستقیم (اسپم) به خریداران نیستند. ارتباطات باید صرفاً در چارچوب درخواست‌های ثبت شده و با هدف انجام معامله صورت پذیرد.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۹. تغییرات در قوانین</h3>
+                    <p>پلتفرم B2BSteel این حق را برای خود محفوظ می‌دارد که در هر زمان و بدون نیاز به اطلاع‌رسانی قبلی، نسبت به تغییر یا به‌روزرسانی این شرایط اقدام نماید. ادامه استفاده از سایت پس از تغییرات، به معنای پذیرش قوانین جدید خواهد بود.</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">۱۰. حل اختلاف</h3>
+                    <p>در صورت بروز هرگونه اختلاف میان کاربران، طرفین موظفند ابتدا از طریق مذاکره مستقیم مسئله را حل و فصل نمایند. در صورت عدم حصول نتیجه، اختلاف از طریق مراجع قضایی صالح قابل پیگیری خواهد بود.</p>
+                </div>
+                
+                <div style="background: #f8fafc; border-radius: 8px; padding: 1.5rem; margin-top: 2rem; text-align: center;">
+                    <p>آخرین به‌روزرسانی: بهمن ۱۴۰۴</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1334,8 +1290,39 @@
     <!-- صفحه راهنما -->
     <section id="guide-page" class="page hidden">
         <div class="container" style="padding: 4rem 0;">
-            <h2 class="section-title">راهنمای استفاده</h2>
-            <!-- محتوای راهنما ثابت باقی می‌ماند -->
+            <h2 class="section-title">راهنمای استفاده از B2BSteel</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۱</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">ثبت‌نام</h3>
+                    <p>به عنوان خریدار یا فروشنده ثبت‌نام کنید و اطلاعات خود را تکمیل نمایید.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۲</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">ایجاد درخواست</h3>
+                    <p>خریداران درخواست خود را با جزئیات کامل ثبت می‌کنند.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۳</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">دریافت پیشنهاد</h3>
+                    <p>فروشندگان معتبر پیشنهادات خود را ارسال می‌کنند.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۴</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">انتخاب و ارتباط</h3>
+                    <p>خریدار بهترین پیشنهاد را انتخاب کرده و اطلاعات فروشنده را دریافت می‌کند.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۵</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">انجام معامله</h3>
+                    <p>طرفین قرارداد خود را منعقد کرده و فرآیند اجرا آغاز می‌شود.</p>
+                </div>
+                <div style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-weight: bold; font-size: 1.5rem;">۶</div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">ثبت نظر و امتیاز</h3>
+                    <p>پس از اتمام کار، خریدار می‌تواند نظر و امتیاز خود را ثبت کند.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1343,7 +1330,41 @@
     <section id="blog-page" class="page hidden">
         <div class="container" style="padding: 4rem 0;">
             <h2 class="section-title">مقالات و اخبار</h2>
-            <!-- محتوای بلاگ ثابت باقی می‌ماند -->
+            <div class="blog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="blog-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, var(--primary-dark), var(--primary)); display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-cubes" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="blog-content" style="padding: 1.5rem;">
+                        <h3 class="blog-title" style="color: var(--primary); margin-bottom: 0.5rem;">انواع قالب فلزی بتن و کاربردهای آنها</h3>
+                        <div class="blog-date" style="color: var(--muted); margin-bottom: 1rem;">۱۴۰۲/۱۲/۱۵</div>
+                        <p class="blog-excerpt" style="color: #4b5563;">قالب فلزی بتن به عنوان یکی از پرکاربردترین سیستم‌های قالب‌بندی در صنعت ساختمان شناخته می‌شود...</p>
+                        <a href="#" class="read-more" style="color: var(--primary); font-weight: 600; display: inline-block; margin-top: 1rem;">ادامه مطلب</a>
+                    </div>
+                </div>
+                <div class="blog-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #047857, #10b981); display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-building" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="blog-content" style="padding: 1.5rem;">
+                        <h3 class="blog-title" style="color: var(--primary); margin-bottom: 0.5rem;">نکات کلیدی در انتخاب قالب مناسب</h3>
+                        <div class="blog-date" style="color: var(--muted); margin-bottom: 1rem;">۱۴۰۲/۱۲/۱۰</div>
+                        <p class="blog-excerpt" style="color: #4b5563;">انتخاب قالب مناسب می‌تواند تأثیر زیادی در کیفیت نهایی، سرعت اجرا و هزینه‌های پروژه داشته باشد...</p>
+                        <a href="#" class="read-more" style="color: var(--primary); font-weight: 600; display: inline-block; margin-top: 1rem;">ادامه مطلب</a>
+                    </div>
+                </div>
+                <div class="blog-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #7c3aed, #a855f7); display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-industry" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="blog-content" style="padding: 1.5rem;">
+                        <h3 class="blog-title" style="color: var(--primary); margin-bottom: 0.5rem;">مزایای قالب مدولار در ساخت‌وساز</h3>
+                        <div class="blog-date" style="color: var(--muted); margin-bottom: 1rem;">۱۴۰۲/۱۲/۰۵</div>
+                        <p class="blog-excerpt" style="color: #4b5563;">قالب مدولار به دلیل انعطاف‌پذیری و سرعت نصب بالا، تبدیل به یکی از محبوب‌ترین سیستم‌های قالب‌بندی شده است...</p>
+                        <a href="#" class="read-more" style="color: var(--primary); font-weight: 600; display: inline-block; margin-top: 1rem;">ادامه مطلب</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1472,7 +1493,7 @@
         </div>
     </section>
 
-    <!-- صفحه داشبورد خریدار (بازطراحی شده) -->
+    <!-- صفحه داشبورد خریدار -->
     <section id="dashboard-page" class="page hidden">
         <div class="container dashboard">
             <div class="dashboard-header">
@@ -1515,7 +1536,7 @@
         </div>
     </section>
 
-    <!-- صفحه داشبورد فروشنده قالب (با قابلیت پاسخ به استعلام) -->
+    <!-- صفحه داشبورد فروشنده قالب -->
     <section id="seller-formwork-dashboard-page" class="page hidden">
         <div class="container dashboard">
             <div class="dashboard-header">
@@ -1546,12 +1567,14 @@
             
             <div style="margin-top: 2rem;">
                 <h3 style="color: var(--primary); margin-bottom: 1rem;">درخواست‌های جدید قالب</h3>
-                <div id="seller-formwork-requests" class="requests-list"></div>
+                <div id="seller-formwork-requests" class="requests-list">
+                    <p style="text-align: center; color: var(--muted);">در حال بارگذاری...</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- صفحه داشبورد فروشنده سوله (با قابلیت پاسخ به استعلام) -->
+    <!-- صفحه داشبورد فروشنده سوله -->
     <section id="seller-shed-dashboard-page" class="page hidden">
         <div class="container dashboard">
             <div class="dashboard-header">
@@ -1582,12 +1605,14 @@
             
             <div style="margin-top: 2rem;">
                 <h3 style="color: var(--primary); margin-bottom: 1rem;">درخواست‌های جدید سوله</h3>
-                <div id="seller-shed-requests" class="requests-list"></div>
+                <div id="seller-shed-requests" class="requests-list">
+                    <p style="text-align: center; color: var(--muted);">در حال بارگذاری...</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- صفحه پنل ادمین (بازطراحی شده) -->
+    <!-- صفحه پنل ادمین -->
     <section id="admin-page" class="page hidden">
         <div class="container admin-panel">
             <h2 class="section-title">پنل مدیریت</h2>
@@ -1848,6 +1873,9 @@
         if (value) {
             input.value = parseInt(value).toLocaleString('fa-IR');
         }
+        if (typeof window.calculateFormworkTotal === 'function') {
+            window.calculateFormworkTotal();
+        }
     };
     
     // ========== نمایش صفحات ==========
@@ -1873,18 +1901,6 @@
     // ========== اسلایدشو صفحه اصلی ==========
     window.initHeroSlideshow = function() {
         const slides = document.querySelectorAll('.hero-slide');
-        if (slides.length < 2) return;
-        let current = 0;
-        setInterval(() => {
-            slides[current].classList.remove('active');
-            current = (current + 1) % slides.length;
-            slides[current].classList.add('active');
-        }, 10000);
-    };
-    
-    // ========== اسلایدشو پس زمینه سوله ==========
-    window.initShedSlideshow = function() {
-        const slides = document.querySelectorAll('.shed-bg-slide');
         if (slides.length < 2) return;
         let current = 0;
         setInterval(() => {
@@ -2138,7 +2154,11 @@
     };
     
     window.loadSecondhandSheds = function() {
-        window.showPage('secondhand-shed');
+        alert('بخش سوله دست دوم در حال توسعه است');
+    };
+    
+    window.showNewShedRequestModal = function() {
+        window.showPage('new-shed-request');
     };
     
     // ========== فرم درخواست سوله ==========
@@ -2192,11 +2212,7 @@
             window.showPage('login');
             return;
         }
-        // این مودال در فایل اصلی وجود دارد
-    };
-    
-    window.showNewShedRequestModal = function() {
-        window.showPage('new-shed-request');
+        alert('فرم درخواست قالب بتن در حال توسعه است');
     };
     
     // ========== داشبورد خریدار ==========
@@ -2309,6 +2325,18 @@
         return data || [];
     };
     
+    window.viewRequestDetails = function(requestId, type) {
+        alert(`مشاهده جزئیات درخواست ${type} - کد: ${requestId}`);
+    };
+    
+    window.editRequest = function(requestId, type) {
+        alert(`ویرایش درخواست ${type} - کد: ${requestId}`);
+    };
+    
+    window.showSellerInfo = function(sellerId) {
+        alert(`اطلاعات فروشنده: ${sellerId}`);
+    };
+    
     // ========== داشبورد فروشنده قالب ==========
     window.loadSellerFormworkDashboard = async function() {
         if (!currentUser) return;
@@ -2318,80 +2346,77 @@
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
         
-        // آمار پیشنهادات
-        const { count: bidsCount } = await supabase
-            .from('formwork_bids')
-            .select('*', { count: 'exact', head: true })
-            .eq('seller_id', user.id);
-        
-        const { count: selectedCount } = await supabase
-            .from('formwork_bids')
-            .select('*', { count: 'exact', head: true })
-            .eq('seller_id', user.id)
-            .eq('selected', true);
-        
-        // محاسبه میانگین امتیاز
-        const { data: ratings } = await supabase
-            .from('ratings')
-            .select('rating')
-            .eq('seller_id', user.id);
-        
-        const avgRating = ratings?.length 
-            ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
-            : 0;
-        
-        document.getElementById('formwork-bids-count').textContent = bidsCount || 0;
-        document.getElementById('formwork-selected-count').textContent = selectedCount || 0;
-        document.getElementById('formwork-rating').textContent = avgRating;
-        
-        // درخواست‌های باز
-        const { data: requests } = await supabase
-            .from('concrete_requests')
-            .select('*')
-            .eq('status', 'open')
-            .order('created_at', { ascending: false });
-        
-        const container = document.getElementById('seller-formwork-requests');
-        if (!requests?.length) {
-            container.innerHTML = '<p style="text-align: center;">درخواستی وجود ندارد</p>';
-            return;
-        }
-        
-        let html = '';
-        for (const req of requests) {
-            // بررسی آیا قبلاً پیشنهاد داده شده
-            const { data: existing } = await supabase
+        try {
+            // آمار پیشنهادات
+            const { count: bidsCount } = await supabase
                 .from('formwork_bids')
-                .select('id')
-                .eq('request_id', req.id)
+                .select('*', { count: 'exact', head: true })
                 .eq('seller_id', user.id);
             
-            html += `
-                <div class="request-item">
-                    <div class="request-header">
-                        <div class="request-title">${req.title || 'بدون عنوان'}</div>
-                        <span class="request-badge badge-open">باز</span>
-                    </div>
-                    <div class="request-details">
-                        <div><strong>مکان:</strong> ${req.project_location || 'نامشخص'}</div>
-                        <div><strong>توضیحات:</strong> ${req.description?.substring(0, 100)}...</div>
-                        <div><strong>مواد:</strong> ${req.material || 'نامشخص'}</div>
-                    </div>
-                    <div class="request-actions">
-                        ${!existing?.length ? `
-                            <button class="btn btn-primary" onclick="window.showFormworkBidModal('${req.id}', '${req.title}', '${req.description}')">
-                                ارسال پیشنهاد
+            const { count: selectedCount } = await supabase
+                .from('formwork_bids')
+                .select('*', { count: 'exact', head: true })
+                .eq('seller_id', user.id)
+                .eq('selected', true);
+            
+            document.getElementById('formwork-bids-count').textContent = bidsCount || 0;
+            document.getElementById('formwork-selected-count').textContent = selectedCount || 0;
+            
+            // درخواست‌های باز
+            const { data: requests } = await supabase
+                .from('concrete_requests')
+                .select('*')
+                .eq('status', 'open')
+                .order('created_at', { ascending: false });
+            
+            const container = document.getElementById('seller-formwork-requests');
+            
+            if (!requests?.length) {
+                container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
+                return;
+            }
+            
+            let html = '';
+            for (const req of requests) {
+                // بررسی آیا قبلاً پیشنهاد داده شده
+                const { data: existing } = await supabase
+                    .from('formwork_bids')
+                    .select('id')
+                    .eq('request_id', req.id)
+                    .eq('seller_id', user.id);
+                
+                html += `
+                    <div class="request-item">
+                        <div class="request-header">
+                            <div class="request-title">${req.title || 'بدون عنوان'}</div>
+                            <span class="request-badge badge-open">باز</span>
+                        </div>
+                        <div class="request-details">
+                            <div><strong>مکان:</strong> ${req.project_location || 'نامشخص'}</div>
+                            <div><strong>توضیحات:</strong> ${req.description?.substring(0, 100)}...</div>
+                            <div><strong>مواد:</strong> ${req.material || 'نامشخص'}</div>
+                        </div>
+                        <div class="request-actions">
+                            ${!existing?.length ? `
+                                <button class="btn btn-primary" onclick="window.showFormworkBidModal('${req.id}', '${req.title || 'بدون عنوان'}', '${req.description || ''}')">
+                                    ارسال پیشنهاد
+                                </button>
+                            ` : '<span style="color: green; padding: 8px;">✓ پیشنهاد ارسال شده</span>'}
+                            <button class="btn btn-info" onclick="window.viewRequestDetails('${req.id}', 'concrete')">
+                                مشاهده
                             </button>
-                        ` : '<span style="color: green;">پیشنهاد ارسال شده</span>'}
-                        <button class="btn btn-info" onclick="window.viewRequestDetails('${req.id}', 'concrete')">
-                            مشاهده جزئیات
-                        </button>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
+            
+            container.innerHTML = html;
+            
+        } catch (error) {
+            console.error('خطا در بارگذاری داشبورد فروشنده قالب:', error);
+            document.getElementById('seller-formwork-requests').innerHTML = 
+                '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
         }
-        
-        container.innerHTML = html;
     };
     
     // ========== داشبورد فروشنده سوله ==========
@@ -2403,82 +2428,79 @@
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
         
-        // آمار پیشنهادات
-        const { count: bidsCount } = await supabase
-            .from('shed_bids')
-            .select('*', { count: 'exact', head: true })
-            .eq('seller_id', user.id);
-        
-        const { count: selectedCount } = await supabase
-            .from('shed_bids')
-            .select('*', { count: 'exact', head: true })
-            .eq('seller_id', user.id)
-            .eq('selected', true);
-        
-        // محاسبه میانگین امتیاز
-        const { data: ratings } = await supabase
-            .from('ratings')
-            .select('rating')
-            .eq('seller_id', user.id);
-        
-        const avgRating = ratings?.length 
-            ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
-            : 0;
-        
-        document.getElementById('shed-bids-count').textContent = bidsCount || 0;
-        document.getElementById('shed-selected-count').textContent = selectedCount || 0;
-        document.getElementById('shed-rating').textContent = avgRating;
-        
-        // درخواست‌های باز
-        const { data: requests } = await supabase
-            .from('shed_requests')
-            .select('*')
-            .eq('status', 'open')
-            .order('created_at', { ascending: false });
-        
-        const container = document.getElementById('seller-shed-requests');
-        if (!requests?.length) {
-            container.innerHTML = '<p style="text-align: center;">درخواستی وجود ندارد</p>';
-            return;
-        }
-        
-        let html = '';
-        for (const req of requests) {
-            // بررسی آیا قبلاً پیشنهاد داده شده
-            const { data: existing } = await supabase
+        try {
+            // آمار پیشنهادات
+            const { count: bidsCount } = await supabase
                 .from('shed_bids')
-                .select('id')
-                .eq('request_id', req.id)
+                .select('*', { count: 'exact', head: true })
                 .eq('seller_id', user.id);
             
-            const dims = req.dimensions || {};
+            const { count: selectedCount } = await supabase
+                .from('shed_bids')
+                .select('*', { count: 'exact', head: true })
+                .eq('seller_id', user.id)
+                .eq('selected', true);
             
-            html += `
-                <div class="request-item">
-                    <div class="request-header">
-                        <div class="request-title">درخواست سوله</div>
-                        <span class="request-badge badge-open">باز</span>
-                    </div>
-                    <div class="request-details">
-                        <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
-                        <div><strong>مکان:</strong> ${req.location || 'نامشخص'}</div>
-                        <div><strong>کاربری:</strong> ${req.usage || 'نامشخص'}</div>
-                    </div>
-                    <div class="request-actions">
-                        ${!existing?.length ? `
-                            <button class="btn btn-primary" onclick="window.showShedBidModal('${req.id}', ${JSON.stringify(dims).replace(/"/g, '&quot;')})">
-                                ارسال پیشنهاد
+            document.getElementById('shed-bids-count').textContent = bidsCount || 0;
+            document.getElementById('shed-selected-count').textContent = selectedCount || 0;
+            
+            // درخواست‌های باز
+            const { data: requests } = await supabase
+                .from('shed_requests')
+                .select('*')
+                .eq('status', 'open')
+                .order('created_at', { ascending: false });
+            
+            const container = document.getElementById('seller-shed-requests');
+            
+            if (!requests?.length) {
+                container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
+                return;
+            }
+            
+            let html = '';
+            for (const req of requests) {
+                // بررسی آیا قبلاً پیشنهاد داده شده
+                const { data: existing } = await supabase
+                    .from('shed_bids')
+                    .select('id')
+                    .eq('request_id', req.id)
+                    .eq('seller_id', user.id);
+                
+                const dims = req.dimensions || {};
+                
+                html += `
+                    <div class="request-item">
+                        <div class="request-header">
+                            <div class="request-title">درخواست سوله</div>
+                            <span class="request-badge badge-open">باز</span>
+                        </div>
+                        <div class="request-details">
+                            <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
+                            <div><strong>مکان:</strong> ${req.location || 'نامشخص'}</div>
+                            <div><strong>کاربری:</strong> ${req.usage || 'نامشخص'}</div>
+                        </div>
+                        <div class="request-actions">
+                            ${!existing?.length ? `
+                                <button class="btn btn-primary" onclick='window.showShedBidModal("${req.id}", ${JSON.stringify(dims)})'>
+                                    ارسال پیشنهاد
+                                </button>
+                            ` : '<span style="color: green; padding: 8px;">✓ پیشنهاد ارسال شده</span>'}
+                            <button class="btn btn-info" onclick="window.viewRequestDetails('${req.id}', 'shed')">
+                                مشاهده
                             </button>
-                        ` : '<span style="color: green;">پیشنهاد ارسال شده</span>'}
-                        <button class="btn btn-info" onclick="window.viewRequestDetails('${req.id}', 'shed')">
-                            مشاهده جزئیات
-                        </button>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
+            
+            container.innerHTML = html;
+            
+        } catch (error) {
+            console.error('خطا در بارگذاری داشبورد فروشنده سوله:', error);
+            document.getElementById('seller-shed-requests').innerHTML = 
+                '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
         }
-        
-        container.innerHTML = html;
     };
     
     // ========== مودال پیشنهاد قالب ==========
@@ -2490,7 +2512,10 @@
     };
     
     window.calculateFormworkTotal = function() {
-        const base = parseInt(document.getElementById('bid-base-price').value.replace(/[^\d]/g, '')) || 0;
+        const baseInput = document.getElementById('bid-base-price');
+        if (!baseInput) return;
+        
+        const base = parseInt(baseInput.value.replace(/[^\d]/g, '')) || 0;
         const vatPercent = parseInt(document.getElementById('bid-vat').value) || 0;
         
         const vat = Math.round(base * vatPercent / 100);
@@ -2527,10 +2552,11 @@
         try {
             const { error } = await supabase.from('formwork_bids').insert([bid]);
             if (error) throw error;
-            alert('پیشنهاد ارسال شد');
+            alert('✅ پیشنهاد با موفقیت ارسال شد');
             window.closeModal('submit-formwork-bid-modal');
+            window.loadSellerFormworkDashboard();
         } catch (error) {
-            alert(error.message);
+            alert('❌ خطا: ' + error.message);
         }
     };
     
@@ -2564,10 +2590,11 @@
         try {
             const { error } = await supabase.from('shed_bids').insert([bid]);
             if (error) throw error;
-            alert('پیشنهاد ارسال شد');
+            alert('✅ پیشنهاد با موفقیت ارسال شد');
             window.closeModal('submit-shed-bid-modal');
+            window.loadSellerShedDashboard();
         } catch (error) {
-            alert(error.message);
+            alert('❌ خطا: ' + error.message);
         }
     };
     
@@ -2578,7 +2605,6 @@
         const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
         
         try {
-            // ابتدا همه پیشنهادهای این درخواست را غیرفعال کنید
             const { data: bid } = await supabase.from(table).select('request_id').eq('id', bidId).single();
             
             await supabase
@@ -2586,13 +2612,12 @@
                 .update({ selected: false })
                 .eq('request_id', bid.request_id);
             
-            // سپس این یکی را انتخاب کنید
             await supabase
                 .from(table)
                 .update({ selected: true })
                 .eq('id', bidId);
             
-            alert('پیشنهاد انتخاب شد. اطلاعات فروشنده نمایش داده می‌شود.');
+            alert('✅ پیشنهاد انتخاب شد');
             window.loadMyRequests('all');
         } catch (error) {
             alert(error.message);
@@ -2628,10 +2653,13 @@
             return;
         }
         
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        
         const rating = {
             bid_id: document.getElementById('rating-bid-id').value,
             seller_id: document.getElementById('rating-seller-id').value,
-            buyer_id: currentUser.id,
+            buyer_id: user.id,
             rating: currentRating,
             comment: document.getElementById('rating-comment').value,
             created_at: new Date().toISOString()
@@ -2640,7 +2668,7 @@
         try {
             const { error } = await supabase.from('ratings').insert([rating]);
             if (error) throw error;
-            alert('امتیاز ثبت شد');
+            alert('✅ امتیاز شما ثبت شد');
             window.closeModal('rating-modal');
         } catch (error) {
             alert(error.message);
@@ -2651,26 +2679,28 @@
     
     // ========== پنل ادمین ==========
     window.loadAdminPanel = async function() {
-        const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
-        const { count: formworkSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'formwork');
-        const { count: shedSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'shed');
-        const { count: concreteReqs } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true });
-        const { count: shedReqs } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true });
-        
-        document.getElementById('admin-total-users').textContent = totalUsers || 0;
-        document.getElementById('admin-total-buyers').textContent = buyers || 0;
-        document.getElementById('admin-formwork-sellers').textContent = formworkSellers || 0;
-        document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
-        document.getElementById('admin-concrete-requests').textContent = concreteReqs || 0;
-        document.getElementById('admin-shed-requests').textContent = shedReqs || 0;
-        
-        // بارگذاری تب پیش‌فرض
-        window.loadAdminTab('users');
+        try {
+            const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+            const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
+            const { count: formworkSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'formwork');
+            const { count: shedSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'shed');
+            const { count: concreteReqs } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true });
+            const { count: shedReqs } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true });
+            
+            document.getElementById('admin-total-users').textContent = totalUsers || 0;
+            document.getElementById('admin-total-buyers').textContent = buyers || 0;
+            document.getElementById('admin-formwork-sellers').textContent = formworkSellers || 0;
+            document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
+            document.getElementById('admin-concrete-requests').textContent = concreteReqs || 0;
+            document.getElementById('admin-shed-requests').textContent = shedReqs || 0;
+            
+            window.loadAdminTab('users');
+        } catch (error) {
+            console.error('خطا در پنل ادمین:', error);
+        }
     };
     
     window.loadAdminTab = async function(tab) {
-        // تغییر کلاس active
         document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
         event.target.classList.add('active');
         
@@ -2783,7 +2813,7 @@
             content.innerHTML = html || '<p>درخواستی وجود ندارد</p>';
             
         } else if (tab === 'transactions') {
-            content.innerHTML = '<p style="text-align: center;">در حال توسعه</p>';
+            content.innerHTML = '<p style="text-align: center; padding: 2rem;">بخش تراکنش‌ها در حال توسعه است</p>';
         }
     };
     
@@ -2804,7 +2834,6 @@
         window.showPage('home');
         window.loadCounters();
         window.initHeroSlideshow();
-        window.initShedSlideshow();
     });
 </script>
 </body>
