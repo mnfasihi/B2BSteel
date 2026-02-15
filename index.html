@@ -2139,6 +2139,8 @@
 window.formatPriceInput = function(input) {
     if (!input) return;
     
+    console.log('formatPriceInput:', input.id, input.value);
+    
     // ذخیره موقعیت کرسر
     const start = input.selectionStart;
     const end = input.selectionEnd;
@@ -2164,11 +2166,11 @@ window.formatPriceInput = function(input) {
     // بر اساس id input، تابع مناسب رو صدا بزن
     if (input.id === 'bid-base-price') {
         if (typeof window.calculateFormworkTotal === 'function') {
-            window.calculateFormworkTotal();
+            setTimeout(() => window.calculateFormworkTotal(), 10);
         }
     } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
         if (typeof window.calculateShedTotalPrice === 'function') {
-            window.calculateShedTotalPrice();
+            setTimeout(() => window.calculateShedTotalPrice(), 10);
         }
     }
 };
@@ -2177,11 +2179,14 @@ window.formatPriceInput = function(input) {
 function parseFormattedNumber(formattedValue) {
     if (!formattedValue || formattedValue === '') return 0;
     
-    // اگه string نباشه، به string تبدیل کن
+    // تبدیل به string
     const valueStr = String(formattedValue);
     
-    // حذف همه کاراکترهای غیرعددی
-    let value = valueStr.replace(/[^\d]/g, '');
+    // حذف کاماهای فارسی و انگلیسی
+    let value = valueStr.replace(/[,،]/g, '');
+    
+    // حذف فاصله‌ها
+    value = value.replace(/\s/g, '');
     
     // اگه خالی بود، ۰ برگردون
     if (value === '') return 0;
@@ -2192,27 +2197,6 @@ function parseFormattedNumber(formattedValue) {
     // اگه عدد معتبر نیست، ۰ برگردون
     return isNaN(num) ? 0 : num;
 }
-
-function toPersianNumbers(num) {
-    if (num === undefined || num === null) return '';
-    
-    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return num.toString().replace(/\d/g, d => persianDigits[d]);
-}
-
-function formatNumberFarsiDisplay(number) {
-    if (number === undefined || number === null) return '۰';
-    
-    // اگه عدد نیست، به عدد تبدیل کن
-    const num = typeof number === 'number' ? number : parseFloat(number);
-    
-    // اگه عدد معتبر نیست، ۰ برگردون
-    if (isNaN(num)) return '۰';
-    
-    // تبدیل به فرمت فارسی با جداکننده هزارگان
-    return num.toLocaleString('fa-IR');
-}
-
 // ========== توابع اضافی برای اطمینان ==========
 function toEnglishNumbers(str) {
     if (!str) return str;
@@ -3012,10 +2996,17 @@ window.showFormworkBidModal = function(requestId, title, description) {
 };
 
 window.calculateFormworkTotal = function() {
+    console.log('محاسبه قیمت قالب...');
+    
     const basePriceInput = document.getElementById('bid-base-price');
-    if (!basePriceInput) return;
+    if (!basePriceInput) {
+        console.error('input قیمت پایه پیدا نشد');
+        return;
+    }
     
     const basePrice = parseFormattedNumber(basePriceInput.value);
+    console.log('قیمت پایه:', basePrice);
+    
     const vatPercent = parseInt(document.getElementById('bid-vat')?.value) || 0;
     const loadingPercent = parseInt(document.getElementById('bid-loading')?.value) || 0;
     
@@ -3023,6 +3014,7 @@ window.calculateFormworkTotal = function() {
     const loading = Math.round(basePrice * loadingPercent / 100);
     const total = basePrice + vat + loading;
     
+    // به‌روزرسانی نمایش
     const displayBase = document.getElementById('display-base-price');
     if (displayBase) displayBase.textContent = formatNumberFarsiDisplay(basePrice) + ' ریال';
     
@@ -3040,6 +3032,8 @@ window.calculateFormworkTotal = function() {
     
     const displayTotal = document.getElementById('display-total');
     if (displayTotal) displayTotal.textContent = formatNumberFarsiDisplay(total) + ' ریال';
+    
+    console.log('قیمت کل:', total);
 };
 
 window.submitFormworkBid = async function() {
