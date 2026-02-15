@@ -1850,141 +1850,187 @@
         </div>
     </section>
 
-    <!-- مودال ارسال پیشنهاد قالب -->
-    <div id="submit-formwork-bid-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>ارسال پیشنهاد قیمت قالب بتن</h3>
-                <button class="close-modal" onclick="window.closeModal('submit-formwork-bid-modal')">&times;</button>
+   <!-- مودال ارسال پیشنهاد قالب بتن -->
+<div id="submit-formwork-bid-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>ارسال پیشنهاد قیمت قالب بتن</h3>
+            <button class="close-modal" onclick="window.closeModal('submit-formwork-bid-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="background: #eff6ff; padding: 10px 15px; border-radius: 6px; margin-bottom: 20px; border-right: 4px solid var(--primary);">
+                <strong>پروژه:</strong> <span id="bid-project-title">در حال بارگذاری...</span>
             </div>
-            <div class="modal-body">
-                <div style="background: #eff6ff; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-                    <strong>پروژه:</strong> <span id="bid-project-title"></span><br>
-                    <strong>مشخصات:</strong> <span id="bid-project-details"></span>
+            
+            <form id="submit-formwork-bid-form">
+                <input type="hidden" id="bid-request-id">
+                
+                <div class="form-group">
+                    <label for="bid-base-price">قیمت پایه (ریال)</label>
+                    <input type="text" id="bid-base-price" class="form-control" required oninput="window.formatPriceInput(this)" placeholder="مثال: ۱۰,۰۰۰,۰۰۰,۰۰۰">
+                    <div class="form-help">قیمت پایه محصول بدون احتساب ارزش افزوده و بارگیری</div>
                 </div>
                 
-                <form id="submit-formwork-bid-form">
-                    <input type="hidden" id="bid-request-id">
-                    
-                    <div class="form-group">
-                        <label>قیمت پایه (ریال)</label>
-                        <input type="text" id="bid-base-price" class="form-control" required oninput="window.formatPriceInput(this)">
+                <div class="form-group">
+                    <label for="bid-vat">درصد ارزش افزوده</label>
+                    <select id="bid-vat" class="form-control" required onchange="window.calculateFormworkTotal()">
+                        <option value="9">۹٪</option>
+                        <option value="10">۱۰٪</option>
+                        <option value="11">۱۱٪</option>
+                        <option value="12">۱۲٪</option>
+                        <option value="13">۱۳٪</option>
+                        <option value="14">۱۴٪</option>
+                        <option value="15" selected>۱۵٪</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bid-loading">درصد بارگیری</label>
+                    <select id="bid-loading" class="form-control" required onchange="window.calculateFormworkTotal()">
+                        <option value="1">۱٪</option>
+                        <option value="2" selected>۲٪</option>
+                        <option value="3">۳٪</option>
+                        <option value="4">۴٪</option>
+                        <option value="5">۵٪</option>
+                    </select>
+                </div>
+                
+                <div class="price-breakdown" style="background: #f8fafc; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d1d5db;">
+                        <span>قیمت پایه:</span>
+                        <span id="display-base-price">۰ ریال</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>درصد ارزش افزوده</label>
-                        <select id="bid-vat" class="form-control" onchange="window.calculateFormworkTotal()">
-                            <option value="9">۹٪</option>
-                            <option value="10">۱۰٪</option>
-                            <option value="15" selected>۱۵٪</option>
-                        </select>
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d1d5db;">
+                        <span>ارزش افزوده (<span id="display-vat-percent">۱۵</span>%):</span>
+                        <span id="display-vat">۰ ریال</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>درصد بارگیری</label>
-                        <select id="bid-loading" class="form-control" onchange="window.calculateFormworkTotal()">
-                            <option value="1">۱٪</option>
-                            <option value="2" selected>۲٪</option>
-                            <option value="3">۳٪</option>
-                        </select>
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d1d5db;">
+                        <span>بارگیری (<span id="display-loading-percent">۲</span>%):</span>
+                        <span id="display-loading">۰ ریال</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>زمان تحویل (روز)</label>
-                        <input type="number" id="bid-delivery" class="form-control" value="30" min="1">
+                    <div class="price-row total" style="display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); border-top: 2px solid var(--primary); padding-top: 10px;">
+                        <span>قیمت کل نهایی:</span>
+                        <span id="display-total">۰ ریال</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>گارانتی (ماه)</label>
-                        <input type="number" id="bid-warranty" class="form-control" value="12" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="bid-delivery">زمان تحویل (روز)</label>
+                    <input type="number" id="bid-delivery" class="form-control" value="30" required min="1">
+                    <div class="form-help">تعداد روز کاری تا تحویل محصول</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bid-warranty">گارانتی (ماه)</label>
+                    <input type="number" id="bid-warranty" class="form-control" value="12" required min="0">
+                    <div class="form-help">مدت گارانتی محصول بر اساس ماه</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bid-notes">توضیحات (اختیاری)</label>
+                    <textarea id="bid-notes" class="form-control" rows="3" placeholder="توضیحات اضافی درباره محصول، خدمات پس از فروش، شرایط پرداخت و ..."></textarea>
+                </div>
+                
+                <!-- آپلود عکس برای فروشنده -->
+                <div class="form-group">
+                    <label>آپلود عکس محصول یا نمونه کار (اختیاری)</label>
+                    <div class="image-upload-container" onclick="document.getElementById('bid-image-upload').click()" style="border: 2px dashed #d1d5db; border-radius: 6px; padding: 2rem; text-align: center; cursor: pointer;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #6b7280; margin-bottom: 1rem;"></i>
+                        <p>برای آپلود عکس کلیک کنید یا فایل را اینجا رها کنید</p>
+                        <input type="file" id="bid-image-upload" accept="image/*" style="display: none;" onchange="window.previewBidImage(event)">
+                        <img id="bid-image-preview" class="image-preview" style="max-width: 100%; max-height: 200px; margin-top: 1rem; border-radius: 6px; display: none;">
                     </div>
-                    
-                    <div class="form-group">
-                        <label>توضیحات</label>
-                        <textarea id="bid-notes" class="form-control" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="price-breakdown" style="background: #f8fafc; padding: 15px; border-radius: 6px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span>قیمت پایه:</span>
-                            <span id="display-base-price">۰ ریال</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span>ارزش افزوده:</span>
-                            <span id="display-vat">۰ ریال</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span>بارگیری:</span>
-                            <span id="display-loading">۰ ریال</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); border-top: 2px solid var(--primary); padding-top: 10px;">
-                            <span>قیمت کل:</span>
-                            <span id="display-total">۰ ریال</span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="window.closeModal('submit-formwork-bid-modal')">انصراف</button>
-                <button class="btn btn-primary" onclick="window.submitFormworkBid()">ارسال پیشنهاد</button>
-            </div>
+                    <div id="bid-uploaded-images" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="window.closeModal('submit-formwork-bid-modal')">انصراف</button>
+            <button class="btn btn-primary" onclick="window.submitFormworkBid()">ارسال پیشنهاد</button>
         </div>
     </div>
+</div>
 
     <!-- مودال ارسال پیشنهاد سوله -->
-    <div id="submit-shed-bid-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>ارسال پیشنهاد قیمت سوله</h3>
-                <button class="close-modal" onclick="window.closeModal('submit-shed-bid-modal')">&times;</button>
+<div id="submit-shed-bid-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>ارسال پیشنهاد قیمت سوله</h3>
+            <button class="close-modal" onclick="window.closeModal('submit-shed-bid-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="background: #eff6ff; padding: 10px 15px; border-radius: 6px; margin-bottom: 20px; border-right: 4px solid var(--primary);">
+                <strong>پروژه سوله:</strong> <span id="shed-bid-project-title">در حال بارگذاری...</span>
             </div>
-            <div class="modal-body">
-                <div style="background: #eff6ff; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-                    <strong>پروژه:</strong> <span id="shed-bid-project-title"></span><br>
-                    <strong>ابعاد:</strong> <span id="shed-bid-dimensions"></span>
+            
+            <!-- نمایش مسئولیت‌های خریدار -->
+            <div id="shed-bid-buyer-responsibilities" style="background: #fef3c7; padding: 10px 15px; border-radius: 6px; margin-bottom: 20px; border-right: 4px solid #f59e0b;">
+                <strong>مسئولیت‌های خریدار:</strong> <span id="shed-bid-responsibilities-list">در حال بارگذاری...</span>
+            </div>
+            
+            <form id="submit-shed-bid-form">
+                <input type="hidden" id="shed-bid-request-id">
+                
+                <div class="form-group">
+                    <label for="shed-bid-price-per-kg">قیمت هر کیلوگرم (ریال)</label>
+                    <input type="text" id="shed-bid-price-per-kg" class="form-control" required 
+                           oninput="window.calculateShedTotalPrice()" 
+                           placeholder="مثال: ۵۰,۰۰۰">
+                    <div class="form-help">قیمت ارائه شده شامل همه مراحل تهیه متریال و پیچ و مهره، تهیه کلیه نقشه‌ها، ساخت کامل با مصالح مورد نیاز، رنگ، حمل و تا اتمام کامل عملیات نصب است (طبق موارد درخواست مشتری) به جز مواردی که کارفرما در استعلام خود به عهده گرفته است.</div>
                 </div>
                 
-                <form id="submit-shed-bid-form">
-                    <input type="hidden" id="shed-bid-request-id">
-                    
-                    <div class="form-group">
-                        <label>قیمت پیشنهادی (ریال)</label>
-                        <input type="text" id="shed-bid-price" class="form-control" required oninput="window.formatPriceInput(this)">
+                <div class="form-group">
+                    <label for="shed-bid-estimated-weight">وزن حدودی سوله (کیلوگرم)</label>
+                    <input type="text" id="shed-bid-estimated-weight" class="form-control" required 
+                           oninput="window.calculateShedTotalPrice()" 
+                           placeholder="مثال: ۱۰,۰۰۰">
+                    <div class="form-help">وزن تقریبی سوله (می‌تواند با تقریب ۳٪ باشد)</div>
+                </div>
+                
+                <div class="price-breakdown" style="background: #f8fafc; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d1d5db;">
+                        <span>قیمت هر کیلوگرم:</span>
+                        <span id="display-price-per-kg">۰ ریال</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>وزن اسکلت (تن)</label>
-                        <input type="number" id="shed-bid-weight" class="form-control" required step="0.1">
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d1d5db;">
+                        <span>وزن حدودی:</span>
+                        <span id="display-estimated-weight">۰ کیلوگرم</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>زمان ساخت (روز)</label>
-                        <input type="number" id="shed-bid-construction-time" class="form-control" required value="45" min="1">
+                    <div class="price-row total" style="display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); border-top: 2px solid var(--primary); padding-top: 10px;">
+                        <span>قیمت کل نهایی:</span>
+                        <span id="display-shed-total-price">۰ ریال</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>زمان نصب (روز)</label>
-                        <input type="number" id="shed-bid-installation-time" class="form-control" required value="30" min="1">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>گارانتی (ماه)</label>
-                        <input type="number" id="shed-bid-warranty" class="form-control" value="12" min="0">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>توضیحات</label>
-                        <textarea id="shed-bid-notes" class="form-control" rows="3"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="window.closeModal('submit-shed-bid-modal')">انصراف</button>
-                <button class="btn btn-primary" onclick="window.submitShedBid()">ارسال پیشنهاد</button>
-            </div>
+                </div>
+                
+                <!-- متن زیر قیمت کل نهایی -->
+                <div style="margin-top: 15px; padding: 10px; background-color: #f8fafc; border-radius: 6px; border: 1px solid #e5e7eb; font-size: 0.9rem; color: #6b7280;">
+                    <p style="margin: 0;">قیمت ارائه شده بدون ارزش افزوده می‌باشد و ارزش افزوده در فاکتور نهایی درج خواهد گردید. مابقی تکالیف قانونی، مالیاتی و بیمه به عهده و هزینه فروشنده می‌باشد.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="shed-bid-delivery">زمان تحویل (روز)</label>
+                    <input type="number" id="shed-bid-delivery" class="form-control" value="60" required min="30">
+                    <div class="form-help">تعداد روز کاری تا تحویل و نصب کامل سوله</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="shed-bid-warranty">گارانتی (ماه)</label>
+                    <input type="number" id="shed-bid-warranty" class="form-control" value="6" required min="0">
+                    <div class="form-help">مدت گارانتی سوله بر اساس ماه</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="shed-bid-notes">توضیحات (اختیاری)</label>
+                    <textarea id="shed-bid-notes" class="form-control" rows="3" placeholder="جزئیات ساخت، متریال مورد استفاده، خدمات پس از فروش و ..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="window.closeModal('submit-shed-bid-modal')">انصراف</button>
+            <button class="btn btn-primary" onclick="window.submitShedBid()">ارسال پیشنهاد</button>
         </div>
     </div>
-
+</div>
     <!-- مودال امتیاز دهی -->
     <div id="rating-modal" class="modal">
         <div class="modal-content">
@@ -2091,22 +2137,46 @@
     let currentRating = 0;
     let slideInterval;
     
-    // ========== توابع کمکی ==========
-    window.toPersianNumbers = function(num) {
-        const persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-        return num.toString().replace(/\d/g, d => persian[d]);
-    };
+   // ========== توابع کمکی ==========
+window.formatPriceInput = function(input) {
+    let value = input.value.replace(/[^\d]/g, '');
+    if (value) {
+        input.value = parseInt(value).toLocaleString('fa-IR');
+    }
+    if (input.id === 'bid-base-price') {
+        window.calculateFormworkTotal();
+    } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+        window.calculateShedTotalPrice();
+    }
+};
+
+window.previewBidImage = function(event) {
+    const input = event.target;
+    const preview = document.getElementById('bid-image-preview');
     
-    window.formatPriceInput = function(input) {
-        let value = input.value.replace(/[^\d]/g, '');
-        if (value) {
-            input.value = parseInt(value).toLocaleString('fa-IR');
-        }
-        if (typeof window.calculateFormworkTotal === 'function') {
-            window.calculateFormworkTotal();
-        }
-    };
-    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+};
+    function parseFormattedNumber(formattedValue) {
+    if (!formattedValue || formattedValue === '') return 0;
+    let value = formattedValue.replace(/[^\d]/g, '');
+    return parseInt(value) || 0;
+}
+
+function toPersianNumbers(num) {
+    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return num.toString().replace(/\d/g, d => persianDigits[d]);
+}
+
+function formatNumberFarsiDisplay(number) {
+    return number.toLocaleString('fa-IR');
+}
     // ========== نمایش صفحات ==========
     window.showPage = function(pageId) {
         document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
@@ -2873,65 +2943,65 @@
     };
     
     window.calculateFormworkTotal = function() {
-        const baseInput = document.getElementById('bid-base-price');
-        if (!baseInput) return;
-        
-        const base = parseInt(baseInput.value.replace(/[^\d]/g, '')) || 0;
-        const vatPercent = parseInt(document.getElementById('bid-vat').value) || 0;
-        const loadingPercent = parseInt(document.getElementById('bid-loading').value) || 0;
-        
-        const vat = Math.round(base * vatPercent / 100);
-        const loading = Math.round(base * loadingPercent / 100);
-        const total = base + vat + loading;
-        
-        document.getElementById('display-base-price').textContent = base.toLocaleString('fa-IR') + ' ریال';
-        document.getElementById('display-vat').textContent = vat.toLocaleString('fa-IR') + ' ریال';
-        document.getElementById('display-loading').textContent = loading.toLocaleString('fa-IR') + ' ریال';
-        document.getElementById('display-total').textContent = total.toLocaleString('fa-IR') + ' ریال';
+    const basePrice = parseFormattedNumber(document.getElementById('bid-base-price').value);
+    const vatPercent = parseInt(document.getElementById('bid-vat').value) || 0;
+    const loadingPercent = parseInt(document.getElementById('bid-loading').value) || 0;
+    
+    const vat = Math.round(basePrice * vatPercent / 100);
+    const loading = Math.round(basePrice * loadingPercent / 100);
+    const total = basePrice + vat + loading;
+    
+    document.getElementById('display-base-price').textContent = formatNumberFarsiDisplay(basePrice) + ' ریال';
+    document.getElementById('display-vat-percent').textContent = toPersianNumbers(vatPercent);
+    document.getElementById('display-vat').textContent = formatNumberFarsiDisplay(vat) + ' ریال';
+    document.getElementById('display-loading-percent').textContent = toPersianNumbers(loadingPercent);
+    document.getElementById('display-loading').textContent = formatNumberFarsiDisplay(loading) + ' ریال';
+    document.getElementById('display-total').textContent = formatNumberFarsiDisplay(total) + ' ریال';
+};
+
+window.submitFormworkBid = async function() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    const basePrice = parseFormattedNumber(document.getElementById('bid-base-price').value);
+    if (basePrice === 0) {
+        alert('لطفاً قیمت را وارد کنید');
+        return;
+    }
+    
+    const vatPercent = parseInt(document.getElementById('bid-vat').value) || 0;
+    const loadingPercent = parseInt(document.getElementById('bid-loading').value) || 0;
+    const vat = Math.round(basePrice * vatPercent / 100);
+    const loading = Math.round(basePrice * loadingPercent / 100);
+    const total = basePrice + vat + loading;
+    
+    const bid = {
+        request_id: document.getElementById('bid-request-id').value,
+        seller_id: user.id,
+        base_price: basePrice,
+        vat_percent: vatPercent,
+        loading_percent: loadingPercent,
+        vat_amount: vat,
+        loading_amount: loading,
+        total_price: total,
+        delivery_time: parseInt(document.getElementById('bid-delivery').value),
+        warranty_months: parseInt(document.getElementById('bid-warranty').value),
+        notes: document.getElementById('bid-notes').value,
+        selected: false,
+        created_at: new Date().toISOString()
     };
     
-    window.submitFormworkBid = async function() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-        
-        const basePrice = parseInt(document.getElementById('bid-base-price').value.replace(/[^\d]/g, '')) || 0;
-        if (basePrice === 0) {
-            alert('لطفاً قیمت را وارد کنید');
-            return;
-        }
-        
-        const vatPercent = parseInt(document.getElementById('bid-vat').value) || 0;
-        const loadingPercent = parseInt(document.getElementById('bid-loading').value) || 0;
-        const vat = Math.round(basePrice * vatPercent / 100);
-        const loading = Math.round(basePrice * loadingPercent / 100);
-        const total = basePrice + vat + loading;
-        
-        const bid = {
-            request_id: document.getElementById('bid-request-id').value,
-            seller_id: user.id,
-            base_price: basePrice,
-            vat_percent: vatPercent,
-            loading_percent: loadingPercent,
-            vat_amount: vat,
-            loading_amount: loading,
-            total_price: total,
-            delivery_time: parseInt(document.getElementById('bid-delivery').value),
-            warranty_months: parseInt(document.getElementById('bid-warranty').value),
-            notes: document.getElementById('bid-notes').value,
-            selected: false,
-            created_at: new Date().toISOString()
-        };
-        
-        try {
-            const { error } = await supabase.from('formwork_bids').insert([bid]);
-            if (error) throw error;
-            alert('✅ پیشنهاد با موفقیت ارسال شد');
-            window.closeModal('submit-formwork-bid-modal');
-            window.loadSellerFormworkDashboard();
-        } catch (error) {
-            alert('❌ خطا: ' + error.message);
-        }
-    };
+    try {
+        const { error } = await supabase.from('formwork_bids').insert([bid]);
+        if (error) throw error;
+        alert('✅ پیشنهاد با موفقیت ارسال شد');
+        window.closeModal('submit-formwork-bid-modal');
+        window.loadSellerFormworkDashboard();
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+    }
+};
+
     
     // ========== مودال پیشنهاد سوله ==========
     window.showShedBidModal = function(requestId, dimensions) {
@@ -2943,39 +3013,54 @@
         document.getElementById('shed-bid-price').value = '';
     };
     
-    window.submitShedBid = async function() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-        
-        const price = parseInt(document.getElementById('shed-bid-price').value.replace(/[^\d]/g, '')) || 0;
-        if (price === 0) {
-            alert('لطفاً قیمت را وارد کنید');
-            return;
-        }
-        
-        const bid = {
-            request_id: document.getElementById('shed-bid-request-id').value,
-            seller_id: user.id,
-            price: price,
-            weight: parseFloat(document.getElementById('shed-bid-weight').value) || 0,
-            construction_time: parseInt(document.getElementById('shed-bid-construction-time').value),
-            installation_time: parseInt(document.getElementById('shed-bid-installation-time').value),
-            warranty_months: parseInt(document.getElementById('shed-bid-warranty').value),
-            notes: document.getElementById('shed-bid-notes').value,
-            selected: false,
-            created_at: new Date().toISOString()
-        };
-        
-        try {
-            const { error } = await supabase.from('shed_bids').insert([bid]);
-            if (error) throw error;
-            alert('✅ پیشنهاد با موفقیت ارسال شد');
-            window.closeModal('submit-shed-bid-modal');
-            window.loadSellerShedDashboard();
-        } catch (error) {
-            alert('❌ خطا: ' + error.message);
-        }
+   window.calculateShedTotalPrice = function() {
+    const pricePerKg = parseFormattedNumber(document.getElementById('shed-bid-price-per-kg').value);
+    const estimatedWeight = parseFormattedNumber(document.getElementById('shed-bid-estimated-weight').value);
+    
+    const totalPrice = pricePerKg * estimatedWeight;
+    
+    document.getElementById('display-price-per-kg').textContent = formatNumberFarsiDisplay(pricePerKg) + ' ریال';
+    document.getElementById('display-estimated-weight').textContent = formatNumberFarsiDisplay(estimatedWeight) + ' کیلوگرم';
+    document.getElementById('display-shed-total-price').textContent = formatNumberFarsiDisplay(totalPrice) + ' ریال';
+};
+
+window.submitShedBid = async function() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    const pricePerKg = parseFormattedNumber(document.getElementById('shed-bid-price-per-kg').value);
+    const estimatedWeight = parseFormattedNumber(document.getElementById('shed-bid-estimated-weight').value);
+    
+    if (pricePerKg === 0 || estimatedWeight === 0) {
+        alert('لطفاً قیمت و وزن را وارد کنید');
+        return;
+    }
+    
+    const totalPrice = pricePerKg * estimatedWeight;
+    
+    const bid = {
+        request_id: document.getElementById('shed-bid-request-id').value,
+        seller_id: user.id,
+        price_per_kg: pricePerKg,
+        estimated_weight: estimatedWeight,
+        total_price: totalPrice,
+        delivery_time: parseInt(document.getElementById('shed-bid-delivery').value),
+        warranty_months: parseInt(document.getElementById('shed-bid-warranty').value),
+        notes: document.getElementById('shed-bid-notes').value,
+        selected: false,
+        created_at: new Date().toISOString()
     };
+    
+    try {
+        const { error } = await supabase.from('shed_bids').insert([bid]);
+        if (error) throw error;
+        alert('✅ پیشنهاد با موفقیت ارسال شد');
+        window.closeModal('submit-shed-bid-modal');
+        window.loadSellerShedDashboard();
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+    }
+};
     
     // ========== انتخاب پیشنهاد ==========
     window.selectBid = async function(bidId, type) {
