@@ -1873,14 +1873,20 @@
                 
                 <div class="form-group">
     <label for="bid-vat">درصد ارزش افزوده</label>
-    <select id="bid-vat" class="form-control" required onchange="window.calculateFormworkTotal()">
-        <option value="10">۱۰٪</option>
-        <option value="11">۱۱٪</option>
-        <option value="12">۱۲٪</option>
-        <option value="13">۱۳٪</option>
-        <option value="14">۱۴٪</option>
-        <option value="15" selected>۱۵٪</option>
-    </select>
+<select id="bid-vat" class="form-control" required onchange="window.calculateFormworkTotal()">
+    <option value="9">۹٪</option>
+    <option value="10">۱۰٪</option>
+    <option value="11">۱۱٪</option>
+    <option value="12">۱۲٪</option>
+    <option value="13">۱۳٪</option>
+    <option value="14">۱۴٪</option>
+    <option value="15" selected>۱۵٪</option>
+</select>
+
+<select id="bid-loading" class="form-control" required onchange="window.calculateFormworkTotal()">
+    <option value="1">۱٪</option>
+    <option value="2" selected>۲٪</option>
+</select>
 </div>
 
 <div class="form-group">
@@ -3015,47 +3021,70 @@ window.showFormworkBidModal = function(requestId, title, description) {
 };
 
 window.calculateFormworkTotal = function() {
-    console.log('محاسبه مجدد...');
+    console.log('🔄 محاسبه مجدد...');
     
     // قیمت پایه
     let basePriceInput = document.getElementById('bid-base-price');
-    if (!basePriceInput) return;
+    if (!basePriceInput) {
+        console.error('❌ input قیمت پایه پیدا نشد');
+        return;
+    }
     
     let basePrice = parseFormattedNumber(basePriceInput.value);
-    console.log('قیمت پایه:', basePrice);
+    console.log('💰 قیمت پایه:', basePrice);
     
-    // درصدها
+    // درصد ارزش افزوده
     let vatSelect = document.getElementById('bid-vat');
     let vatPercent = vatSelect ? parseInt(vatSelect.value) : 15;
-    console.log('ارزش افزوده:', vatPercent);
+    console.log('📊 ارزش افزوده انتخاب شده:', vatPercent);
     
+    // درصد بارگیری
     let loadingSelect = document.getElementById('bid-loading');
     let loadingPercent = loadingSelect ? parseInt(loadingSelect.value) : 2;
-    console.log('بارگیری:', loadingPercent);
+    console.log('📦 بارگیری انتخاب شده:', loadingPercent);
     
     // محاسبات
     let vat = Math.round(basePrice * vatPercent / 100);
     let loading = Math.round(basePrice * loadingPercent / 100);
     let total = basePrice + vat + loading;
     
-    // نمایش
+    console.log('🧮 محاسبات:', {vat, loading, total});
+    
+    // نمایش قیمت پایه
     let displayBase = document.getElementById('display-base-price');
-    if (displayBase) displayBase.textContent = basePrice.toLocaleString('fa-IR') + ' ریال';
+    if (displayBase) {
+        displayBase.textContent = basePrice.toLocaleString('fa-IR') + ' ریال';
+    }
     
+    // نمایش درصد ارزش افزوده
     let displayVatPercent = document.getElementById('display-vat-percent');
-    if (displayVatPercent) displayVatPercent.textContent = toPersianNumbers(vatPercent);
+    if (displayVatPercent) {
+        displayVatPercent.textContent = toPersianNumbers(vatPercent);
+    }
     
+    // نمایش مبلغ ارزش افزوده
     let displayVat = document.getElementById('display-vat');
-    if (displayVat) displayVat.textContent = vat.toLocaleString('fa-IR') + ' ریال';
+    if (displayVat) {
+        displayVat.textContent = vat.toLocaleString('fa-IR') + ' ریال';
+    }
     
+    // نمایش درصد بارگیری
     let displayLoadingPercent = document.getElementById('display-loading-percent');
-    if (displayLoadingPercent) displayLoadingPercent.textContent = toPersianNumbers(loadingPercent);
+    if (displayLoadingPercent) {
+        displayLoadingPercent.textContent = toPersianNumbers(loadingPercent);
+    }
     
+    // نمایش مبلغ بارگیری
     let displayLoading = document.getElementById('display-loading');
-    if (displayLoading) displayLoading.textContent = loading.toLocaleString('fa-IR') + ' ریال';
+    if (displayLoading) {
+        displayLoading.textContent = loading.toLocaleString('fa-IR') + ' ریال';
+    }
     
+    // نمایش قیمت کل
     let displayTotal = document.getElementById('display-total');
-    if (displayTotal) displayTotal.textContent = total.toLocaleString('fa-IR') + ' ریال';
+    if (displayTotal) {
+        displayTotal.textContent = total.toLocaleString('fa-IR') + ' ریال';
+    }
 };
 
 window.submitFormworkBid = async function() {
