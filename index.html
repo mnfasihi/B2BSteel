@@ -889,7 +889,24 @@
             font-weight: bold;
             font-size: 1.5rem;
         }
+        /* ========== استایل نوار اسکرول برای مودال ========== */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
 
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
         /* ========== قوانین ========== */
         .terms-content {
             background: white;
@@ -2249,58 +2266,58 @@
 // ========== بلاگ تخصصی ==========
 // فقط یکبار تعریف بشه
 if (typeof window.blogPosts === 'undefined') {
-    window.blogPosts = [
-        {
-            id: 1,
-            title: "انواع قالب‌های فلزی بتن و کاربردهای آنها در صنعت ساختمان",
-            date: "۱۴۰۴/۰۱/۲۰",
-            category: "قالب بتن",
-            summary: "قالب‌بندی یکی از مهمترین بخش‌های اجرای اسکلت بتنی است...",
-            image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",
-            link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article1",
-            author: "تیم فنی B2BSteel"
-        },
-        {
-            id: 2,
-            title: "قالب‌بندی دیوار و ستون؛ اصول و نکات اجرایی",
-            date: "۱۴۰۴/۰۱/۲۵",
-            category: "قالب بتن",
-            summary: "قالب‌بندی دیوارها و ستون‌ها از حساسترین مراحل اجرای سازه‌های بتنی است...",
-            image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600",
-            link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article2",
-            author: "مهندس رضایی"
-        },
-        {
-            id: 3,
-            title: "قالب‌بندی سقف؛ روش‌ها و تجهیزات مورد نیاز",
-            date: "۱۴۰۴/۰۲/۰۱",
-            category: "قالب بتن",
-            summary: "قالب‌بندی سقف یکی از پیچیده‌ترین و حساسترین بخش‌های قالب‌بندی در ساختمان‌سازی است...",
-            image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600",
-            link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article3",
-            author: "تیم فنی B2BSteel"
-        },
-        {
-            id: 4,
-            title: "قالب‌بندی فونداسیون؛ اصول و استانداردهای اجرایی",
-            date: "۱۴۰۴/۰۲/۰۵",
-            category: "قالب بتن",
-            summary: "فونداسیون یا پی، مهمترین بخش هر سازه است...",
-            image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
-            link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article4",
-            author: "مهندس کریمی"
-        },
-        {
-            id: 5,
-            title: "اصول نگهداری و افزایش عمر مفید قالب‌های فلزی بتن",
-            date: "۱۴۰۴/۰۲/۱۰",
-            category: "نکات فنی",
-            summary: "قالب‌های فلزی بتن یکی از سرمایه‌های اصلی پیمانکاران ساختمانی هستند...",
-            image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600",
-            link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article5",
-            author: "تیم فنی B2BSteel"
-        }
-    ];
+const blogPosts = [
+    {
+        id: 1,
+        title: "انواع قالب‌های فلزی بتن و کاربردهای آنها در صنعت ساختمان",
+        date: "۱۴۰۴/۰۱/۲۰",
+        category: "قالب بتن",
+        summary: "قالب‌بندی یکی از مهمترین بخش‌های اجرای اسکلت بتنی است...",
+        image: "https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&w=600", // عکس جایگزین
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article1",
+        author: "تیم فنی B2BSteel"
+    },
+    {
+        id: 2,
+        title: "قالب‌بندی دیوار و ستون؛ اصول و نکات اجرایی",
+        date: "۱۴۰۴/۰۱/۲۵",
+        category: "قالب بتن",
+        summary: "قالب‌بندی دیوارها و ستون‌ها از حساسترین مراحل اجرای سازه‌های بتنی است...",
+        image: "https://images.pexels.com/photos/161580/construction-site-concrete-bricks-construction-161580.jpeg?auto=compress&cs=tinysrgb&w=600", // عکس جایگزین
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article2",
+        author: "مهندس رضایی"
+    },
+    {
+        id: 3,
+        title: "قالب‌بندی سقف؛ روش‌ها و تجهیزات مورد نیاز",
+        date: "۱۴۰۴/۰۲/۰۱",
+        category: "قالب بتن",
+        summary: "قالب‌بندی سقف یکی از پیچیده‌ترین و حساسترین بخش‌های قالب‌بندی در ساختمان‌سازی است...",
+        image: "https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=600", // عکس جایگزین
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article3",
+        author: "تیم فنی B2BSteel"
+    },
+    {
+        id: 4,
+        title: "قالب‌بندی فونداسیون؛ اصول و استانداردهای اجرایی",
+        date: "۱۴۰۴/۰۲/۰۵",
+        category: "قالب بتن",
+        summary: "فونداسیون یا پی، مهمترین بخش هر سازه است...",
+        image: "https://images.pexels.com/photos/256109/pexels-photo-256109.jpeg?auto=compress&cs=tinysrgb&w=600", // عکس جایگزین
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article4",
+        author: "مهندس کریمی"
+    },
+    {
+        id: 5,
+        title: "اصول نگهداری و افزایش عمر مفید قالب‌های فلزی بتن",
+        date: "۱۴۰۴/۰۲/۱۰",
+        category: "نکات فنی",
+        summary: "قالب‌های فلزی بتن یکی از سرمایه‌های اصلی پیمانکاران ساختمانی هستند...",
+        image: "https://images.pexels.com/photos/236059/pexels-photo-236059.jpeg?auto=compress&cs=tinysrgb&w=600", // عکس جایگزین
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article5",
+        author: "تیم فنی B2BSteel"
+    }
+];
 }
 
 // ========== تابع لود مقالات ==========
@@ -2383,6 +2400,14 @@ window.showArticle = async function(article) {
         const response = await fetch(article.link);
         const content = await response.text();
         
+        // استخراج محتوای اصلی بدون متادیتا
+        let mainContent = content;
+        // حذف متادیتای اول (بین --- و ---)
+        const metadataMatch = content.match(/^---\n([\s\S]*?)\n---\n/);
+        if (metadataMatch) {
+            mainContent = content.replace(metadataMatch[0], '');
+        }
+        
         const modal = document.createElement('div');
         modal.className = 'modal active';
         modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
@@ -2390,8 +2415,9 @@ window.showArticle = async function(article) {
         modal.innerHTML = `
             <div class="modal-content" style="max-width: 800px; background: white; border-radius: 15px; overflow: hidden;">
                 <div style="position: relative;">
-                    <img src="${article.image}" alt="${article.title}" style="width: 100%; height: 300px; object-fit: cover;">
-                    <button onclick="this.closest('.modal').remove()" style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    <img src="${article.image}" alt="${article.title}" style="width: 100%; height: 300px; object-fit: cover;" 
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/800x300?text=تصویر+قالب+بتن';">
+                    <button onclick="this.closest('.modal').remove()" style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
                 </div>
                 
                 <div style="padding: 2rem;">
@@ -2401,16 +2427,16 @@ window.showArticle = async function(article) {
                         <span style="background: var(--primary); color: white; padding: 2px 10px; border-radius: 20px;">${article.category}</span>
                     </div>
                     
-                    <h1 style="color: var(--primary); font-size: 2rem; margin-bottom: 2rem;">${article.title}</h1>
+                    <h1 style="color: var(--primary); font-size: 2rem; margin-bottom: 2rem; line-height: 1.3;">${article.title}</h1>
                     
                     <div style="line-height: 1.8; color: var(--dark); font-size: 1.1rem; max-height: 400px; overflow-y: auto; padding-left: 10px;">
-                        ${content.split('\n').map(line => {
+                        ${mainContent.split('\n').map(line => {
                             if (line.startsWith('# ')) {
-                                return `<h1 style="color: var(--primary); margin: 2rem 0 1rem;">${line.substring(2)}</h1>`;
+                                return `<h2 style="color: var(--primary); margin: 2rem 0 1rem; font-size: 1.5rem;">${line.substring(2)}</h2>`;
                             } else if (line.startsWith('## ')) {
-                                return `<h2 style="color: var(--primary-dark); margin: 1.5rem 0 1rem;">${line.substring(3)}</h2>`;
+                                return `<h3 style="color: var(--primary-dark); margin: 1.5rem 0 1rem;">${line.substring(3)}</h3>`;
                             } else if (line.startsWith('### ')) {
-                                return `<h3 style="color: var(--dark); margin: 1rem 0 0.5rem;">${line.substring(4)}</h3>`;
+                                return `<h4 style="color: var(--dark); margin: 1rem 0 0.5rem;">${line.substring(4)}</h4>`;
                             } else if (line.startsWith('- ')) {
                                 return `<li style="margin-right: 2rem; margin-bottom: 0.5rem;">${line.substring(2)}</li>`;
                             } else if (line.trim() === '') {
@@ -2433,28 +2459,6 @@ window.showArticle = async function(article) {
     } catch (error) {
         console.error('خطا در نمایش مقاله:', error);
         alert('خطا در نمایش مقاله');
-    }
-};
-
-// تابع showPage اصلاح شده
-window.showPage = function(pageId) {
-    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-    const target = document.getElementById(`${pageId}-page`);
-    if (target) target.classList.remove('hidden');
-    
-    window.updateNavigation();
-    
-    if (pageId === 'dashboard') window.loadBuyerDashboard();
-    else if (pageId === 'admin') window.loadAdminPanel();
-    else if (pageId === 'seller-formwork-dashboard') window.loadSellerFormworkDashboard();
-    else if (pageId === 'seller-shed-dashboard') window.loadSellerShedDashboard();
-    else if (pageId === 'home') {
-        window.loadCounters();
-        window.initSlideshow();
-    }
-    else if (pageId === 'blog') {
-        setTimeout(() => loadBlogPosts('all'), 100);
     }
 };
     // ========== اسلایدشو صفحه اصلی ==========
