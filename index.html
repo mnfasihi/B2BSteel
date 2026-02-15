@@ -1871,22 +1871,17 @@
                     <div class="form-help">قیمت پایه محصول بدون احتساب ارزش افزوده و بارگیری</div>
                 </div>
                 
-                <div class="form-group">
+             <div class="form-group">
     <label for="bid-vat">درصد ارزش افزوده</label>
-<select id="bid-vat" class="form-control" required onchange="window.calculateFormworkTotal()">
-    <option value="9">۹٪</option>
-    <option value="10">۱۰٪</option>
-    <option value="11">۱۱٪</option>
-    <option value="12">۱۲٪</option>
-    <option value="13">۱۳٪</option>
-    <option value="14">۱۴٪</option>
-    <option value="15" selected>۱۵٪</option>
-</select>
-
-<select id="bid-loading" class="form-control" required onchange="window.calculateFormworkTotal()">
-    <option value="1">۱٪</option>
-    <option value="2" selected>۲٪</option>
-</select>
+    <select id="bid-vat" class="form-control" required onchange="window.calculateFormworkTotal()">
+        <option value="9">۹٪</option>
+        <option value="10">۱۰٪</option>
+        <option value="11">۱۱٪</option>
+        <option value="12">۱۲٪</option>
+        <option value="13">۱۳٪</option>
+        <option value="14">۱۴٪</option>
+        <option value="15" selected>۱۵٪</option>
+    </select>
 </div>
 
 <div class="form-group">
@@ -1953,7 +1948,7 @@
     </div>
 </div>
 
-    <!-- مودال ارسال پیشنهاد سوله -->
+  <!-- مودال ارسال پیشنهاد سوله -->
 <div id="submit-shed-bid-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -2011,14 +2006,13 @@
                 </div>
                 
                 <div class="form-group">
-    <label for="shed-bid-delivery">زمان تحویل (روز)</label>
-    <input type="number" id="shed-bid-delivery" class="form-control" value="60" required min="30" onchange="window.calculateShedTotalPrice()">
-</div>
+                    <label for="shed-bid-delivery">زمان تحویل (روز)</label>
+                    <input type="number" id="shed-bid-delivery" class="form-control" value="60" required min="30" onchange="window.calculateShedTotalPrice()">
+                </div>
                 
                 <div class="form-group">
                     <label for="shed-bid-warranty">گارانتی (ماه)</label>
                     <input type="number" id="shed-bid-warranty" class="form-control" value="6" required min="0">
-                    <div class="form-help">مدت گارانتی سوله بر اساس ماه</div>
                 </div>
                 
                 <div class="form-group">
@@ -3019,7 +3013,7 @@ window.showFormworkBidModal = function(requestId, title, description) {
     const modal = document.getElementById('submit-formwork-bid-modal');
     if (modal) modal.classList.add('active');
 };
-
+	
 window.calculateFormworkTotal = function() {
     console.log('🔄 محاسبه مجدد...');
     
