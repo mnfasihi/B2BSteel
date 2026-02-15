@@ -2783,44 +2783,63 @@
         container.innerHTML = html;
     };
     
-    window.showBidDetails = async function(bidId, type) {
-        const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
-        const { data: bid } = await supabase
-            .from(table)
-            .select('*, profiles(full_name, company_name, phone, email)')
-            .eq('id', bidId)
-            .single();
+   window.showBidDetails = async function(bidId, type) {
+    const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
+    const { data: bid, error } = await supabase
+        .from(table)
+        .select('*, profiles(full_name, company_name, phone, email)')
+        .eq('id', bidId)
+        .single();
+    
+    if (error || !bid) {
+        alert('خطا در دریافت اطلاعات پیشنهاد');
+        return;
+    }
+    
+    let html = '';
+    if (type === 'concrete') {
+        // برای قالب بتن - با مقادیر پیش‌فرض
+        html = `
+            <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
+            <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
+            <p><strong>قیمت پایه:</strong> ${(bid.base_price || 0).toLocaleString('fa-IR')} ریال</p>
+            <p><strong>ارزش افزوده:</strong> ${bid.vat_percent || 0}٪ (${(bid.vat_amount || 0).toLocaleString('fa-IR')} ریال)</p>
+            <p><strong>بارگیری:</strong> ${bid.loading_percent || 0}٪ (${(bid.loading_amount || 0).toLocaleString('fa-IR')} ریال)</p>
+            <p><strong>قیمت کل:</strong> ${(bid.total_price || 0).toLocaleString('fa-IR')} ریال</p>
+            <p><strong>زمان تحویل:</strong> ${bid.delivery_time || 30} روز</p>
+            <p><strong>گارانتی:</strong> ${bid.warranty_months || 12} ماه</p>
+            ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
+        `;
+    } else {
+        // برای سوله - با مقادیر پیش‌فرض و دیباگ
+        console.log('📊 داده‌های پیشنهاد سوله:', bid);
         
-        if (!bid) return;
+        // محاسبه مقادیر با پیش‌فرض مناسب
+        const pricePerKg = bid.price_per_kg || bid.price || 0;
+        const estimatedWeight = bid.estimated_weight || bid.weight || 0;
+        const totalPrice = bid.total_price || (pricePerKg * estimatedWeight) || 0;
+        const deliveryTime = bid.delivery_time || 60;
+        const constructionTime = bid.construction_time || 45;
+        const installationTime = bid.installation_time || 30;
+        const warrantyMonths = bid.warranty_months || 6;
         
-        let html = '';
-        if (type === 'concrete') {
-            html = `
-                <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
-                <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
-                <p><strong>قیمت پایه:</strong> ${bid.base_price?.toLocaleString('fa-IR')} ریال</p>
-                <p><strong>ارزش افزوده:</strong> ${bid.vat_percent}٪ (${bid.vat_amount?.toLocaleString('fa-IR')} ریال)</p>
-                <p><strong>قیمت کل:</strong> ${bid.total_price?.toLocaleString('fa-IR')} ریال</p>
-                <p><strong>زمان تحویل:</strong> ${bid.delivery_time} روز</p>
-                <p><strong>گارانتی:</strong> ${bid.warranty_months} ماه</p>
-                ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
-            `;
-        } else {
-            html = `
-                <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
-                <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
-                <p><strong>قیمت:</strong> ${bid.price?.toLocaleString('fa-IR')} ریال</p>
-                <p><strong>وزن اسکلت:</strong> ${bid.weight} تن</p>
-                <p><strong>زمان ساخت:</strong> ${bid.construction_time} روز</p>
-                <p><strong>زمان نصب:</strong> ${bid.installation_time} روز</p>
-                <p><strong>گارانتی:</strong> ${bid.warranty_months} ماه</p>
-                ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
-            `;
-        }
-        
-        document.getElementById('bid-details-content').innerHTML = html;
-        document.getElementById('bid-details-modal').classList.add('active');
-    };
+        html = `
+            <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
+            <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
+            <p><strong>قیمت هر کیلوگرم:</strong> ${pricePerKg.toLocaleString('fa-IR')} ریال</p>
+            <p><strong>وزن حدودی:</strong> ${estimatedWeight.toLocaleString('fa-IR')} کیلوگرم</p>
+            <p><strong>قیمت کل:</strong> ${totalPrice.toLocaleString('fa-IR')} ریال</p>
+            <p><strong>زمان تحویل:</strong> ${deliveryTime} روز</p>
+            <p><strong>زمان ساخت:</strong> ${constructionTime} روز</p>
+            <p><strong>زمان نصب:</strong> ${installationTime} روز</p>
+            <p><strong>گارانتی:</strong> ${warrantyMonths} ماه</p>
+            ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
+        `;
+    }
+    
+    document.getElementById('bid-details-content').innerHTML = html;
+    document.getElementById('bid-details-modal').classList.add('active');
+};
     
     // ========== داشبورد فروشنده قالب ==========
     window.loadSellerFormworkDashboard = async function() {
@@ -3279,47 +3298,51 @@
     
     // ========== ارسال پیشنهاد سوله ==========
     window.submitShedBid = async function() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-            alert('لطفاً وارد شوید');
-            return;
-        }
-        
-        const pricePerKg = parseFormattedNumber(document.getElementById('shed-bid-price-per-kg')?.value);
-        const estimatedWeight = parseFormattedNumber(document.getElementById('shed-bid-estimated-weight')?.value);
-        
-        if (pricePerKg === 0 || estimatedWeight === 0) {
-            alert('لطفاً قیمت و وزن را وارد کنید');
-            return;
-        }
-        
-        const totalPrice = pricePerKg * estimatedWeight;
-        
-        const bid = {
-            request_id: document.getElementById('shed-bid-request-id')?.value,
-            seller_id: user.id,
-            price_per_kg: pricePerKg,
-            estimated_weight: estimatedWeight,
-            total_price: totalPrice,
-            delivery_time: parseInt(document.getElementById('shed-bid-delivery')?.value) || 60,
-            warranty_months: parseInt(document.getElementById('shed-bid-warranty')?.value) || 6,
-            notes: document.getElementById('shed-bid-notes')?.value || '',
-            selected: false,
-            created_at: new Date().toISOString()
-        };
-        
-        try {
-            const { error } = await supabase.from('shed_bids').insert([bid]);
-            if (error) throw error;
-            
-            alert('✅ پیشنهاد با موفقیت ارسال شد');
-            window.closeModal('submit-shed-bid-modal');
-            window.loadSellerShedDashboard();
-        } catch (error) {
-            alert('❌ خطا: ' + error.message);
-            console.error(error);
-        }
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        alert('لطفاً وارد شوید');
+        return;
+    }
+    
+    const pricePerKg = parseFormattedNumber(document.getElementById('shed-bid-price-per-kg')?.value);
+    const estimatedWeight = parseFormattedNumber(document.getElementById('shed-bid-estimated-weight')?.value);
+    
+    if (pricePerKg === 0 || estimatedWeight === 0) {
+        alert('لطفاً قیمت و وزن را وارد کنید');
+        return;
+    }
+    
+    const totalPrice = pricePerKg * estimatedWeight;
+    
+    const bid = {
+        request_id: document.getElementById('shed-bid-request-id')?.value,
+        seller_id: user.id,
+        price_per_kg: pricePerKg,
+        estimated_weight: estimatedWeight,
+        total_price: totalPrice,
+        delivery_time: parseInt(document.getElementById('shed-bid-delivery')?.value) || 60,
+        construction_time: 45, // مقدار پیش‌فرض
+        installation_time: 30,  // مقدار پیش‌فرض
+        warranty_months: parseInt(document.getElementById('shed-bid-warranty')?.value) || 6,
+        notes: document.getElementById('shed-bid-notes')?.value || '',
+        selected: false,
+        created_at: new Date().toISOString()
     };
+    
+    console.log('📤 ارسال پیشنهاد سوله:', bid); // برای دیباگ
+    
+    try {
+        const { error } = await supabase.from('shed_bids').insert([bid]);
+        if (error) throw error;
+        
+        alert('✅ پیشنهاد با موفقیت ارسال شد');
+        window.closeModal('submit-shed-bid-modal');
+        window.loadSellerShedDashboard();
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+        console.error(error);
+    }
+};
     
     // ========== انتخاب پیشنهاد ==========
     window.selectBid = async function(bidId, type) {
