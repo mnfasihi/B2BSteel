@@ -3780,14 +3780,76 @@ window.showArticle = async function(article) {
             window.showPage('login');
         }
     };
+ // ========== نمایش صفحات ==========
+window.showPage = function(pageId) {
+    console.log('📄 نمایش صفحه:', pageId);
     
-    // ========== مقداردهی اولیه ==========
-    document.addEventListener('DOMContentLoaded', function() {
+    // بستن همه مودال‌ها
+    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    
+    // پنهان کردن همه صفحات
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    
+    // نمایش صفحه مورد نظر
+    const target = document.getElementById(`${pageId}-page`);
+    if (target) {
+        target.classList.remove('hidden');
+        console.log('✅ صفحه نمایش داده شد:', pageId);
+    } else {
+        console.error('❌ صفحه پیدا نشد:', pageId);
+        return;
+    }
+    
+    // به‌روزرسانی منو
+    if (typeof window.updateNavigation === 'function') {
         window.updateNavigation();
+    }
+    
+    // توابع مخصوص هر صفحه
+    if (pageId === 'dashboard') {
+        if (typeof window.loadBuyerDashboard === 'function') window.loadBuyerDashboard();
+    }
+    else if (pageId === 'admin') {
+        if (typeof window.loadAdminPanel === 'function') window.loadAdminPanel();
+    }
+    else if (pageId === 'seller-formwork-dashboard') {
+        if (typeof window.loadSellerFormworkDashboard === 'function') window.loadSellerFormworkDashboard();
+    }
+    else if (pageId === 'seller-shed-dashboard') {
+        if (typeof window.loadSellerShedDashboard === 'function') window.loadSellerShedDashboard();
+    }
+    else if (pageId === 'home') {
+        if (typeof window.loadCounters === 'function') window.loadCounters();
+        if (typeof window.initSlideshow === 'function') window.initSlideshow();
+    }
+    else if (pageId === 'blog') {
+        setTimeout(() => {
+            if (typeof loadBlogPosts === 'function') loadBlogPosts('all');
+        }, 100);
+    }
+    else if (pageId === 'login' || pageId === 'register' || pageId === 'terms' || pageId === 'guide') {
+        // این صفحات نیاز به تابع خاصی ندارن
+        console.log('✅ صفحه ساده باز شد:', pageId);
+    }
+};
+// ========== مقداردهی اولیه ==========
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 سایت راه‌اندازی شد');
+    if (typeof window.updateNavigation === 'function') {
+        window.updateNavigation();
+    }
+    if (typeof window.showPage === 'function') {
         window.showPage('home');
+    } else {
+        console.error('❌ تابع showPage تعریف نشده!');
+    }
+    if (typeof window.loadCounters === 'function') {
         window.loadCounters();
+    }
+    if (typeof window.initSlideshow === 'function') {
         window.initSlideshow();
-    });
+    }
+});   
 </script>
 </body>
 </html>
