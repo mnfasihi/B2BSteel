@@ -2264,8 +2264,6 @@
         }
     };
 // ========== بلاگ تخصصی ==========
-// فقط یکبار تعریف بشه
-if (typeof window.blogPosts === 'undefined') {
 const blogPosts = [
     {
         id: 1,
@@ -2330,6 +2328,18 @@ function loadBlogPosts(category = 'all') {
         return;
     }
     
+    // چک کردن وجود blogPosts
+    if (typeof blogPosts === 'undefined' || !blogPosts) {
+        console.error('❌ آرایه blogPosts تعریف نشده!');
+        container.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: white; border-radius: 10px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger); margin-bottom: 1rem;"></i>
+                <p style="color: var(--muted);">مقالات در حال بارگذاری هستند...</p>
+            </div>
+        `;
+        return;
+    }
+    
     // به‌روزرسانی کلاس دکمه‌ها
     document.querySelectorAll('[id^="blog-filter-"]').forEach(btn => {
         btn.classList.remove('btn-primary');
@@ -2351,9 +2361,9 @@ function loadBlogPosts(category = 'all') {
     }
     
     // فیلتر کردن مقالات
-    let filteredPosts = window.blogPosts;
+    let filteredPosts = blogPosts;
     if (category !== 'all') {
-        filteredPosts = window.blogPosts.filter(post => post.category === category);
+        filteredPosts = blogPosts.filter(post => post.category === category);
     }
     
     if (filteredPosts.length === 0) {
