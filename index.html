@@ -1889,9 +1889,6 @@
                     <select id="bid-loading" class="form-control" required onchange="window.calculateFormworkTotal()">
                         <option value="1">۱٪</option>
                         <option value="2" selected>۲٪</option>
-                        <option value="3">۳٪</option>
-                        <option value="4">۴٪</option>
-                        <option value="5">۵٪</option>
                     </select>
                 </div>
                 
@@ -2138,7 +2135,7 @@
     let currentRating = 0;
     let slideInterval;
     
-  // ========== توابع کمکی ==========
+ // ========== توابع کمکی ==========
 window.formatPriceInput = function(input) {
     if (!input) return;
     
@@ -2146,9 +2143,13 @@ window.formatPriceInput = function(input) {
     const start = input.selectionStart;
     const end = input.selectionEnd;
     
+    // حذف همه کاراکترها به جز اعداد
     let value = input.value.replace(/[^\d]/g, '');
+    
     if (value) {
-        input.value = parseInt(value).toLocaleString('fa-IR');
+        // تبدیل به عدد و فرمت با کاما
+        const num = parseInt(value, 10);
+        input.value = num.toLocaleString('fa-IR');
     } else {
         input.value = '';
     }
@@ -2169,25 +2170,6 @@ window.formatPriceInput = function(input) {
         if (typeof window.calculateShedTotalPrice === 'function') {
             window.calculateShedTotalPrice();
         }
-    }
-};
-
-window.previewBidImage = function(event) {
-    const input = event.target;
-    const preview = document.getElementById('bid-image-preview');
-    
-    if (!preview) return;
-    
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        preview.style.display = 'none';
-        preview.src = '';
     }
 };
 
