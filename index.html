@@ -974,16 +974,16 @@
         </div>
         
         <!-- اسلاید ۲: سوله (عکس slide2) -->
-           <div class="hero-slide" style="background-image: url('https://github.com/mnfasihi/b2bsteel-images/raw/main/slide2.png');">
-    <div class="hero-slide-content">
-        <h2 style="color: #E6B800; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-weight: bold;">سوله‌های صنعتی</h2>
-        <p style="color: #E6B800; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">طراحی و اجرای سوله با استانداردهای جهانی</p>
-    </div>
-</div>
+        <div class="hero-slide" style="background-image: url('https://github.com/mnfasihi/b2bsteel-images/raw/main/slide2.png');">
+            <div class="hero-slide-content">
+                <h2 style="color: #E6B800;">سوله‌های صنعتی</h2>
+                <p style="color: #E6B800;">طراحی و اجرای سوله با استانداردهای جهانی</p>
+            </div>
+        </div>
         
         <!-- اسلاید ۳: قالب بتن (عکس IMAGE4) -->
-       <div class="hero-slide" style="background-image: url('https://github.com/mnfasihi/b2bsteel-images2/raw/main/IMAGE4.jpg');">
-    <div class="hero-slide-content">
+        <div class="hero-slide" style="background-image: url('https://github.com/mnfasihi/b2bsteel-images2/raw/main/IMAGE4.jpg');">
+            <div class="hero-slide-content">
                 <h2>سازندگان قالب های فلزی بتن</h2>
                 <p>با تیمی مجرب و متخصص در کنار شما</p>
             </div>
@@ -1871,26 +1871,26 @@
                     <div class="form-help">قیمت پایه محصول بدون احتساب ارزش افزوده و بارگیری</div>
                 </div>
                 
-             <div class="form-group">
-    <label for="bid-vat">درصد ارزش افزوده</label>
-    <select id="bid-vat" class="form-control" required onchange="window.calculateFormworkTotal()">
-        <option value="9">۹٪</option>
-        <option value="10">۱۰٪</option>
-        <option value="11">۱۱٪</option>
-        <option value="12">۱۲٪</option>
-        <option value="13">۱۳٪</option>
-        <option value="14">۱۴٪</option>
-        <option value="15" selected>۱۵٪</option>
-    </select>
-</div>
-
-<div class="form-group">
-    <label for="bid-loading">درصد بارگیری</label>
-    <select id="bid-loading" class="form-control" required onchange="window.calculateFormworkTotal()">
-        <option value="1">۱٪</option>
-        <option value="2" selected>۲٪</option>
-    </select>
-</div>
+                <div class="form-group">
+                    <label for="bid-vat">درصد ارزش افزوده</label>
+                    <select id="bid-vat" class="form-control" required onchange="window.calculateFormworkTotal()">
+                        <option value="9">۹٪</option>
+                        <option value="10">۱۰٪</option>
+                        <option value="11">۱۱٪</option>
+                        <option value="12">۱۲٪</option>
+                        <option value="13">۱۳٪</option>
+                        <option value="14">۱۴٪</option>
+                        <option value="15" selected>۱۵٪</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bid-loading">درصد بارگیری</label>
+                    <select id="bid-loading" class="form-control" required onchange="window.calculateFormworkTotal()">
+                        <option value="1">۱٪</option>
+                        <option value="2" selected>۲٪</option>
+                    </select>
+                </div>
                 
                 <div class="price-breakdown" style="background: #f8fafc; padding: 15px; border-radius: 6px; margin: 15px 0;">
                     <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #d1d5db;">
@@ -1948,7 +1948,7 @@
     </div>
 </div>
 
-  <!-- مودال ارسال پیشنهاد سوله -->
+    <!-- مودال ارسال پیشنهاد سوله -->
 <div id="submit-shed-bid-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -2027,6 +2027,7 @@
         </div>
     </div>
 </div>
+
     <!-- مودال امتیاز دهی -->
     <div id="rating-modal" class="modal">
         <div class="modal-content">
@@ -2133,102 +2134,138 @@
     let currentRating = 0;
     let slideInterval;
     
- // ========== توابع کمکی ==========
-window.formatPriceInput = function(input) {
-    if (!input) return;
+    // ========== توابع تبدیل اعداد ==========
+    function toEnglishNumbers(str) {
+        if (!str) return str;
+        
+        const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        
+        let result = str;
+        for (let i = 0; i < 10; i++) {
+            result = result.replace(new RegExp(persianDigits[i], 'g'), englishDigits[i]);
+        }
+        return result;
+    }
     
-    // ذخیره موقعیت کرسر
-    const start = input.selectionStart;
+    function parseFormattedNumber(formattedValue) {
+        if (!formattedValue || formattedValue === '') return 0;
+        
+        // اعداد فارسی را به انگلیسی تبدیل کن
+        let value = toEnglishNumbers(formattedValue);
+        
+        // همه غیراعداد را حذف کن
+        value = value.replace(/[^\d]/g, '');
+        
+        // به عدد تبدیل کن
+        const num = parseInt(value);
+        
+        // اگر عدد معتبر است برگردان، در غیر این صورت صفر
+        return isNaN(num) ? 0 : num;
+    }
     
-    // مقدار فعلی را بگیر
-    let value = input.value;
+    function toPersianNumbers(num) {
+        if (num === undefined || num === null) return '';
+        
+        const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return num.toString().replace(/\d/g, d => persianDigits[d]);
+    }
     
-    // اگر خالی است، برگرد
-    if (value === '') {
+    function formatNumberFarsiDisplay(number) {
+        if (number === undefined || number === null) return '۰';
+        const num = typeof number === 'number' ? number : parseFloat(number);
+        if (isNaN(num)) return '۰';
+        return num.toLocaleString('fa-IR');
+    }
+    
+    // ========== توابع کمکی ==========
+    window.formatPriceInput = function(input) {
+        if (!input) return;
+        
+        // ذخیره موقعیت کرسر
+        const start = input.selectionStart;
+        
+        // مقدار فعلی را بگیر
+        let value = input.value;
+        
+        // اگر خالی است، برگرد
+        if (value === '') {
+            if (input.id === 'bid-base-price') {
+                window.calculateFormworkTotal();
+            } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+                window.calculateShedTotalPrice();
+            }
+            return;
+        }
+        
+        // اعداد فارسی را به انگلیسی تبدیل کن
+        value = toEnglishNumbers(value);
+        
+        // فقط اعداد را نگه دار
+        value = value.replace(/[^\d]/g, '');
+        
+        // اگر بعد از حذف غیراعداد، خالی شد
+        if (value === '') {
+            input.value = '';
+            if (input.id === 'bid-base-price') {
+                window.calculateFormworkTotal();
+            } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+                window.calculateShedTotalPrice();
+            }
+            return;
+        }
+        
+        // به عدد تبدیل کن
+        const num = parseInt(value, 10);
+        
+        // اگر عدد معتبر نیست
+        if (isNaN(num)) {
+            input.value = '';
+            if (input.id === 'bid-base-price') {
+                window.calculateFormworkTotal();
+            } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+                window.calculateShedTotalPrice();
+            }
+            return;
+        }
+        
+        // با جداکننده هزارگان فارسی فرمت کن
+        const formatted = num.toLocaleString('fa-IR');
+        
+        // مقدار جدید را تنظیم کن
+        input.value = formatted;
+        
+        // محاسبه مجدد قیمت
         if (input.id === 'bid-base-price') {
-            window.calculateFormworkTotal();
+            if (typeof window.calculateFormworkTotal === 'function') {
+                window.calculateFormworkTotal();
+            }
         } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
-            window.calculateShedTotalPrice();
+            if (typeof window.calculateShedTotalPrice === 'function') {
+                window.calculateShedTotalPrice();
+            }
         }
-        return;
-    }
+    };
     
-    // اعداد فارسی را به انگلیسی تبدیل کن
-    value = toEnglishNumbers(value);
-    
-    // فقط اعداد را نگه دار
-    value = value.replace(/[^\d]/g, '');
-    
-    // اگر بعد از حذف غیراعداد، خالی شد
-    if (value === '') {
-        input.value = '';
-        if (input.id === 'bid-base-price') {
-            window.calculateFormworkTotal();
-        } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
-            window.calculateShedTotalPrice();
+    window.previewBidImage = function(event) {
+        const input = event.target;
+        const preview = document.getElementById('bid-image-preview');
+        
+        if (!preview) return;
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.style.display = 'none';
+            preview.src = '';
         }
-        return;
-    }
+    };
     
-    // به عدد تبدیل کن
-    const num = parseInt(value, 10);
-    
-    // اگر عدد معتبر نیست
-    if (isNaN(num)) {
-        input.value = '';
-        if (input.id === 'bid-base-price') {
-            window.calculateFormworkTotal();
-        } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
-            window.calculateShedTotalPrice();
-        }
-        return;
-    }
-    
-    // با جداکننده هزارگان فارسی فرمت کن
-    const formatted = num.toLocaleString('fa-IR');
-    
-    // مقدار جدید را تنظیم کن
-    input.value = formatted;
-    
-    // محاسبه مجدد قیمت
-    if (input.id === 'bid-base-price') {
-        if (typeof window.calculateFormworkTotal === 'function') {
-            window.calculateFormworkTotal();
-        }
-    } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
-        if (typeof window.calculateShedTotalPrice === 'function') {
-            window.calculateShedTotalPrice();
-        }
-    }
-};
-
-// ========== توابع تبدیل اعداد ==========
-function parseFormattedNumber(formattedValue) {
-    if (!formattedValue || formattedValue === '') return 0;
-    
-    // اعداد فارسی را به انگلیسی تبدیل کن
-    let value = toEnglishNumbers(formattedValue);
-    
-    // همه غیراعداد را حذف کن
-    value = value.replace(/[^\d]/g, '');
-    
-    // به عدد تبدیل کن
-    const num = parseInt(value);
-    
-    // اگر عدد معتبر است برگردان، در غیر این صورت صفر
-    return isNaN(num) ? 0 : num;
-}
-// ========== توابع اضافی برای اطمینان ==========
-function toEnglishNumbers(str) {
-    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    
-    let result = str;
-    for (let i = 0; i < 10; i++) {
-        result = result.replace(new RegExp(persianDigits[i], 'g'), englishDigits[i]);
-    }
-    return result;
-}
     // ========== نمایش صفحات ==========
     window.showPage = function(pageId) {
         document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
@@ -2980,310 +3017,309 @@ function toEnglishNumbers(str) {
         }
     };
     
-   // ========== مودال پیشنهاد قالب ==========
-window.showFormworkBidModal = function(requestId, title, description) {
-    console.log('🔵 showFormworkBidModal فراخوانی شد');
-    
-    const requestIdEl = document.getElementById('bid-request-id');
-    if (requestIdEl) requestIdEl.value = requestId;
-    
-    const projectTitleEl = document.getElementById('bid-project-title');
-    if (projectTitleEl) projectTitleEl.textContent = title || 'درخواست قالب';
-    
-    const projectDetailsEl = document.getElementById('bid-project-details');
-    if (projectDetailsEl) {
-        projectDetailsEl.textContent = description ? description.substring(0, 100) + '...' : '';
-    }
-    
-    const basePriceInput = document.getElementById('bid-base-price');
-    if (basePriceInput) basePriceInput.value = '';
-    
-    const displayBase = document.getElementById('display-base-price');
-    if (displayBase) displayBase.textContent = '۰ ریال';
-    
-    const displayVat = document.getElementById('display-vat');
-    if (displayVat) displayVat.textContent = '۰ ریال';
-    
-    const displayLoading = document.getElementById('display-loading');
-    if (displayLoading) displayLoading.textContent = '۰ ریال';
-    
-    const displayTotal = document.getElementById('display-total');
-    if (displayTotal) displayTotal.textContent = '۰ ریال';
-    
-    const modal = document.getElementById('submit-formwork-bid-modal');
-    if (modal) modal.classList.add('active');
-};
-	
-window.calculateFormworkTotal = function() {
-    console.log('🔄 محاسبه مجدد...');
-    
-    // قیمت پایه
-    let basePriceInput = document.getElementById('bid-base-price');
-    if (!basePriceInput) {
-        console.error('❌ input قیمت پایه پیدا نشد');
-        return;
-    }
-    
-    let basePrice = parseFormattedNumber(basePriceInput.value);
-    console.log('💰 قیمت پایه:', basePrice);
-    
-    // درصد ارزش افزوده
-    let vatSelect = document.getElementById('bid-vat');
-    let vatPercent = vatSelect ? parseInt(vatSelect.value) : 15;
-    console.log('📊 ارزش افزوده انتخاب شده:', vatPercent);
-    
-    // درصد بارگیری
-    let loadingSelect = document.getElementById('bid-loading');
-    let loadingPercent = loadingSelect ? parseInt(loadingSelect.value) : 2;
-    console.log('📦 بارگیری انتخاب شده:', loadingPercent);
-    
-    // محاسبات
-    let vat = Math.round(basePrice * vatPercent / 100);
-    let loading = Math.round(basePrice * loadingPercent / 100);
-    let total = basePrice + vat + loading;
-    
-    console.log('🧮 محاسبات:', {vat, loading, total});
-    
-    // نمایش قیمت پایه
-    let displayBase = document.getElementById('display-base-price');
-    if (displayBase) {
-        displayBase.textContent = basePrice.toLocaleString('fa-IR') + ' ریال';
-    }
-    
-    // نمایش درصد ارزش افزوده
-    let displayVatPercent = document.getElementById('display-vat-percent');
-    if (displayVatPercent) {
-        displayVatPercent.textContent = toPersianNumbers(vatPercent);
-    }
-    
-    // نمایش مبلغ ارزش افزوده
-    let displayVat = document.getElementById('display-vat');
-    if (displayVat) {
-        displayVat.textContent = vat.toLocaleString('fa-IR') + ' ریال';
-    }
-    
-    // نمایش درصد بارگیری
-    let displayLoadingPercent = document.getElementById('display-loading-percent');
-    if (displayLoadingPercent) {
-        displayLoadingPercent.textContent = toPersianNumbers(loadingPercent);
-    }
-    
-    // نمایش مبلغ بارگیری
-    let displayLoading = document.getElementById('display-loading');
-    if (displayLoading) {
-        displayLoading.textContent = loading.toLocaleString('fa-IR') + ' ریال';
-    }
-    
-    // نمایش قیمت کل
-    let displayTotal = document.getElementById('display-total');
-    if (displayTotal) {
-        displayTotal.textContent = total.toLocaleString('fa-IR') + ' ریال';
-    }
-};
-
-window.submitFormworkBid = async function() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-        alert('لطفاً وارد شوید');
-        return;
-    }
-    
-    const basePrice = parseFormattedNumber(document.getElementById('bid-base-price')?.value);
-    if (basePrice === 0) {
-        alert('لطفاً قیمت را وارد کنید');
-        return;
-    }
-    
-    const vatPercent = parseInt(document.getElementById('bid-vat')?.value) || 0;
-    const loadingPercent = parseInt(document.getElementById('bid-loading')?.value) || 0;
-    const vat = Math.round(basePrice * vatPercent / 100);
-    const loading = Math.round(basePrice * loadingPercent / 100);
-    const total = basePrice + vat + loading;
-    
-    const bid = {
-        request_id: document.getElementById('bid-request-id')?.value,
-        seller_id: user.id,
-        base_price: basePrice,
-        vat_percent: vatPercent,
-        loading_percent: loadingPercent,
-        vat_amount: vat,
-        loading_amount: loading,
-        total_price: total,
-        delivery_time: parseInt(document.getElementById('bid-delivery')?.value) || 30,
-        warranty_months: parseInt(document.getElementById('bid-warranty')?.value) || 12,
-        notes: document.getElementById('bid-notes')?.value || '',
-        selected: false,
-        created_at: new Date().toISOString()
+    // ========== مودال پیشنهاد قالب ==========
+    window.showFormworkBidModal = function(requestId, title, description) {
+        console.log('🔵 showFormworkBidModal فراخوانی شد');
+        
+        const requestIdEl = document.getElementById('bid-request-id');
+        if (requestIdEl) requestIdEl.value = requestId;
+        
+        const projectTitleEl = document.getElementById('bid-project-title');
+        if (projectTitleEl) projectTitleEl.textContent = title || 'درخواست قالب';
+        
+        const projectDetailsEl = document.getElementById('bid-project-details');
+        if (projectDetailsEl) {
+            projectDetailsEl.textContent = description ? description.substring(0, 100) + '...' : '';
+        }
+        
+        const basePriceInput = document.getElementById('bid-base-price');
+        if (basePriceInput) basePriceInput.value = '';
+        
+        const displayBase = document.getElementById('display-base-price');
+        if (displayBase) displayBase.textContent = '۰ ریال';
+        
+        const displayVat = document.getElementById('display-vat');
+        if (displayVat) displayVat.textContent = '۰ ریال';
+        
+        const displayLoading = document.getElementById('display-loading');
+        if (displayLoading) displayLoading.textContent = '۰ ریال';
+        
+        const displayTotal = document.getElementById('display-total');
+        if (displayTotal) displayTotal.textContent = '۰ ریال';
+        
+        const modal = document.getElementById('submit-formwork-bid-modal');
+        if (modal) modal.classList.add('active');
     };
     
-    try {
-        const { error } = await supabase.from('formwork_bids').insert([bid]);
-        if (error) throw error;
-        alert('✅ پیشنهاد با موفقیت ارسال شد');
-        window.closeModal('submit-formwork-bid-modal');
-        window.loadSellerFormworkDashboard();
-    } catch (error) {
-        alert('❌ خطا: ' + error.message);
-    }
-};
-
+    window.calculateFormworkTotal = function() {
+        console.log('🔄 محاسبه مجدد...');
+        
+        // قیمت پایه
+        let basePriceInput = document.getElementById('bid-base-price');
+        if (!basePriceInput) {
+            console.error('❌ input قیمت پایه پیدا نشد');
+            return;
+        }
+        
+        let basePrice = parseFormattedNumber(basePriceInput.value);
+        console.log('💰 قیمت پایه:', basePrice);
+        
+        // درصد ارزش افزوده
+        let vatSelect = document.getElementById('bid-vat');
+        let vatPercent = vatSelect ? parseInt(vatSelect.value) : 15;
+        console.log('📊 ارزش افزوده انتخاب شده:', vatPercent);
+        
+        // درصد بارگیری
+        let loadingSelect = document.getElementById('bid-loading');
+        let loadingPercent = loadingSelect ? parseInt(loadingSelect.value) : 2;
+        console.log('📦 بارگیری انتخاب شده:', loadingPercent);
+        
+        // محاسبات
+        let vat = Math.round(basePrice * vatPercent / 100);
+        let loading = Math.round(basePrice * loadingPercent / 100);
+        let total = basePrice + vat + loading;
+        
+        console.log('🧮 محاسبات:', {vat, loading, total});
+        
+        // نمایش قیمت پایه
+        let displayBase = document.getElementById('display-base-price');
+        if (displayBase) {
+            displayBase.textContent = basePrice.toLocaleString('fa-IR') + ' ریال';
+        }
+        
+        // نمایش درصد ارزش افزوده
+        let displayVatPercent = document.getElementById('display-vat-percent');
+        if (displayVatPercent) {
+            displayVatPercent.textContent = toPersianNumbers(vatPercent);
+        }
+        
+        // نمایش مبلغ ارزش افزوده
+        let displayVat = document.getElementById('display-vat');
+        if (displayVat) {
+            displayVat.textContent = vat.toLocaleString('fa-IR') + ' ریال';
+        }
+        
+        // نمایش درصد بارگیری
+        let displayLoadingPercent = document.getElementById('display-loading-percent');
+        if (displayLoadingPercent) {
+            displayLoadingPercent.textContent = toPersianNumbers(loadingPercent);
+        }
+        
+        // نمایش مبلغ بارگیری
+        let displayLoading = document.getElementById('display-loading');
+        if (displayLoading) {
+            displayLoading.textContent = loading.toLocaleString('fa-IR') + ' ریال';
+        }
+        
+        // نمایش قیمت کل
+        let displayTotal = document.getElementById('display-total');
+        if (displayTotal) {
+            displayTotal.textContent = total.toLocaleString('fa-IR') + ' ریال';
+        }
+    };
+    
+    window.submitFormworkBid = async function() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            alert('لطفاً وارد شوید');
+            return;
+        }
+        
+        const basePrice = parseFormattedNumber(document.getElementById('bid-base-price')?.value);
+        if (basePrice === 0) {
+            alert('لطفاً قیمت را وارد کنید');
+            return;
+        }
+        
+        const vatPercent = parseInt(document.getElementById('bid-vat')?.value) || 0;
+        const loadingPercent = parseInt(document.getElementById('bid-loading')?.value) || 0;
+        const vat = Math.round(basePrice * vatPercent / 100);
+        const loading = Math.round(basePrice * loadingPercent / 100);
+        const total = basePrice + vat + loading;
+        
+        const bid = {
+            request_id: document.getElementById('bid-request-id')?.value,
+            seller_id: user.id,
+            base_price: basePrice,
+            vat_percent: vatPercent,
+            loading_percent: loadingPercent,
+            vat_amount: vat,
+            loading_amount: loading,
+            total_price: total,
+            delivery_time: parseInt(document.getElementById('bid-delivery')?.value) || 30,
+            warranty_months: parseInt(document.getElementById('bid-warranty')?.value) || 12,
+            notes: document.getElementById('bid-notes')?.value || '',
+            selected: false,
+            created_at: new Date().toISOString()
+        };
+        
+        try {
+            const { error } = await supabase.from('formwork_bids').insert([bid]);
+            if (error) throw error;
+            alert('✅ پیشنهاد با موفقیت ارسال شد');
+            window.closeModal('submit-formwork-bid-modal');
+            window.loadSellerFormworkDashboard();
+        } catch (error) {
+            alert('❌ خطا: ' + error.message);
+        }
+    };
     
     // ========== مودال پیشنهاد سوله ==========
-window.showShedBidModal = function(requestId, dimensions) {
-    console.log('🔵 showShedBidModal فراخوانی شد', requestId, dimensions);
-    
-    // تنظیم مقادیر اصلی
-    const requestIdEl = document.getElementById('shed-bid-request-id');
-    if (requestIdEl) requestIdEl.value = requestId;
-    
-    const projectTitleEl = document.getElementById('shed-bid-project-title');
-    if (projectTitleEl) projectTitleEl.textContent = 'درخواست سوله';
-    
-    const dimensionsEl = document.getElementById('shed-bid-dimensions');
-    if (dimensionsEl) {
-        dimensionsEl.textContent = `${dimensions?.length || '?'}×${dimensions?.width || '?'}×${dimensions?.height || '?'}`;
-    }
-    
-    // بارگذاری مسئولیت‌های خریدار (اگه نیاز باشه)
-    window.loadShedBuyerResponsibilities(requestId);
-    
-    // ریست کردن مقادیر
-    const priceInput = document.getElementById('shed-bid-price-per-kg');
-    if (priceInput) priceInput.value = '';
-    
-    const weightInput = document.getElementById('shed-bid-estimated-weight');
-    if (weightInput) weightInput.value = '';
-    
-    const deliveryInput = document.getElementById('shed-bid-delivery');
-    if (deliveryInput) deliveryInput.value = '60';
-    
-    const warrantyInput = document.getElementById('shed-bid-warranty');
-    if (warrantyInput) warrantyInput.value = '6';
-    
-    const notesInput = document.getElementById('shed-bid-notes');
-    if (notesInput) notesInput.value = '';
-    
-    // ریست نمایش قیمت
-    const displayPrice = document.getElementById('display-price-per-kg');
-    if (displayPrice) displayPrice.textContent = '۰ ریال';
-    
-    const displayWeight = document.getElementById('display-estimated-weight');
-    if (displayWeight) displayWeight.textContent = '۰ کیلوگرم';
-    
-    const displayTotal = document.getElementById('display-shed-total-price');
-    if (displayTotal) displayTotal.textContent = '۰ ریال';
-    
-    // نمایش مودال
-    const modal = document.getElementById('submit-shed-bid-modal');
-    if (modal) {
-        modal.classList.add('active');
-        console.log('✅ مودال سوله فعال شد');
-    } else {
-        console.error('❌ مودال سوله پیدا نشد');
-    }
-};
-
-// ========== بارگذاری مسئولیت‌های خریدار ==========
-window.loadShedBuyerResponsibilities = async function(requestId) {
-    try {
-        const { data: request } = await supabase
-            .from('shed_requests')
-            .select('buyer_responsibilities')
-            .eq('id', requestId)
-            .single();
+    window.showShedBidModal = function(requestId, dimensions) {
+        console.log('🔵 showShedBidModal فراخوانی شد', requestId, dimensions);
         
-        const responsibilitiesEl = document.getElementById('shed-bid-responsibilities-list');
-        if (!responsibilitiesEl) return;
+        // تنظیم مقادیر اصلی
+        const requestIdEl = document.getElementById('shed-bid-request-id');
+        if (requestIdEl) requestIdEl.value = requestId;
         
-        if (request?.buyer_responsibilities && request.buyer_responsibilities.length > 0) {
-            const responsibilityLabels = {
-                'steel': 'تهیه آهن آلات',
-                'bolts': 'تهیه پیچ و مهره',
-                'transport': 'حمل'
-            };
-            
-            const responsibilities = request.buyer_responsibilities
-                .map(r => responsibilityLabels[r] || r)
-                .join('، ');
-            
-            responsibilitiesEl.textContent = responsibilities;
+        const projectTitleEl = document.getElementById('shed-bid-project-title');
+        if (projectTitleEl) projectTitleEl.textContent = 'درخواست سوله';
+        
+        const dimensionsEl = document.getElementById('shed-bid-dimensions');
+        if (dimensionsEl) {
+            dimensionsEl.textContent = `${dimensions?.length || '?'}×${dimensions?.width || '?'}×${dimensions?.height || '?'}`;
+        }
+        
+        // بارگذاری مسئولیت‌های خریدار (اگه نیاز باشه)
+        window.loadShedBuyerResponsibilities(requestId);
+        
+        // ریست کردن مقادیر
+        const priceInput = document.getElementById('shed-bid-price-per-kg');
+        if (priceInput) priceInput.value = '';
+        
+        const weightInput = document.getElementById('shed-bid-estimated-weight');
+        if (weightInput) weightInput.value = '';
+        
+        const deliveryInput = document.getElementById('shed-bid-delivery');
+        if (deliveryInput) deliveryInput.value = '60';
+        
+        const warrantyInput = document.getElementById('shed-bid-warranty');
+        if (warrantyInput) warrantyInput.value = '6';
+        
+        const notesInput = document.getElementById('shed-bid-notes');
+        if (notesInput) notesInput.value = '';
+        
+        // ریست نمایش قیمت
+        const displayPrice = document.getElementById('display-price-per-kg');
+        if (displayPrice) displayPrice.textContent = '۰ ریال';
+        
+        const displayWeight = document.getElementById('display-estimated-weight');
+        if (displayWeight) displayWeight.textContent = '۰ کیلوگرم';
+        
+        const displayTotal = document.getElementById('display-shed-total-price');
+        if (displayTotal) displayTotal.textContent = '۰ ریال';
+        
+        // نمایش مودال
+        const modal = document.getElementById('submit-shed-bid-modal');
+        if (modal) {
+            modal.classList.add('active');
+            console.log('✅ مودال سوله فعال شد');
         } else {
-            responsibilitiesEl.textContent = 'هیچ مسئولیتی را به عهده نگرفته است.';
+            console.error('❌ مودال سوله پیدا نشد');
         }
-    } catch (error) {
-        console.error('خطا در بارگذاری مسئولیت‌ها:', error);
-        const responsibilitiesEl = document.getElementById('shed-bid-responsibilities-list');
-        if (responsibilitiesEl) {
-            responsibilitiesEl.textContent = 'خطا در بارگذاری';
-        }
-    }
-};
-
-// ========== محاسبه قیمت کل سوله ==========
-window.calculateShedTotalPrice = function() {
-    const priceInput = document.getElementById('shed-bid-price-per-kg');
-    const weightInput = document.getElementById('shed-bid-estimated-weight');
-    
-    if (!priceInput || !weightInput) return;
-    
-    const pricePerKg = parseFormattedNumber(priceInput.value);
-    const estimatedWeight = parseFormattedNumber(weightInput.value);
-    
-    const totalPrice = pricePerKg * estimatedWeight;
-    
-    const displayPrice = document.getElementById('display-price-per-kg');
-    if (displayPrice) displayPrice.textContent = formatNumberFarsiDisplay(pricePerKg) + ' ریال';
-    
-    const displayWeight = document.getElementById('display-estimated-weight');
-    if (displayWeight) displayWeight.textContent = formatNumberFarsiDisplay(estimatedWeight) + ' کیلوگرم';
-    
-    const displayTotal = document.getElementById('display-shed-total-price');
-    if (displayTotal) displayTotal.textContent = formatNumberFarsiDisplay(totalPrice) + ' ریال';
-};
-
-// ========== ارسال پیشنهاد سوله ==========
-window.submitShedBid = async function() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-        alert('لطفاً وارد شوید');
-        return;
-    }
-    
-    const pricePerKg = parseFormattedNumber(document.getElementById('shed-bid-price-per-kg')?.value);
-    const estimatedWeight = parseFormattedNumber(document.getElementById('shed-bid-estimated-weight')?.value);
-    
-    if (pricePerKg === 0 || estimatedWeight === 0) {
-        alert('لطفاً قیمت و وزن را وارد کنید');
-        return;
-    }
-    
-    const totalPrice = pricePerKg * estimatedWeight;
-    
-    const bid = {
-        request_id: document.getElementById('shed-bid-request-id')?.value,
-        seller_id: user.id,
-        price_per_kg: pricePerKg,
-        estimated_weight: estimatedWeight,
-        total_price: totalPrice,
-        delivery_time: parseInt(document.getElementById('shed-bid-delivery')?.value) || 60,
-        warranty_months: parseInt(document.getElementById('shed-bid-warranty')?.value) || 6,
-        notes: document.getElementById('shed-bid-notes')?.value || '',
-        selected: false,
-        created_at: new Date().toISOString()
     };
     
-    try {
-        const { error } = await supabase.from('shed_bids').insert([bid]);
-        if (error) throw error;
+    // ========== بارگذاری مسئولیت‌های خریدار ==========
+    window.loadShedBuyerResponsibilities = async function(requestId) {
+        try {
+            const { data: request } = await supabase
+                .from('shed_requests')
+                .select('buyer_responsibilities')
+                .eq('id', requestId)
+                .single();
+            
+            const responsibilitiesEl = document.getElementById('shed-bid-responsibilities-list');
+            if (!responsibilitiesEl) return;
+            
+            if (request?.buyer_responsibilities && request.buyer_responsibilities.length > 0) {
+                const responsibilityLabels = {
+                    'steel': 'تهیه آهن آلات',
+                    'bolts': 'تهیه پیچ و مهره',
+                    'transport': 'حمل'
+                };
+                
+                const responsibilities = request.buyer_responsibilities
+                    .map(r => responsibilityLabels[r] || r)
+                    .join('، ');
+                
+                responsibilitiesEl.textContent = responsibilities;
+            } else {
+                responsibilitiesEl.textContent = 'هیچ مسئولیتی را به عهده نگرفته است.';
+            }
+        } catch (error) {
+            console.error('خطا در بارگذاری مسئولیت‌ها:', error);
+            const responsibilitiesEl = document.getElementById('shed-bid-responsibilities-list');
+            if (responsibilitiesEl) {
+                responsibilitiesEl.textContent = 'خطا در بارگذاری';
+            }
+        }
+    };
+    
+    // ========== محاسبه قیمت کل سوله ==========
+    window.calculateShedTotalPrice = function() {
+        const priceInput = document.getElementById('shed-bid-price-per-kg');
+        const weightInput = document.getElementById('shed-bid-estimated-weight');
         
-        alert('✅ پیشنهاد با موفقیت ارسال شد');
-        window.closeModal('submit-shed-bid-modal');
-        window.loadSellerShedDashboard();
-    } catch (error) {
-        alert('❌ خطا: ' + error.message);
-        console.error(error);
-    }
-};
+        if (!priceInput || !weightInput) return;
+        
+        const pricePerKg = parseFormattedNumber(priceInput.value);
+        const estimatedWeight = parseFormattedNumber(weightInput.value);
+        
+        const totalPrice = pricePerKg * estimatedWeight;
+        
+        const displayPrice = document.getElementById('display-price-per-kg');
+        if (displayPrice) displayPrice.textContent = formatNumberFarsiDisplay(pricePerKg) + ' ریال';
+        
+        const displayWeight = document.getElementById('display-estimated-weight');
+        if (displayWeight) displayWeight.textContent = formatNumberFarsiDisplay(estimatedWeight) + ' کیلوگرم';
+        
+        const displayTotal = document.getElementById('display-shed-total-price');
+        if (displayTotal) displayTotal.textContent = formatNumberFarsiDisplay(totalPrice) + ' ریال';
+    };
+    
+    // ========== ارسال پیشنهاد سوله ==========
+    window.submitShedBid = async function() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            alert('لطفاً وارد شوید');
+            return;
+        }
+        
+        const pricePerKg = parseFormattedNumber(document.getElementById('shed-bid-price-per-kg')?.value);
+        const estimatedWeight = parseFormattedNumber(document.getElementById('shed-bid-estimated-weight')?.value);
+        
+        if (pricePerKg === 0 || estimatedWeight === 0) {
+            alert('لطفاً قیمت و وزن را وارد کنید');
+            return;
+        }
+        
+        const totalPrice = pricePerKg * estimatedWeight;
+        
+        const bid = {
+            request_id: document.getElementById('shed-bid-request-id')?.value,
+            seller_id: user.id,
+            price_per_kg: pricePerKg,
+            estimated_weight: estimatedWeight,
+            total_price: totalPrice,
+            delivery_time: parseInt(document.getElementById('shed-bid-delivery')?.value) || 60,
+            warranty_months: parseInt(document.getElementById('shed-bid-warranty')?.value) || 6,
+            notes: document.getElementById('shed-bid-notes')?.value || '',
+            selected: false,
+            created_at: new Date().toISOString()
+        };
+        
+        try {
+            const { error } = await supabase.from('shed_bids').insert([bid]);
+            if (error) throw error;
+            
+            alert('✅ پیشنهاد با موفقیت ارسال شد');
+            window.closeModal('submit-shed-bid-modal');
+            window.loadSellerShedDashboard();
+        } catch (error) {
+            alert('❌ خطا: ' + error.message);
+            console.error(error);
+        }
+    };
     
     // ========== انتخاب پیشنهاد ==========
     window.selectBid = async function(bidId, type) {
