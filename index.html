@@ -1512,7 +1512,7 @@
         </div>
     </section>
 
-    <!-- صفحه بلاگ تخصصی -->
+   <!-- صفحه بلاگ تخصصی -->
 <section id="blog-page" class="page hidden">
     <div class="container" style="padding: 3rem 0;">
         <h2 class="section-title" style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
@@ -1522,10 +1522,10 @@
         
         <!-- فیلتر دسته‌بندی -->
         <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap;">
-            <button class="btn btn-primary" onclick="loadBlogPosts('all')" id="blog-filter-all">همه مقالات</button>
-            <button class="btn btn-secondary" onclick="loadBlogPosts('قالب بتن')" id="blog-filter-formwork">قالب بتن</button>
-            <button class="btn btn-secondary" onclick="loadBlogPosts('سوله')" id="blog-filter-shed">سوله</button>
-            <button class="btn btn-secondary" onclick="loadBlogPosts('نکات فنی')" id="blog-filter-tips">نکات فنی</button>
+            <button class="btn btn-primary" onclick="window.loadBlogPosts('all')" id="blog-filter-all">همه مقالات</button>
+            <button class="btn btn-secondary" onclick="window.loadBlogPosts('قالب بتن')" id="blog-filter-formwork">قالب بتن</button>
+            <button class="btn btn-secondary" onclick="window.loadBlogPosts('سوله')" id="blog-filter-shed">سوله</button>
+            <button class="btn btn-secondary" onclick="window.loadBlogPosts('نکات فنی')" id="blog-filter-tips">نکات فنی</button>
         </div>
         
         <!-- لیست مقالات -->
@@ -2246,57 +2246,56 @@
             preview.src = '';
         }
     };
- // ========== بلاگ تخصصی ==========
+// ========== بلاگ تخصصی ==========
 const blogPosts = [
     {
         id: 1,
-    title: "انواع قالب فلزی بتن و کاربردهای آنها",
-    date: "۱۴۰۴/۰۱/۱۵",
-    category: "قالب بتن",
-    summary: "قالب فلزی بتن به عنوان یکی از پرکاربردترین سیستم‌های قالب‌بندی در صنعت ساختمان شناخته می‌شود. در این مقاله با انواع مختلف قالب فلزی و کاربردهای هر یک آشنا می‌شویم.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",
-    // این لینک رو عوض کن:
-    link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/articles/1404-01-15-%D8%A7%D9%86%D9%88%D8%A7%D8%B9-%D9%82%D8%A7%D9%84%D8%A8-%D8%A8%D8%AA%D9%86.md",
-    author: "تیم فنی B2BSteel"
-},
+        title: "انواع قالب‌های فلزی بتن و کاربردهای آنها در صنعت ساختمان",
+        date: "۱۴۰۴/۰۱/۲۰",
+        category: "قالب بتن",
+        summary: "قالب‌بندی یکی از مهمترین بخش‌های اجرای اسکلت بتنی است. انتخاب صحیح قالب و ابزارهای مورد نیاز برای قالب‌بندی بتن می‌تواند به بهبود عملکرد و کیفیت نهایی سازه‌ها کمک کند. در این مقاله به بررسی انواع قالب‌های فلزی بتن، ویژگی‌ها و کاربردهای هر یک می‌پردازیم.",
+        image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article1",
+        author: "تیم فنی B2BSteel"
+    },
     {
         id: 2,
-        title: "نکات کلیدی در انتخاب سوله صنعتی",
-        date: "۱۴۰۴/۰۱/۲۰",
-        category: "سوله",
-        summary: "انتخاب سوله مناسب برای کسب و کار شما نیازمند بررسی عوامل مختلفی است. از ابعاد و ارتفاع گرفته تا نوع کاربری و موقعیت مکانی. در این مقاله نکات مهم را بررسی می‌کنیم.",
-        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600",
-        link: "https://github.com/mnfasihi/b2bsteel-blog/blob/main/articles/1404-01-20-نکات-انتخاب-سوله.md",
+        title: "قالب‌بندی دیوار و ستون؛ اصول و نکات اجرایی",
+        date: "۱۴۰۴/۰۱/۲۵",
+        category: "قالب بتن",
+        summary: "قالب‌بندی دیوارها و ستون‌ها از حساسترین مراحل اجرای سازه‌های بتنی است. این اعضا به عنوان عناصر اصلی باربر ساختمان، نیاز به دقت بالایی در اجرا دارند. در این مقاله به بررسی اصول قالب‌بندی دیوار و ستون، انواع قالب‌ها و نکات اجرایی می‌پردازیم.",
+        image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600",
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article2",
         author: "مهندس رضایی"
     },
     {
         id: 3,
-        title: "مقایسه قالب فلزی و قالب چوبی",
-        date: "۱۴۰۴/۰۱/۲۵",
+        title: "قالب‌بندی سقف؛ روش‌ها و تجهیزات مورد نیاز",
+        date: "۱۴۰۴/۰۲/۰۱",
         category: "قالب بتن",
-        summary: "کدام قالب برای پروژه شما مناسب‌تر است؟ قالب فلزی یا قالب چوبی؟ در این مقاله مزایا و معایب هر دو نوع قالب را مقایسه می‌کنیم.",
-        image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600",
-        link: "https://github.com/mnfasihi/b2bsteel-blog/blob/main/articles/1404-01-25-مقایسه-قالب-فلزی.md",
+        summary: "قالب‌بندی سقف یکی از پیچیده‌ترین و حساسترین بخش‌های قالب‌بندی در ساختمان‌سازی است. سقف‌ها به دلیل سطح وسیع و بار مرده بالا، نیاز به دقت ویژه‌ای در طراحی و اجرا دارند. در این مقاله به بررسی انواع قالب‌های سقف، روش‌های اجرا و تجهیزات مورد نیاز می‌پردازیم.",
+        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600",
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article3",
         author: "تیم فنی B2BSteel"
     },
     {
         id: 4,
-        title: "محاسبه وزن سوله: راهنمای کامل",
+        title: "قالب‌بندی فونداسیون؛ اصول و استانداردهای اجرایی",
         date: "۱۴۰۴/۰۲/۰۵",
-        category: "سوله",
-        summary: "محاسبه دقیق وزن سوله یکی از مهم‌ترین مراحل در طراحی و ساخت است. در این مقاله با فرمول‌ها و روش‌های محاسبه وزن سوله آشنا می‌شوید.",
+        category: "قالب بتن",
+        summary: "فونداسیون یا پی، مهمترین بخش هر سازه است که وظیفه انتقال بارهای ساختمان به زمین را بر عهده دارد. کیفیت اجرای فونداسیون تأثیر مستقیم بر پایداری و ایمنی کل سازه دارد. یکی از مراحل کلیدی در اجرای فونداسیون، قالب‌بندی صحیح آن است.",
         image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
-        link: "https://github.com/mnfasihi/b2bsteel-blog/blob/main/articles/1404-02-05-محاسبه-وزن-سوله.md",
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article4",
         author: "مهندس کریمی"
     },
     {
         id: 5,
-        title: "استانداردهای کیفیت در تولید قالب فلزی",
+        title: "اصول نگهداری و افزایش عمر مفید قالب‌های فلزی بتن",
         date: "۱۴۰۴/۰۲/۱۰",
         category: "نکات فنی",
-        summary: "آشنایی با استانداردهای بین‌المللی و ملی در تولید قالب‌های فلزی بتن. چگونه یک قالب با کیفیت را تشخیص دهیم؟",
+        summary: "قالب‌های فلزی بتن یکی از سرمایه‌های اصلی پیمانکاران ساختمانی هستند. این قالب‌ها به دلیل قیمت بالای اولیه، نیاز به مراقبت و نگهداری دقیق دارند تا بتوانند در پروژه‌های متعدد مورد استفاده قرار گیرند. در این مقاله به بررسی اصول نگهداری و روش‌های افزایش عمر مفید قالب‌های فلزی می‌پردازیم.",
         image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600",
-        link: "https://github.com/mnfasihi/b2bsteel-blog/blob/main/articles/1404-02-10-استانداردهای-کیفیت.md",
+        link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article5",
         author: "تیم فنی B2BSteel"
     }
 ];
@@ -2396,7 +2395,9 @@ function loadBlogPosts(category = 'all') {
         setTimeout(() => loadBlogPosts('all'), 100);
     }
     };
-    
+    else if (pageId === 'blog') {
+    setTimeout(() => loadBlogPosts('all'), 100);
+}
     // ========== اسلایدشو صفحه اصلی ==========
     window.initSlideshow = function() {
         if (slideInterval) clearInterval(slideInterval);
