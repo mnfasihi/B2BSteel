@@ -2309,6 +2309,70 @@ function loadBlogPosts(category = 'all') {
         return;
     }
     
+    // به‌روزرسانی کلاس دکمه‌ها
+    document.querySelectorAll('[id^="blog-filter-"]').forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-secondary');
+    });
+    
+    if (category === 'all') {
+        document.getElementById('blog-filter-all')?.classList.remove('btn-secondary');
+        document.getElementById('blog-filter-all')?.classList.add('btn-primary');
+    } else if (category === 'قالب بتن') {
+        document.getElementById('blog-filter-formwork')?.classList.remove('btn-secondary');
+        document.getElementById('blog-filter-formwork')?.classList.add('btn-primary');
+    } else if (category === 'سوله') {
+        document.getElementById('blog-filter-shed')?.classList.remove('btn-secondary');
+        document.getElementById('blog-filter-shed')?.classList.add('btn-primary');
+    } else if (category === 'نکات فنی') {
+        document.getElementById('blog-filter-tips')?.classList.remove('btn-secondary');
+        document.getElementById('blog-filter-tips')?.classList.add('btn-primary');
+    }
+    
+    // فیلتر کردن مقالات
+    let filteredPosts = blogPosts;
+    if (category !== 'all') {
+        filteredPosts = blogPosts.filter(post => post.category === category);
+    }
+    
+    if (filteredPosts.length === 0) {
+        container.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: white; border-radius: 10px;">
+                <i class="fas fa-newspaper" style="font-size: 3rem; color: var(--muted); margin-bottom: 1rem;"></i>
+                <p style="color: var(--muted);">مقاله‌ای در این دسته یافت نشد.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    filteredPosts.forEach(post => {
+        html += `
+            <div class="blog-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; height: 100%; display: flex; flex-direction: column;">
+                <img src="${post.image}" alt="${post.title}" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <span style="background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">${post.category}</span>
+                        <span style="color: var(--muted); font-size: 0.9rem;">${post.date}</span>
+                    </div>
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.2rem; line-height: 1.5;">${post.title}</h3>
+                    <p style="color: var(--muted); margin-bottom: 1rem; line-height: 1.6; flex-grow: 1;">${post.summary}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                        <span style="color: var(--dark); font-size: 0.9rem;">
+                            <i class="fas fa-user" style="margin-left: 5px;"></i> ${post.author}
+                        </span>
+                        <a href="#" onclick='window.showArticle(${JSON.stringify(post)}); return false;' class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 5px;">
+                            <i class="fas fa-book-open"></i> مطالعه
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
 // ========== نمایش مقاله با استایل زیبا ==========
 window.showArticle = async function(article) {
     try {
@@ -2415,7 +2479,7 @@ filteredPosts.forEach(post => {
     `;
 });
 
-  // ========== نمایش صفحات ==========
+ // ========== نمایش صفحات ==========
 window.showPage = function(pageId) {
     document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
