@@ -2139,46 +2139,89 @@
 window.formatPriceInput = function(input) {
     if (!input) return;
     
-    // فقط اعداد رو نگه دار
-    let value = input.value.replace(/[^0-9]/g, '');
+    // ذخیره موقعیت کرسر
+    const start = input.selectionStart;
     
-    if (value) {
-        // به عدد تبدیل کن
-        let num = parseInt(value, 10);
-        // با کامای فارسی نمایش بده
-        input.value = num.toLocaleString('fa-IR');
-        
-        // محاسبه قیمت
+    // مقدار فعلی را بگیر
+    let value = input.value;
+    
+    // اگر خالی است، برگرد
+    if (value === '') {
         if (input.id === 'bid-base-price') {
             window.calculateFormworkTotal();
         } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
             window.calculateShedTotalPrice();
         }
-    } else {
+        return;
+    }
+    
+    // اعداد فارسی را به انگلیسی تبدیل کن
+    value = toEnglishNumbers(value);
+    
+    // فقط اعداد را نگه دار
+    value = value.replace(/[^\d]/g, '');
+    
+    // اگر بعد از حذف غیراعداد، خالی شد
+    if (value === '') {
         input.value = '';
+        if (input.id === 'bid-base-price') {
+            window.calculateFormworkTotal();
+        } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+            window.calculateShedTotalPrice();
+        }
+        return;
+    }
+    
+    // به عدد تبدیل کن
+    const num = parseInt(value, 10);
+    
+    // اگر عدد معتبر نیست
+    if (isNaN(num)) {
+        input.value = '';
+        if (input.id === 'bid-base-price') {
+            window.calculateFormworkTotal();
+        } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+            window.calculateShedTotalPrice();
+        }
+        return;
+    }
+    
+    // با جداکننده هزارگان فارسی فرمت کن
+    const formatted = num.toLocaleString('fa-IR');
+    
+    // مقدار جدید را تنظیم کن
+    input.value = formatted;
+    
+    // محاسبه مجدد قیمت
+    if (input.id === 'bid-base-price') {
+        if (typeof window.calculateFormworkTotal === 'function') {
+            window.calculateFormworkTotal();
+        }
+    } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+        if (typeof window.calculateShedTotalPrice === 'function') {
+            window.calculateShedTotalPrice();
+        }
     }
 };
 
 // ========== توابع تبدیل اعداد ==========
 function parseFormattedNumber(formattedValue) {
-    if (!formattedValue) return 0;
+    if (!formattedValue || formattedValue === '') return 0;
     
-    // اگه string نیست، تبدیلش کن
-    let str = String(formattedValue);
+    // اعداد فارسی را به انگلیسی تبدیل کن
+    let value = toEnglishNumbers(formattedValue);
     
-    // حذف هر چی غیر از عدد (کاما، فاصله، حرف)
-    let numbers = str.replace(/[^0-9]/g, '');
-    
-    // اگه عددی نبود، ۰ برگردون
-    if (numbers === '') return 0;
+    // همه غیراعداد را حذف کن
+    value = value.replace(/[^\d]/g, '');
     
     // به عدد تبدیل کن
-    return parseInt(numbers, 10);
+    const num = parseInt(value);
+    
+    // اگر عدد معتبر است برگردان، در غیر این صورت صفر
+    return isNaN(num) ? 0 : num;
 }
 // ========== توابع اضافی برای اطمینان ==========
 function toEnglishNumbers(str) {
-    if (!str) return str;
-    
     const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     
