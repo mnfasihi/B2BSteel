@@ -2139,63 +2139,41 @@
 window.formatPriceInput = function(input) {
     if (!input) return;
     
-    console.log('formatPriceInput:', input.id, input.value);
-    
-    // ذخیره موقعیت کرسر
-    const start = input.selectionStart;
-    const end = input.selectionEnd;
-    
-    // حذف همه کاراکترها به جز اعداد
-    let value = input.value.replace(/[^\d]/g, '');
+    // فقط اعداد رو نگه دار
+    let value = input.value.replace(/[^0-9]/g, '');
     
     if (value) {
-        // تبدیل به عدد و فرمت با کاما
-        const num = parseInt(value, 10);
+        // به عدد تبدیل کن
+        let num = parseInt(value, 10);
+        // با کامای فارسی نمایش بده
         input.value = num.toLocaleString('fa-IR');
+        
+        // محاسبه قیمت
+        if (input.id === 'bid-base-price') {
+            window.calculateFormworkTotal();
+        } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+            window.calculateShedTotalPrice();
+        }
     } else {
         input.value = '';
-    }
-    
-    // تلاش برای حفظ موقعیت کرسر
-    try {
-        input.setSelectionRange(end, end);
-    } catch (e) {
-        // در صورت خطا، کاری نکن
-    }
-    
-    // بر اساس id input، تابع مناسب رو صدا بزن
-    if (input.id === 'bid-base-price') {
-        if (typeof window.calculateFormworkTotal === 'function') {
-            setTimeout(() => window.calculateFormworkTotal(), 10);
-        }
-    } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
-        if (typeof window.calculateShedTotalPrice === 'function') {
-            setTimeout(() => window.calculateShedTotalPrice(), 10);
-        }
     }
 };
 
 // ========== توابع تبدیل اعداد ==========
 function parseFormattedNumber(formattedValue) {
-    if (!formattedValue || formattedValue === '') return 0;
+    if (!formattedValue) return 0;
     
-    // تبدیل به string
-    const valueStr = String(formattedValue);
+    // اگه string نیست، تبدیلش کن
+    let str = String(formattedValue);
     
-    // حذف کاماهای فارسی و انگلیسی
-    let value = valueStr.replace(/[,،]/g, '');
+    // حذف هر چی غیر از عدد (کاما، فاصله، حرف)
+    let numbers = str.replace(/[^0-9]/g, '');
     
-    // حذف فاصله‌ها
-    value = value.replace(/\s/g, '');
-    
-    // اگه خالی بود، ۰ برگردون
-    if (value === '') return 0;
+    // اگه عددی نبود، ۰ برگردون
+    if (numbers === '') return 0;
     
     // به عدد تبدیل کن
-    const num = parseInt(value, 10);
-    
-    // اگه عدد معتبر نیست، ۰ برگردون
-    return isNaN(num) ? 0 : num;
+    return parseInt(numbers, 10);
 }
 // ========== توابع اضافی برای اطمینان ==========
 function toEnglishNumbers(str) {
@@ -2996,44 +2974,33 @@ window.showFormworkBidModal = function(requestId, title, description) {
 };
 
 window.calculateFormworkTotal = function() {
-    console.log('محاسبه قیمت قالب...');
+    // قیمت پایه
+    let basePriceInput = document.getElementById('bid-base-price');
+    if (!basePriceInput) return;
     
-    const basePriceInput = document.getElementById('bid-base-price');
-    if (!basePriceInput) {
-        console.error('input قیمت پایه پیدا نشد');
-        return;
-    }
+    let basePrice = parseFormattedNumber(basePriceInput.value);
     
-    const basePrice = parseFormattedNumber(basePriceInput.value);
-    console.log('قیمت پایه:', basePrice);
+    // درصدها
+    let vatPercent = parseInt(document.getElementById('bid-vat')?.value) || 0;
+    let loadingPercent = parseInt(document.getElementById('bid-loading')?.value) || 0;
     
-    const vatPercent = parseInt(document.getElementById('bid-vat')?.value) || 0;
-    const loadingPercent = parseInt(document.getElementById('bid-loading')?.value) || 0;
+    // محاسبات
+    let vat = Math.round(basePrice * vatPercent / 100);
+    let loading = Math.round(basePrice * loadingPercent / 100);
+    let total = basePrice + vat + loading;
     
-    const vat = Math.round(basePrice * vatPercent / 100);
-    const loading = Math.round(basePrice * loadingPercent / 100);
-    const total = basePrice + vat + loading;
+    // نمایش
+    let displayBase = document.getElementById('display-base-price');
+    if (displayBase) displayBase.textContent = basePrice.toLocaleString('fa-IR') + ' ریال';
     
-    // به‌روزرسانی نمایش
-    const displayBase = document.getElementById('display-base-price');
-    if (displayBase) displayBase.textContent = formatNumberFarsiDisplay(basePrice) + ' ریال';
+    let displayVat = document.getElementById('display-vat');
+    if (displayVat) displayVat.textContent = vat.toLocaleString('fa-IR') + ' ریال';
     
-    const displayVatPercent = document.getElementById('display-vat-percent');
-    if (displayVatPercent) displayVatPercent.textContent = toPersianNumbers(vatPercent);
+    let displayLoading = document.getElementById('display-loading');
+    if (displayLoading) displayLoading.textContent = loading.toLocaleString('fa-IR') + ' ریال';
     
-    const displayVat = document.getElementById('display-vat');
-    if (displayVat) displayVat.textContent = formatNumberFarsiDisplay(vat) + ' ریال';
-    
-    const displayLoadingPercent = document.getElementById('display-loading-percent');
-    if (displayLoadingPercent) displayLoadingPercent.textContent = toPersianNumbers(loadingPercent);
-    
-    const displayLoading = document.getElementById('display-loading');
-    if (displayLoading) displayLoading.textContent = formatNumberFarsiDisplay(loading) + ' ریال';
-    
-    const displayTotal = document.getElementById('display-total');
-    if (displayTotal) displayTotal.textContent = formatNumberFarsiDisplay(total) + ' ریال';
-    
-    console.log('قیمت کل:', total);
+    let displayTotal = document.getElementById('display-total');
+    if (displayTotal) displayTotal.textContent = total.toLocaleString('fa-IR') + ' ریال';
 };
 
 window.submitFormworkBid = async function() {
