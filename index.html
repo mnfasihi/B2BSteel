@@ -4130,35 +4130,29 @@ window.loadAdminTab = async function(tab) {
     await new Promise(resolve => setTimeout(resolve, 300));
     
     if (tab === 'users') {
+        // استفاده از تابع جستجو برای نمایش همه کاربران
         try {
             const { data: users } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
-            
-            let html = '<div class="requests-list">';
-            if (!users || users.length === 0) {
-                html += '<p style="text-align: center; color: var(--muted); padding: 2rem;">کاربری یافت نشد</p>';
-            } else {
-                users?.forEach(user => {
-                    html += `
-                        <div class="request-item">
-                            <div class="request-header">
-                                <div class="request-title">${user.full_name || 'بدون نام'}</div>
-                                <span class="request-badge ${user.role === 'admin' ? 'badge-warning' : 'badge-info'}">${user.role === 'admin' ? 'ادمین' : (user.user_type === 'buyer' ? 'خریدار' : 'فروشنده')}</span>
-                            </div>
-                            <div class="request-details">
-                                <div><strong>ایمیل:</strong> ${user.email}</div>
-                                <div><strong>شرکت:</strong> ${user.company_name || '—'}</div>
-                                <div><strong>تلفن:</strong> ${user.phone || '—'}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            html += '</div>';
-            content.innerHTML = html;
-            
+            displayUsersList(users);
         } catch (error) {
             console.error('خطا:', error);
             content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری کاربران</p>';
+        }
+        
+    } else if (tab === 'pending') {
+        try {
+            const { data: pendingUsers } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('user_type', 'seller')
+                .eq('verification_status', 'pending')
+                .order('created_at', { ascending: false });
+            
+            displayUsersList(pendingUsers);
+            
+        } catch (error) {
+            console.error('خطا:', error);
+            content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
         }
         
     } else if (tab === 'concrete-requests') {
@@ -4280,15 +4274,6 @@ window.loadAdminTab = async function(tab) {
             console.error('خطا:', error);
             content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
         }
-        
-    } else if (tab === 'pending') {
-        content.innerHTML = `
-            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
-                <i class="fas fa-clock" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
-                <h3 style="color: var(--primary);">درخواست‌های تأیید</h3>
-                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
-            </div>
-        `;
         
     } else if (tab === 'bids') {
         content.innerHTML = `
