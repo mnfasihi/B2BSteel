@@ -4111,39 +4111,67 @@ window.exportAdminReport = function() {
     alert('گزارش در حال تهیه است...');
     // اینجا می‌تونیم بعداً اکسل یا PDF بسازیم
 };
-    window.loadAdminTab = async function(tab) {
-        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        
-        const content = document.getElementById('admin-content');
-        
-        if (tab === 'users') {
+
+window.loadAdminTab = async function(tab) {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    const content = document.getElementById('admin-content');
+    
+    // نمایش لودینگ
+    content.innerHTML = `
+        <div style="text-align: center; padding: 3rem;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+            <p style="color: var(--muted);">در حال بارگذاری...</p>
+        </div>
+    `;
+    
+    // تأخیر کوتاه برای نمایش لودینگ
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    if (tab === 'users') {
+        try {
             const { data: users } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
             
             let html = '<div class="requests-list">';
-            users?.forEach(user => {
-                html += `
-                    <div class="request-item">
-                        <div class="request-header">
-                            <div class="request-title">${user.full_name || 'بدون نام'}</div>
-                            <span class="request-badge ${user.role === 'admin' ? 'badge-warning' : 'badge-info'}">${user.role === 'admin' ? 'ادمین' : (user.user_type === 'buyer' ? 'خریدار' : 'فروشنده')}</span>
+            if (!users || users.length === 0) {
+                html += '<p style="text-align: center; color: var(--muted); padding: 2rem;">کاربری یافت نشد</p>';
+            } else {
+                users?.forEach(user => {
+                    html += `
+                        <div class="request-item">
+                            <div class="request-header">
+                                <div class="request-title">${user.full_name || 'بدون نام'}</div>
+                                <span class="request-badge ${user.role === 'admin' ? 'badge-warning' : 'badge-info'}">${user.role === 'admin' ? 'ادمین' : (user.user_type === 'buyer' ? 'خریدار' : 'فروشنده')}</span>
+                            </div>
+                            <div class="request-details">
+                                <div><strong>ایمیل:</strong> ${user.email}</div>
+                                <div><strong>شرکت:</strong> ${user.company_name || '—'}</div>
+                                <div><strong>تلفن:</strong> ${user.phone || '—'}</div>
+                            </div>
                         </div>
-                        <div class="request-details">
-                            <div><strong>ایمیل:</strong> ${user.email}</div>
-                            <div><strong>شرکت:</strong> ${user.company_name || '—'}</div>
-                            <div><strong>تلفن:</strong> ${user.phone || '—'}</div>
-                        </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
             html += '</div>';
             content.innerHTML = html;
             
-        } else if (tab === 'concrete-requests') {
+        } catch (error) {
+            console.error('خطا:', error);
+            content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری کاربران</p>';
+        }
+        
+    } else if (tab === 'concrete-requests') {
+        try {
             const { data: requests } = await supabase
                 .from('concrete_requests')
                 .select('*')
                 .order('created_at', { ascending: false });
+            
+            if (!requests || requests.length === 0) {
+                content.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">درخواستی وجود ندارد</p>';
+                return;
+            }
             
             let html = '';
             for (const req of requests || []) {
@@ -4185,13 +4213,24 @@ window.exportAdminReport = function() {
                     </div>
                 `;
             }
-            content.innerHTML = html || '<p>درخواستی وجود ندارد</p>';
+            content.innerHTML = html;
             
-        } else if (tab === 'shed-requests') {
+        } catch (error) {
+            console.error('خطا:', error);
+            content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
+        }
+        
+    } else if (tab === 'shed-requests') {
+        try {
             const { data: requests } = await supabase
                 .from('shed_requests')
                 .select('*')
                 .order('created_at', { ascending: false });
+            
+            if (!requests || requests.length === 0) {
+                content.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">درخواستی وجود ندارد</p>';
+                return;
+            }
             
             let html = '';
             for (const req of requests || []) {
@@ -4235,12 +4274,284 @@ window.exportAdminReport = function() {
                     </div>
                 `;
             }
-            content.innerHTML = html || '<p>درخواستی وجود ندارد</p>';
+            content.innerHTML = html;
             
-        } else if (tab === 'transactions') {
-            content.innerHTML = '<p style="text-align: center; padding: 2rem;">بخش تراکنش‌ها در حال توسعه است</p>';
+        } catch (error) {
+            console.error('خطا:', error);
+            content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
         }
-    };
+        
+    } else if (tab === 'pending') {
+        content.innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                <i class="fas fa-clock" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--primary);">درخواست‌های تأیید</h3>
+                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
+            </div>
+        `;
+        
+    } else if (tab === 'bids') {
+        content.innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                <i class="fas fa-gavel" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--primary);">پیشنهادات</h3>
+                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
+            </div>
+        `;
+        
+    } else if (tab === 'dashboard') {
+        content.innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                <i class="fas fa-chart-pie" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--primary);">داشبورد خلاصه</h3>
+                <p style="color: var(--muted);">به زودی آمار و نمودارهای پیشرفته در این بخش نمایش داده می‌شود.</p>
+            </div>
+        `;
+        
+    } else if (tab === 'transactions') {
+        content.innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                <i class="fas fa-chart-line" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--primary);">گزارشات</h3>
+                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
+            </div>
+        `;
+        
+    } else if (tab === 'settings') {
+        content.innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                <i class="fas fa-cog" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--primary);">تنظیمات</h3>
+                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
+            </div>
+        `;
+    }
+};
+// ========== توابع مدیریت کاربران ==========
+
+// تأیید فروشنده
+window.verifySeller = async function(userId) {
+    if (!confirm('آیا از تأیید این فروشنده اطمینان دارید؟')) return;
+    
+    try {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ verification_status: 'verified' })
+            .eq('user_id', userId);
+        
+        if (error) throw error;
+        
+        alert('✅ فروشنده با موفقیت تأیید شد');
+        window.loadAdminTab('pending'); // بازگردانی لیست
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+    }
+};
+
+// رد فروشنده
+window.rejectSeller = async function(userId) {
+    const reason = prompt('لطفاً دلیل رد فروشنده را وارد کنید:');
+    if (reason === null) return; // انصراف
+    
+    try {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ 
+                verification_status: 'rejected',
+                reject_reason: reason 
+            })
+            .eq('user_id', userId);
+        
+        if (error) throw error;
+        
+        alert('❌ فروشنده رد شد');
+        window.loadAdminTab('pending');
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+    }
+};
+
+// مسدود کردن کاربر
+window.blockUser = async function(userId, fullName) {
+    if (!confirm(`آیا از مسدود کردن کاربر "${fullName}" اطمینان دارید؟`)) return;
+    
+    try {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ 
+                verification_status: 'blocked',
+                blocked_at: new Date().toISOString()
+            })
+            .eq('user_id', userId);
+        
+        if (error) throw error;
+        
+        alert('⛔ کاربر مسدود شد');
+        window.loadAdminTab('users');
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+    }
+};
+
+// فعال کردن مجدد کاربر
+window.activateUser = async function(userId, fullName) {
+    if (!confirm(`آیا کاربر "${fullName}" فعال شود؟`)) return;
+    
+    try {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ 
+                verification_status: 'verified',
+                blocked_at: null 
+            })
+            .eq('user_id', userId);
+        
+        if (error) throw error;
+        
+        alert('✅ کاربر فعال شد');
+        window.loadAdminTab('users');
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+    }
+};
+
+// جستجوی کاربران
+window.searchUsers = async function() {
+    const searchTerm = document.getElementById('user-search').value.toLowerCase();
+    const filterType = document.getElementById('user-filter').value;
+    
+    try {
+        let query = supabase.from('profiles').select('*');
+        
+        // اعمال فیلتر
+        if (filterType !== 'all') {
+            if (filterType === 'buyer') {
+                query = query.eq('user_type', 'buyer');
+            } else if (filterType === 'seller') {
+                query = query.eq('user_type', 'seller');
+            } else if (filterType === 'pending') {
+                query = query.eq('verification_status', 'pending');
+            } else if (filterType === 'verified') {
+                query = query.eq('verification_status', 'verified');
+            } else if (filterType === 'blocked') {
+                query = query.eq('verification_status', 'blocked');
+            }
+        }
+        
+        const { data: users } = await query.order('created_at', { ascending: false });
+        
+        // فیلتر جستجو
+        const filteredUsers = users?.filter(user => 
+            user.full_name?.toLowerCase().includes(searchTerm) ||
+            user.email?.toLowerCase().includes(searchTerm) ||
+            user.company_name?.toLowerCase().includes(searchTerm) ||
+            user.phone?.includes(searchTerm)
+        );
+        
+        displayUsersList(filteredUsers);
+        
+    } catch (error) {
+        console.error('خطا:', error);
+    }
+};
+
+// نمایش لیست کاربران
+function displayUsersList(users) {
+    const content = document.getElementById('admin-content');
+    
+    if (!users || users.length === 0) {
+        content.innerHTML = `
+            <div style="text-align: center; padding: 3rem; background: white; border-radius: 10px;">
+                <i class="fas fa-users-slash" style="font-size: 3rem; color: var(--muted); margin-bottom: 1rem;"></i>
+                <p style="color: var(--muted);">کاربری یافت نشد</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = `
+        <div style="margin-bottom: 1rem; display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="text" id="user-search" placeholder="جستجو..." class="form-control" style="flex: 1;" onkeyup="window.searchUsers()">
+            <select id="user-filter" class="form-control" style="width: 200px;" onchange="window.searchUsers()">
+                <option value="all">همه کاربران</option>
+                <option value="buyer">خریداران</option>
+                <option value="seller">فروشندگان</option>
+                <option value="pending">در انتظار تأیید</option>
+                <option value="verified">تأیید شده</option>
+                <option value="blocked">مسدود شده</option>
+            </select>
+        </div>
+        <div class="requests-list">
+    `;
+    
+    users.forEach(user => {
+        const userType = user.user_type === 'buyer' ? 'خریدار' : (user.user_type === 'seller' ? 'فروشنده' : 'نامشخص');
+        const userStatus = user.verification_status || 'pending';
+        
+        let statusClass = 'status-pending';
+        let statusText = 'در انتظار';
+        
+        if (userStatus === 'verified') {
+            statusClass = 'status-verified';
+            statusText = 'تأیید شده';
+        } else if (userStatus === 'rejected') {
+            statusClass = 'status-rejected';
+            statusText = 'رد شده';
+        } else if (userStatus === 'blocked') {
+            statusClass = 'status-rejected';
+            statusText = '⛔ مسدود';
+        }
+        
+        html += `
+            <div class="user-row">
+                <div class="user-info">
+                    <div class="user-avatar-sm">${(user.full_name || 'کاربر').charAt(0)}</div>
+                    <div>
+                        <div style="font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                            ${user.full_name || 'بدون نام'}
+                            ${user.role === 'admin' ? '<span class="user-status" style="background: #fef3c7; color: #92400e;">ادمین</span>' : ''}
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--muted);">
+                            <i class="fas fa-envelope"></i> ${user.email || '—'} | 
+                            <i class="fas fa-phone"></i> ${user.phone || '—'}
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--muted);">
+                            <i class="fas fa-building"></i> ${user.company_name || '—'}
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span class="user-status ${statusClass}">${statusText}</span>
+                    <span class="user-status" style="background: #e0e7ff; color: #3730a3;">${userType}</span>
+                    
+                    ${user.role !== 'admin' ? `
+                        ${userStatus === 'blocked' ? `
+                            <button class="btn btn-success btn-sm" onclick="window.activateUser('${user.user_id}', '${user.full_name}')">
+                                <i class="fas fa-check-circle"></i> فعال‌سازی
+                            </button>
+                        ` : `
+                            <button class="btn btn-danger btn-sm" onclick="window.blockUser('${user.user_id}', '${user.full_name}')">
+                                <i class="fas fa-ban"></i> مسدود
+                            </button>
+                        `}
+                        
+                        ${user.user_type === 'seller' && userStatus === 'pending' ? `
+                            <button class="btn btn-success btn-sm" onclick="window.verifySeller('${user.user_id}')">
+                                <i class="fas fa-check"></i> تأیید
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="window.rejectSeller('${user.user_id}')">
+                                <i class="fas fa-times"></i> رد
+                            </button>
+                        ` : ''}
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    content.innerHTML = html;
+}
     
     window.enterConcreteFormworkSystem = function() {
         if (currentUser) {
