@@ -1709,17 +1709,6 @@
                         <input type="tel" id="reg-phone" class="form-control" required>
                     </div>
                     
-                    <div class="form-group">
-    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-        <input type="checkbox" id="accept-terms" required style="width: 18px; height: 18px;">
-        <span>  
-            <a href="#" onclick="window.showTermsModal(); return false;" style="color: var(--primary); text-decoration: underline; font-weight: 600;">
-                قوانین و شرایط
-            </a> 
-            پلتفرم B2BSteel را مطالعه کرده‌ام و می‌پذیرم.
-        </span>
-    </div>
-</div>
                 <!-- بخش قوانین -->
                 <div class="form-group">
                     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
@@ -2245,75 +2234,12 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer" style="justify-content: space-between;">
-            <button class="btn btn-secondary" onclick="window.closeModal('terms-modal')">بستن</button>
-            <button class="btn btn-primary" onclick="window.acceptTerms()">قبول می‌کنم</button>
-        </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+    <button class="btn btn-secondary" onclick="window.closeModal('terms-modal')">بستن</button>
+    <button class="btn btn-primary" onclick="window.acceptTermsAndClose()">قبول می‌کنم</button>
+</div>
     </div>
 </div>
-// ========== توابع مودال قوانین ==========
-window.showTermsModal = function() {
-    const modal = document.getElementById('terms-modal');
-    if (modal) {
-        modal.classList.add('active');
-    }
-};
-
-window.acceptTerms = function() {
-    // تیک زدن چک‌باکس
-    const termsCheckbox = document.getElementById('accept-terms');
-    if (termsCheckbox) {
-        termsCheckbox.checked = true;
-    }
-    // بستن مودال
-    window.closeModal('terms-modal');
-};
-
-// اضافه کردن event listener برای لینک قوانین
-document.addEventListener('DOMContentLoaded', function() {
-    const termsLink = document.getElementById('terms-link');
-    if (termsLink) {
-        termsLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.showTermsModal();
-        });
-    }
-});
-
-/* استایل مودال قوانین */
-#terms-modal .modal-content {
-    max-width: 800px;
-    border-radius: 15px;
-}
-
-#terms-modal .modal-body {
-    max-height: 60vh;
-    overflow-y: auto;
-    padding: 1.5rem;
-    line-height: 1.8;
-}
-
-#terms-modal .terms-section {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-#terms-modal .terms-section:last-child {
-    border-bottom: none;
-}
-
-#terms-modal .terms-section h3 {
-    color: var(--primary);
-    margin-bottom: 0.8rem;
-    font-size: 1.2rem;
-}
-
-#terms-modal .terms-section p {
-    color: #4b5563;
-    margin-bottom: 0.8rem;
-    text-align: justify;
-}
     <!-- فوتر -->
     <footer class="footer">
         <div class="container">
@@ -2355,6 +2281,27 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script type="module">
+// ========== توابع مودال قوانین (اصلاح شده) ==========
+window.showTermsModal = function() {
+    console.log('نمایش مودال قوانین');
+    const modal = document.getElementById('terms-modal');
+    if (modal) {
+        modal.classList.add('active');
+    } else {
+        console.error('مودال قوانین پیدا نشد');
+    }
+    return false;
+};
+
+window.acceptTermsAndClose = function() {
+    // تیک زدن چک‌باکس
+    const termsCheckbox = document.getElementById('accept-terms');
+    if (termsCheckbox) {
+        termsCheckbox.checked = true;
+    }
+    // بستن مودال
+    window.closeModal('terms-modal');
+};
     // ========== ایمپورت ==========
     import { supabase } from './supabaseClient.js';
     
