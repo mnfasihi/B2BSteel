@@ -4272,12 +4272,8 @@ window.loadAdminTab = async function(tab) {
     const content = document.getElementById('admin-content');
     
     // نمایش لودینگ
-    content.innerHTML = `
-        <div style="text-align: center; padding: 3rem;">
-            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
-            <p style="color: var(--muted);">در حال بارگذاری...</p>
-        </div>
-    `;
+     // نمایش لودینگ با سیستم جدید
+    LoadingSystem.showInElement(content, 'dual', 'در حال بارگذاری...');
     
     // تأخیر کوتاه برای نمایش لودینگ
     await new Promise(resolve => setTimeout(resolve, 300));
