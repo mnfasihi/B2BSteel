@@ -1705,59 +1705,65 @@
             slides[nextIndex].classList.add('active');
         };
 
-        window.loadCounters = async function() {
-            try {
-                const { count: sellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller');
-                const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
-                document.getElementById('counter-sellers').textContent = sellers || 0;
-                document.getElementById('counter-buyers').textContent = buyers || 0;
-                document.getElementById('counter-transactions').textContent = '۰';
-            } catch (error) {
-                console.error(error);
-            }
-        };
+window.loadCounters = async function() {
+    try {
+        const { count: sellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller');
+        const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
+        
+        // فقط اگه المنت وجود داشت مقداردهی کن
+        const sellersEl = document.getElementById('counter-sellers');
+        const buyersEl = document.getElementById('counter-buyers');
+        const transactionsEl = document.getElementById('counter-transactions');
+        
+        if (sellersEl) sellersEl.textContent = sellers || 0;
+        if (buyersEl) buyersEl.textContent = buyers || 0;
+        if (transactionsEl) transactionsEl.textContent = '۰';
+        
+    } catch (error) {
+        console.error('خطا در بارگذاری شمارنده‌ها:', error);
+    }
+};
 
-        window.updateNavigation = function() {
-            const auth = document.getElementById('auth-buttons');
-            const user = document.getElementById('user-menu');
-            const sellerF = document.getElementById('seller-formwork-menu');
-            const sellerS = document.getElementById('seller-shed-menu');
-            const admin = document.getElementById('admin-menu');
-            
-            if (currentUser) {
-                auth.classList.add('hidden');
-                if (currentUser.isAdmin) {
-                    admin.classList.remove('hidden');
-                    user.classList.add('hidden');
-                    sellerF.classList.add('hidden');
-                    sellerS.classList.add('hidden');
-                } else if (currentUser.userType === 'buyer') {
-                    user.classList.remove('hidden');
-                    admin.classList.add('hidden');
-                    sellerF.classList.add('hidden');
-                    sellerS.classList.add('hidden');
-                } else if (currentUser.userType === 'seller') {
-                    if (currentUser.sellerType === 'formwork') {
-                        sellerF.classList.remove('hidden');
-                        user.classList.add('hidden');
-                        admin.classList.add('hidden');
-                        sellerS.classList.add('hidden');
-                    } else if (currentUser.sellerType === 'shed') {
-                        sellerS.classList.remove('hidden');
-                        user.classList.add('hidden');
-                        admin.classList.add('hidden');
-                        sellerF.classList.add('hidden');
-                    }
-                }
-            } else {
-                auth.classList.remove('hidden');
+window.updateNavigation = function() {
+    const auth = document.getElementById('auth-buttons');
+    const user = document.getElementById('user-menu');
+    const sellerF = document.getElementById('seller-formwork-menu');
+    const sellerS = document.getElementById('seller-shed-menu');
+    const admin = document.getElementById('admin-menu');
+    
+    if (currentUser) {
+        auth.classList.add('hidden');
+        if (currentUser.isAdmin) {
+            admin.classList.remove('hidden');
+            user.classList.add('hidden');
+            sellerF.classList.add('hidden');
+            sellerS.classList.add('hidden');
+        } else if (currentUser.userType === 'buyer') {
+            user.classList.remove('hidden');
+            admin.classList.add('hidden');
+            sellerF.classList.add('hidden');
+            sellerS.classList.add('hidden');
+        } else if (currentUser.userType === 'seller') {
+            if (currentUser.sellerType === 'formwork') {
+                sellerF.classList.remove('hidden');
                 user.classList.add('hidden');
-                sellerF.classList.add('hidden');
-                sellerS.classList.add('hidden');
                 admin.classList.add('hidden');
+                sellerS.classList.add('hidden');
+            } else if (currentUser.sellerType === 'shed') {
+                sellerS.classList.remove('hidden');
+                user.classList.add('hidden');
+                admin.classList.add('hidden');
+                sellerF.classList.add('hidden');
             }
-        };
-
+        }
+    } else {
+        auth.classList.remove('hidden');
+        user.classList.add('hidden');
+        sellerF.classList.add('hidden');
+        sellerS.classList.add('hidden');
+        admin.classList.add('hidden');
+    }
+};
         window.closeModal = function(modalId) {
             document.getElementById(modalId)?.classList.remove('active');
             if (modalId === 'terms-modal') {
@@ -2909,15 +2915,19 @@
                 if (typeof window.loadSellerFormworkDashboard === 'function') window.loadSellerFormworkDashboard();
             } else if (pageId === 'seller-shed-dashboard') {
                 if (typeof window.loadSellerShedDashboard === 'function') window.loadSellerShedDashboard();
-            } else if (pageId === 'home') {
-                if (typeof window.loadCounters === 'function') window.loadCounters();
-                if (typeof window.initSlideshow === 'function') window.initSlideshow();
-            } else if (pageId === 'blog') {
-                setTimeout(() => {
-                    if (typeof loadBlogPosts === 'function') loadBlogPosts('all');
-                }, 100);
-            }
-        };
+         } else if (pageId === 'home') {
+    // فقط اگه المنت‌های شمارنده وجود داشتند، تابع رو صدا بزن
+    if (document.getElementById('counter-sellers') || document.getElementById('counter-buyers')) {
+        if (typeof window.loadCounters === 'function') window.loadCounters();
+    } else {
+        console.log('صفحه اصلی بدون شمارنده');
+    }
+    if (typeof window.initSlideshow === 'function') window.initSlideshow();
+} else if (pageId === 'blog') {
+    setTimeout(() => {
+        if (typeof loadBlogPosts === 'function') loadBlogPosts('all');
+    }, 100);
+}
 
         // ========== مقداردهی اولیه ==========
         document.addEventListener('DOMContentLoaded', function() {
