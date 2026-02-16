@@ -1,0 +1,105 @@
+<!-- ========== صفحه در حال بروزرسانی ========== -->
+<section id="maintenance-page" class="page">
+    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px;">
+        <div style="max-width: 600px; width: 100%; background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 3rem 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; backdrop-filter: blur(10px);">
+            
+            <!-- آیکون چرخ دنده متحرک -->
+            <div style="margin-bottom: 2rem;">
+                <i class="fas fa-cogs" style="font-size: 5rem; color: var(--primary); animation: spin 4s infinite linear;"></i>
+            </div>
+            
+            <!-- عنوان اصلی -->
+            <h1 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; font-weight: 700;">
+                در حال بروزرسانی
+            </h1>
+            
+            <!-- متن توضیح -->
+            <p style="font-size: 1.2rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
+                سایت در حال تعمیر و بهینه‌سازی است. به زودی با امکانات جدید بازخواهیم گشت.
+            </p>
+            
+            <!-- نوار پیشرفت متحرک -->
+            <div style="width: 100%; height: 10px; background: #e0e0e0; border-radius: 10px; margin-bottom: 2rem; overflow: hidden;">
+                <div style="width: 70%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 10px; animation: progress 2s infinite ease-in-out;"></div>
+            </div>
+            
+            <!-- ساعت و تاریخ -->
+            <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 2rem;">
+                <div style="background: #f8f9fa; padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <i class="fas fa-calendar-alt" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 5px;"></i>
+                    <p style="color: var(--dark); font-weight: 600;">۱۴۰۴/۰۲/۰۱</p>
+                </div>
+                <div style="background: #f8f9fa; padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <i class="fas fa-clock" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 5px;"></i>
+                    <p style="color: var(--dark); font-weight: 600;" id="current-time">۲۰:۳۰</p>
+                </div>
+            </div>
+            
+            <!-- دکمه اطلاع رسانی -->
+            <button onclick="window.location.href='mailto:info@b2bsteel.ir'" style="background: var(--primary); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,69,134,0.3); margin-bottom: 2rem;">
+                <i class="fas fa-bell"></i> به من اطلاع بده
+            </button>
+            
+            <!-- شبکه‌های اجتماعی -->
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
+                    <i class="fab fa-telegram-plane" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
+                    <i class="fab fa-instagram" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
+                    <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
+                    <i class="fas fa-envelope" style="font-size: 1.5rem;"></i>
+                </a>
+            </div>
+            
+            <!-- کپی رایت -->
+            <p style="color: var(--muted); font-size: 0.9rem; margin-top: 2rem;">
+                &copy; ۱۴۰۴ تمامی حقوق برای B2BSteel محفوظ است.
+            </p>
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    
+    @keyframes progress {
+        0% {
+            transform: translateX(-100%);
+        }
+        50% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(100%);
+        }
+    }
+</style>
+
+<script>
+    // آپدیت ساعت
+    function updateTime() {
+        const now = new Date();
+        const timeElement = document.getElementById('current-time');
+        if (timeElement) {
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeElement.textContent = `${hours}:${minutes}`;
+        }
+    }
+    
+    // اجرا هر ثانیه
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>
