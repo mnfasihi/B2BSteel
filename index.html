@@ -651,6 +651,60 @@
             justify-content: flex-end;
             gap: 10px;
         }
+  /* ========== استایل نوار اسکرول برای مودال ========== */
+        .modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+            border: 2px solid #f1f1f1;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* استایل برای نمایش بهتر مقاله */
+        #article-content {
+            scroll-behavior: smooth;
+            line-height: 1.8;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        #article-content h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        #article-content h3 {
+            color: var(--primary-dark);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.5rem;
+        }
+
+        #article-content h4 {
+            color: var(--dark);
+            margin: 1rem 0 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        #article-content p {
+            margin-bottom: 1rem;
+        }
+
+        #article-content li {
+            margin-right: 2rem;
+            margin-bottom: 0.5rem;
+        }
 
         /* ========== داشبورد ========== */
         .dashboard {
@@ -890,23 +944,20 @@
             font-size: 1.5rem;
         }
         /* ========== استایل نوار اسکرول برای مودال ========== */
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
+         .modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+}
 
-        .modal-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
 
-        .modal-content::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .modal-content::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
+/* برای اینکه عکس با اسکرول حرکت کنه */
+#article-content {
+    scroll-behavior: smooth;
+}
         /* ========== قوانین ========== */
         .terms-content {
             background: white;
@@ -2270,8 +2321,8 @@ const blogPosts = [
         title: "انواع قالب‌های فلزی بتن و کاربردهای آنها در صنعت ساختمان",
         date: "۱۴۰۴/۰۱/۲۰",
         category: "قالب بتن",
-        summary: "قالب‌بندی یکی از مهمترین بخش‌های اجرای اسکلت بتنی است. انتخاب صحیح قالب و ابزارهای مورد نیاز برای قالب‌بندی بتن می‌تواند به بهبود عملکرد و کیفیت نهایی سازه‌ها کمک کند. در این مقاله به بررسی انواع قالب‌های فلزی بتن، ویژگی‌ها و کاربردهای هر یک می‌پردازیم.",
-        image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",
+        summary: "قالب‌بندی یکی از مهمترین بخش‌های اجرای اسکلت بتنی است...",
+        image: "https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&w=600",
         link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article1",
         author: "تیم فنی B2BSteel"
     },
@@ -2280,8 +2331,8 @@ const blogPosts = [
         title: "قالب‌بندی دیوار و ستون؛ اصول و نکات اجرایی",
         date: "۱۴۰۴/۰۱/۲۵",
         category: "قالب بتن",
-        summary: "قالب‌بندی دیوارها و ستون‌ها از حساسترین مراحل اجرای سازه‌های بتنی است. این اعضا به عنوان عناصر اصلی باربر ساختمان، نیاز به دقت بالایی در اجرا دارند. در این مقاله به بررسی اصول قالب‌بندی دیوار و ستون، انواع قالب‌ها و نکات اجرایی می‌پردازیم.",
-        image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600",
+        summary: "قالب‌بندی دیوارها و ستون‌ها از حساسترین مراحل اجرای سازه‌های بتنی است...",
+        image: "https://images.pexels.com/photos/161580/construction-site-concrete-bricks-construction-161580.jpeg?auto=compress&cs=tinysrgb&w=600",
         link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article2",
         author: "مهندس رضایی"
     },
@@ -2290,8 +2341,8 @@ const blogPosts = [
         title: "قالب‌بندی سقف؛ روش‌ها و تجهیزات مورد نیاز",
         date: "۱۴۰۴/۰۲/۰۱",
         category: "قالب بتن",
-        summary: "قالب‌بندی سقف یکی از پیچیده‌ترین و حساسترین بخش‌های قالب‌بندی در ساختمان‌سازی است. سقف‌ها به دلیل سطح وسیع و بار مرده بالا، نیاز به دقت ویژه‌ای در طراحی و اجرا دارند. در این مقاله به بررسی انواع قالب‌های سقف، روش‌های اجرا و تجهیزات مورد نیاز می‌پردازیم.",
-        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600",
+        summary: "قالب‌بندی سقف یکی از پیچیده‌ترین و حساسترین بخش‌های قالب‌بندی در ساختمان‌سازی است...",
+        image: "https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=600",
         link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article3",
         author: "تیم فنی B2BSteel"
     },
@@ -2300,8 +2351,8 @@ const blogPosts = [
         title: "قالب‌بندی فونداسیون؛ اصول و استانداردهای اجرایی",
         date: "۱۴۰۴/۰۲/۰۵",
         category: "قالب بتن",
-        summary: "فونداسیون یا پی، مهمترین بخش هر سازه است که وظیفه انتقال بارهای ساختمان به زمین را بر عهده دارد. کیفیت اجرای فونداسیون تأثیر مستقیم بر پایداری و ایمنی کل سازه دارد. یکی از مراحل کلیدی در اجرای فونداسیون، قالب‌بندی صحیح آن است.",
-        image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600",
+        summary: "فونداسیون یا پی، مهمترین بخش هر سازه است...",
+        image: "https://images.pexels.com/photos/256109/pexels-photo-256109.jpeg?auto=compress&cs=tinysrgb&w=600",
         link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article4",
         author: "مهندس کریمی"
     },
@@ -2310,8 +2361,8 @@ const blogPosts = [
         title: "اصول نگهداری و افزایش عمر مفید قالب‌های فلزی بتن",
         date: "۱۴۰۴/۰۲/۱۰",
         category: "نکات فنی",
-        summary: "قالب‌های فلزی بتن یکی از سرمایه‌های اصلی پیمانکاران ساختمانی هستند. این قالب‌ها به دلیل قیمت بالای اولیه، نیاز به مراقبت و نگهداری دقیق دارند تا بتوانند در پروژه‌های متعدد مورد استفاده قرار گیرند. در این مقاله به بررسی اصول نگهداری و روش‌های افزایش عمر مفید قالب‌های فلزی می‌پردازیم.",
-        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600",
+        summary: "قالب‌های فلزی بتن یکی از سرمایه‌های اصلی پیمانکاران ساختمانی هستند...",
+        image: "https://images.pexels.com/photos/236059/pexels-photo-236059.jpeg?auto=compress&cs=tinysrgb&w=600",
         link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article5",
         author: "تیم فنی B2BSteel"
     }
@@ -2409,45 +2460,61 @@ window.showArticle = async function(article) {
         const response = await fetch(article.link);
         const content = await response.text();
         
-        // استخراج محتوای اصلی بدون متادیتا
-        let mainContent = content;
         // حذف متادیتای اول (بین --- و ---)
+        let mainContent = content;
         const metadataMatch = content.match(/^---\n([\s\S]*?)\n---\n/);
         if (metadataMatch) {
             mainContent = content.replace(metadataMatch[0], '');
         }
         
+        // حذف عنوان تکراری (اگر دوباره اومده باشه)
+        const titleLines = article.title.split(' ');
+        const titlePattern = titleLines[0]; // کلمه اول عنوان برای تشخیص
+        const contentLines = mainContent.split('\n');
+        if (contentLines[0] && contentLines[0].includes(titlePattern)) {
+            contentLines.shift(); // حذف خط اول اگر تکراری باشه
+        }
+        mainContent = contentLines.join('\n');
+        
         const modal = document.createElement('div');
         modal.className = 'modal active';
-        modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.85)';
+        modal.style.alignItems = 'flex-start';
+        modal.style.padding = '20px 0';
         
         modal.innerHTML = `
-            <div class="modal-content" style="max-width: 800px; background: white; border-radius: 15px; overflow: hidden;">
-                <div style="position: relative;">
-                    <img src="${article.image}" alt="${article.title}" style="width: 100%; height: 300px; object-fit: cover;" 
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/800x300?text=تصویر+قالب+بتن';">
-                    <button onclick="this.closest('.modal').remove()" style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+            <div class="modal-content" style="max-width: 900px; width: 95%; background: white; border-radius: 15px; overflow: hidden; margin: 20px auto;">
+                <div style="position: relative; height: 250px; overflow: hidden;">
+                    <img src="${article.image}" alt="${article.title}" 
+                         style="width: 100%; height: 100%; object-fit: cover;"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/900x250?text=B2BSteel';">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));"></div>
+                    <button onclick="this.closest('.modal').remove()" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); z-index: 10;">&times;</button>
+                    <div style="position: absolute; bottom: 20px; right: 20px; color: white; z-index: 5;">
+                        <span style="background: var(--primary); padding: 5px 15px; border-radius: 20px;">${article.category}</span>
+                    </div>
                 </div>
                 
                 <div style="padding: 2rem;">
-                    <div style="display: flex; gap: 15px; margin-bottom: 1rem; color: var(--muted); flex-wrap: wrap;">
+                    <div style="display: flex; gap: 15px; margin-bottom: 1rem; color: var(--muted);">
                         <span><i class="fas fa-calendar"></i> ${article.date}</span>
                         <span><i class="fas fa-user"></i> ${article.author}</span>
-                        <span style="background: var(--primary); color: white; padding: 2px 10px; border-radius: 20px;">${article.category}</span>
                     </div>
                     
                     <h1 style="color: var(--primary); font-size: 2rem; margin-bottom: 2rem; line-height: 1.3;">${article.title}</h1>
                     
-                    <div style="line-height: 1.8; color: var(--dark); font-size: 1.1rem; max-height: 400px; overflow-y: auto; padding-left: 10px;">
+                    <div id="article-content" style="line-height: 1.8; color: var(--dark); font-size: 1.1rem; max-height: 400px; overflow-y: auto; padding-left: 10px;">
                         ${mainContent.split('\n').map(line => {
                             if (line.startsWith('# ')) {
-                                return `<h2 style="color: var(--primary); margin: 2rem 0 1rem; font-size: 1.5rem;">${line.substring(2)}</h2>`;
+                                return `<h2 style="color: var(--primary); margin: 2rem 0 1rem; font-size: 1.8rem;">${line.substring(2)}</h2>`;
                             } else if (line.startsWith('## ')) {
                                 return `<h3 style="color: var(--primary-dark); margin: 1.5rem 0 1rem;">${line.substring(3)}</h3>`;
                             } else if (line.startsWith('### ')) {
                                 return `<h4 style="color: var(--dark); margin: 1rem 0 0.5rem;">${line.substring(4)}</h4>`;
                             } else if (line.startsWith('- ')) {
                                 return `<li style="margin-right: 2rem; margin-bottom: 0.5rem;">${line.substring(2)}</li>`;
+                            } else if (line.startsWith('|')) {
+                                return line; // جدول رو به همین صورت نگه دار
                             } else if (line.trim() === '') {
                                 return '<br>';
                             } else {
@@ -2457,13 +2524,26 @@ window.showArticle = async function(article) {
                     </div>
                     
                     <div style="margin-top: 3rem; text-align: center;">
-                        <button onclick="this.closest('.modal').remove()" class="btn btn-primary">بستن</button>
+                        <button onclick="this.closest('.modal').remove()" class="btn btn-primary" style="padding: 12px 40px;">بستن</button>
                     </div>
                 </div>
             </div>
         `;
         
         document.body.appendChild(modal);
+        
+        // اسکرول همزمان عکس و متن
+        const contentDiv = document.getElementById('article-content');
+        const headerImg = modal.querySelector('div[style*="height: 250px"]');
+        
+        if (contentDiv && headerImg) {
+            contentDiv.addEventListener('scroll', function() {
+                // با اسکرول متن، عکس کمی جابجا بشه
+                const scrollPercent = this.scrollTop / (this.scrollHeight - this.clientHeight);
+                const translateY = scrollPercent * 50; // حداکثر 50 پیکسل جابجایی
+                headerImg.style.transform = `translateY(${-translateY}px)`;
+            });
+        }
         
     } catch (error) {
         console.error('خطا در نمایش مقاله:', error);
