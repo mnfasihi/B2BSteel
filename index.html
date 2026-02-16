@@ -2313,7 +2313,20 @@
         // بستن مودال
         window.closeModal('terms-modal');
     };
-
+// اتصال لینک قوانین به مودال
+document.addEventListener('DOMContentLoaded', function() {
+    const termsLink = document.getElementById('terms-link');
+    if (termsLink) {
+        termsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.showTermsModal();
+        });
+        console.log('✅ لینک قوانین به مودال متصل شد');
+    } else {
+        console.error('❌ لینک قوانین پیدا نشد');
+    }
+});
     // ========== توابع تبدیل اعداد ==========
     function toEnglishNumbers(str) {
         if (!str) return str;
