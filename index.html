@@ -1709,18 +1709,18 @@
                         <input type="tel" id="reg-phone" class="form-control" required>
                     </div>
                     
-                <!-- بخش قوانین -->
-                <div class="form-group">
-                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                        <input type="checkbox" id="accept-terms" required style="width: 18px; height: 18px;">
-                        <span>  
-                            <a href="#" id="terms-link" style="color: var(--primary); text-decoration: underline; font-weight: 600;">
-                                قوانین و شرایط
-                            </a> 
-                            پلتفرم B2BSteel را مطالعه کرده‌ام و می‌پذیرم.
-                        </span>
-                    </div>
-                </div>
+               <!-- بخش قوانین -->
+<div class="form-group">
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <input type="checkbox" id="accept-terms" required style="width: 18px; height: 18px;" disabled>
+        <span>  
+            <a href="#" id="terms-link" style="color: var(--primary); text-decoration: underline; font-weight: 600;">
+                قوانین و شرایط
+            </a> 
+            پلتفرم B2BSteel را مطالعه کرده‌ام و می‌پذیرم.
+        </span>
+    </div>
+</div>
                     
                     <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">ثبت‌نام</button>
                 </form>
@@ -2302,17 +2302,17 @@
         }
         return false;
     };
-
-    window.acceptTermsAndClose = function() {
-        // تیک زدن چک‌باکس
-        const termsCheckbox = document.getElementById('accept-terms');
-        if (termsCheckbox) {
-            termsCheckbox.checked = true;
-            console.log('✅ قوانین پذیرفته شد');
-        }
-        // بستن مودال
-        window.closeModal('terms-modal');
-    };
+window.acceptTermsAndClose = function() {
+    // تیک زدن چک‌باکس و فعال کردنش
+    const termsCheckbox = document.getElementById('accept-terms');
+    if (termsCheckbox) {
+        termsCheckbox.checked = true;
+        termsCheckbox.disabled = false;  // فعال کردن چک‌باکس
+        console.log('✅ قوانین پذیرفته شد');
+    }
+    // بستن مودال
+    window.closeModal('terms-modal');
+};
 // اتصال لینک قوانین به مودال
 document.addEventListener('DOMContentLoaded', function() {
     const termsLink = document.getElementById('terms-link');
@@ -2760,8 +2760,16 @@ window.showArticle = async function(article) {
     };
     
     window.closeModal = function(modalId) {
-        document.getElementById(modalId)?.classList.remove('active');
-    };
+    document.getElementById(modalId)?.classList.remove('active');
+    
+    // اگه مودال قوانین بسته شد و چک‌باکس تیک نخورده، غیرفعال بمونه
+    if (modalId === 'terms-modal') {
+        const termsCheckbox = document.getElementById('accept-terms');
+        if (termsCheckbox && !termsCheckbox.checked) {
+            termsCheckbox.disabled = true;
+        }
+    }
+};
     
     // ========== انتخاب نوع کاربر ==========
     window.selectUserType = function(type) {
