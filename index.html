@@ -4422,9 +4422,7 @@ window.loadAdminTab = async function(tab) {
         } catch (error) {
             console.error('خطا:', error);
             content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
-        }
-        
-          else if (tab === 'bids') {
+        } else if (tab === 'bids') {
         try {
             // دریافت همه پیشنهادات
             const [formworkBids, shedBids] = await Promise.all([
