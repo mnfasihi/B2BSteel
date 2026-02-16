@@ -2281,27 +2281,6 @@
 </script>
 
 <script type="module">
-// ========== توابع مودال قوانین (اصلاح شده) ==========
-window.showTermsModal = function() {
-    console.log('نمایش مودال قوانین');
-    const modal = document.getElementById('terms-modal');
-    if (modal) {
-        modal.classList.add('active');
-    } else {
-        console.error('مودال قوانین پیدا نشد');
-    }
-    return false;
-};
-
-window.acceptTermsAndClose = function() {
-    // تیک زدن چک‌باکس
-    const termsCheckbox = document.getElementById('accept-terms');
-    if (termsCheckbox) {
-        termsCheckbox.checked = true;
-    }
-    // بستن مودال
-    window.closeModal('terms-modal');
-};
     // ========== ایمپورت ==========
     import { supabase } from './supabaseClient.js';
     
@@ -2313,7 +2292,28 @@ window.acceptTermsAndClose = function() {
     let selectedSellerType = 'formwork';
     let currentRating = 0;
     let slideInterval;
-    
+
+    // ========== توابع مودال قوانین ==========
+    window.showTermsModal = function() {
+        console.log('نمایش مودال قوانین');
+        const modal = document.getElementById('terms-modal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+        return false;
+    };
+
+    window.acceptTermsAndClose = function() {
+        // تیک زدن چک‌باکس
+        const termsCheckbox = document.getElementById('accept-terms');
+        if (termsCheckbox) {
+            termsCheckbox.checked = true;
+            console.log('✅ قوانین پذیرفته شد');
+        }
+        // بستن مودال
+        window.closeModal('terms-modal');
+    };
+
     // ========== توابع تبدیل اعداد ==========
     function toEnglishNumbers(str) {
         if (!str) return str;
