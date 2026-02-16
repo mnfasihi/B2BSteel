@@ -977,6 +977,151 @@
     </style>
 </head>
 <body>
+  /* ========== استایل‌های جدید ادمین ========== */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.admin-stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.stat-trend {
+    font-size: 0.85rem;
+    color: #10b981;
+    display: block;
+    margin-top: 5px;
+}
+
+.admin-tabs-modern {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.admin-tab {
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+}
+
+.admin-tab:hover {
+    background: #f3f4f6;
+}
+
+.admin-tab.active {
+    background: var(--primary);
+    color: white;
+}
+
+.tab-badge {
+    background: #ef4444;
+    color: white;
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    margin-right: 5px;
+}
+
+.user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.user-row:hover {
+    background: #f9fafb;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.user-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-verified {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
 <!-- ========== ناوبری اصلی ========== -->
 <nav class="navbar">
     <div class="container nav-container">
@@ -1891,153 +2036,142 @@
             </div>
         </div>
     </section>
-
-   /* ========== استایل‌های جدید ادمین ========== */
-.admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.admin-stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.admin-stat-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: transform 0.2s;
-}
-
-.admin-stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-}
-
-.stat-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    background: #f3f4f6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: var(--primary);
-}
-
-.stat-trend {
-    font-size: 0.85rem;
-    color: #10b981;
-    display: block;
-    margin-top: 5px;
-}
-
-.admin-tabs-modern {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    background: white;
-    padding: 0.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.admin-tab {
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    border: none;
-}
-
-.admin-tab:hover {
-    background: #f3f4f6;
-}
-
-.admin-tab.active {
-    background: var(--primary);
-    color: white;
-}
-
-.tab-badge {
-    background: #ef4444;
-    color: white;
-    border-radius: 20px;
-    padding: 2px 8px;
-    font-size: 0.7rem;
-    margin-right: 5px;
-}
-
-.user-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.user-row:hover {
-    background: #f9fafb;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.user-avatar-sm {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.user-status {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.status-pending {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.status-verified {
-    background: #d1fae5;
-    color: #065f46;
-}
-
-.status-rejected {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
+    <!-- صفحه پنل ادمین جدید -->
+    <section id="admin-page" class="page hidden">
+        <div class="container admin-panel">
+            <!-- هدر با خوش‌آمدگویی -->
+            <div class="admin-header">
+                <div>
+                    <h1 class="section-title" style="margin-bottom: 0.5rem;">پنل مدیریت</h1>
+                    <p style="color: var(--muted);">خوش آمدید، <span id="admin-name">مدیر</span> | آخرین به‌روزرسانی: <span id="admin-last-update">۱۴۰۴/۰۲/۲۰</span></p>
+                </div>
+                <button class="btn btn-danger" onclick="window.exportAdminReport()">
+                    <i class="fas fa-download"></i> خروجی گزارش
+                </button>
+            </div>
+            
+            <!-- کارت‌های آمار پیشرفته -->
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card" style="border-right: 4px solid var(--primary);">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div>
+                        <h3>کل کاربران</h3>
+                        <div class="value" id="admin-total-users">۰</div>
+                        <span class="stat-trend" id="users-trend">+۱۲% این ماه</span>
+                    </div>
+                </div>
+                <div class="admin-stat-card" style="border-right: 4px solid #10b981;">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <h3>فروشندگان تأیید شده</h3>
+                        <div class="value" id="admin-verified-sellers">۰</div>
+                        <span class="stat-trend" id="sellers-trend">از ۲۴ فروشنده</span>
+                    </div>
+                </div>
+                <div class="admin-stat-card" style="border-right: 4px solid #f59e0b;">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <h3>در انتظار تأیید</h3>
+                        <div class="value" id="admin-pending-users">۰</div>
+                        <button class="btn btn-warning btn-sm" onclick="window.loadAdminTab('pending')">مشاهده</button>
+                    </div>
+                </div>
+                <div class="admin-stat-card" style="border-right: 4px solid #ef4444;">
+                    <div class="stat-icon"><i class="fas fa-file-invoice"></i></div>
+                    <div>
+                        <h3>درخواست‌های فعال</h3>
+                        <div class="value" id="admin-active-requests">۰</div>
+                        <span>قالب: <span id="active-concrete">۰</span> | سوله: <span id="active-shed">۰</span></span>
+                    </div>
+                </div>
+                <div class="admin-stat-card" style="border-right: 4px solid #8b5cf6;">
+                    <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+                    <div>
+                        <h3>معاملات انجام شده</h3>
+                        <div class="value" id="admin-completed-deals">۰</div>
+                        <span>این ماه: <span id="monthly-deals">۰</span></span>
+                    </div>
+                </div>
+                <div class="admin-stat-card" style="border-right: 4px solid #ec4899;">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <div>
+                        <h3>میانگین امتیازات</h3>
+                        <div class="value" id="admin-avg-rating">۰</div>
+                        <span>از ۵</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- نمودار سریع (placeholder) -->
+            <div class="admin-chart-container" style="background: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">آمار فعالیت هفتگی</h3>
+                <div style="display: flex; gap: 10px; height: 200px; align-items: flex-end;">
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: var(--primary); height: 120px; border-radius: 6px;"></div>
+                        <span>شنبه</span>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: var(--primary); height: 150px; border-radius: 6px;"></div>
+                        <span>یکشنبه</span>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: var(--primary); height: 90px; border-radius: 6px;"></div>
+                        <span>دوشنبه</span>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: var(--primary); height: 180px; border-radius: 6px;"></div>
+                        <span>سه‌شنبه</span>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: var(--primary); height: 140px; border-radius: 6px;"></div>
+                        <span>چهارشنبه</span>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: var(--primary); height: 110px; border-radius: 6px;"></div>
+                        <span>پنجشنبه</span>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="background: var(--primary); height: 70px; border-radius: 6px;"></div>
+                        <span>جمعه</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تب‌های پیشرفته -->
+            <div class="admin-tabs-modern">
+                <button class="admin-tab active" onclick="window.loadAdminTab('dashboard')">
+                    <i class="fas fa-home"></i> خلاصه
+                </button>
+                <button class="admin-tab" onclick="window.loadAdminTab('users')">
+                    <i class="fas fa-users-cog"></i> مدیریت کاربران
+                </button>
+                <button class="admin-tab" onclick="window.loadAdminTab('pending')">
+                    <i class="fas fa-clock"></i> درخواست‌های تأیید
+                    <span class="tab-badge" id="pending-badge">۰</span>
+                </button>
+                <button class="admin-tab" onclick="window.loadAdminTab('concrete-requests')">
+                    <i class="fas fa-cubes"></i> درخواست‌های قالب
+                </button>
+                <button class="admin-tab" onclick="window.loadAdminTab('shed-requests')">
+                    <i class="fas fa-warehouse"></i> درخواست‌های سوله
+                </button>
+                <button class="admin-tab" onclick="window.loadAdminTab('bids')">
+                    <i class="fas fa-gavel"></i> پیشنهادات
+                </button>
+                <button class="admin-tab" onclick="window.loadAdminTab('transactions')">
+                    <i class="fas fa-chart-line"></i> گزارشات
+                </button>
+                <button class="admin-tab" onclick="window.loadAdminTab('settings')">
+                    <i class="fas fa-cog"></i> تنظیمات
+                </button>
+            </div>
+            
+            <!-- محتوای تب‌ها -->
+            <div id="admin-content" style="min-height: 400px;">
+                <!-- محتوا با JS پر میشه -->
+            </div>
+        </div>
+    </section>
    <!-- مودال ارسال پیشنهاد قالب بتن -->
 <div id="submit-formwork-bid-modal" class="modal">
     <div class="modal-content">
@@ -3971,62 +4105,7 @@ window.showArticle = async function(article) {
             console.error('خطا:', error);
         }
     };
-    window.loadAdminPanel = async function() {
-    try {
-        const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
-        const { count: formworkSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'formwork');
-        const { count: shedSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'shed');
-        const { count: concreteReqs } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true });
-        const { count: shedReqs } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true });
-        
-        document.getElementById('admin-total-users').textContent = totalUsers || 0;
-        document.getElementById('admin-total-buyers').textContent = buyers || 0;
-        document.getElementById('admin-formwork-sellers').textContent = formworkSellers || 0;
-        document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
-        document.getElementById('admin-concrete-requests').textContent = concreteReqs || 0;
-        document.getElementById('admin-shed-requests').textContent = shedReqs || 0;
-        
-        window.loadAdminTab('users');
-    } catch (error) {
-        console.error('خطا:', error);
-    }
-};
-
 // ========== اینجا توابع جدید رو اضافه کن ==========
-window.loadAdminDashboard = async function() {
-    try {
-        // آمار پیشرفته
-        const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        const { count: pendingUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
-        const { count: verifiedSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('verification_status', 'verified');
-        
-        const { count: activeConcrete } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true }).eq('status', 'open');
-        const { count: activeShed } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true }).eq('status', 'open');
-        
-        const { count: completedDeals } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed');
-        const { count: shedCompleted } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed');
-        
-        // میانگین امتیازات
-        const { data: ratings } = await supabase.from('ratings').select('rating');
-        const avgRating = ratings?.length ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1) : 0;
-        
-        // بروزرسانی DOM
-        document.getElementById('admin-total-users').textContent = totalUsers || 0;
-        document.getElementById('admin-pending-users').textContent = pendingUsers || 0;
-        document.getElementById('admin-verified-sellers').textContent = verifiedSellers || 0;
-        document.getElementById('admin-active-requests').textContent = (activeConcrete || 0) + (activeShed || 0);
-        document.getElementById('active-concrete').textContent = activeConcrete || 0;
-        document.getElementById('active-shed').textContent = activeShed || 0;
-        document.getElementById('admin-completed-deals').textContent = (completedDeals || 0) + (shedCompleted || 0);
-        document.getElementById('admin-avg-rating').textContent = avgRating;
-        document.getElementById('pending-badge').textContent = pendingUsers || 0;
-        
-    } catch (error) {
-        console.error('خطا در بارگذاری داشبورد:', error);
-    }
-};
-
 window.exportAdminReport = function() {
     alert('گزارش در حال تهیه است...');
     // اینجا می‌تونیم بعداً اکسل یا PDF بسازیم
