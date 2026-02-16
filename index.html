@@ -4424,7 +4424,7 @@ window.loadAdminTab = async function(tab) {
             content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
         }
         
-        } else if (tab === 'bids') {
+          else if (tab === 'bids') {
         try {
             // دریافت همه پیشنهادات
             const [formworkBids, shedBids] = await Promise.all([
@@ -4554,15 +4554,6 @@ window.loadAdminTab = async function(tab) {
                 <i class="fas fa-chart-pie" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                 <h3 style="color: var(--primary);">داشبورد خلاصه</h3>
                 <p style="color: var(--muted);">به زودی آمار و نمودارهای پیشرفته در این بخش نمایش داده می‌شود.</p>
-            </div>
-        `;
-        
-    } else if (tab === 'transactions') {
-        content.innerHTML = `
-            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
-                <i class="fas fa-chart-line" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
-                <h3 style="color: var(--primary);">گزارشات</h3>
-                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
             </div>
         `;
         
