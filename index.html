@@ -1,105 +1,2839 @@
-<!-- ========== صفحه در حال بروزرسانی ========== -->
-<section id="maintenance-page" class="page">
-    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px;">
-        <div style="max-width: 600px; width: 100%; background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 3rem 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; backdrop-filter: blur(10px);">
-            
-            <!-- آیکون چرخ دنده متحرک -->
-            <div style="margin-bottom: 2rem;">
-                <i class="fas fa-cogs" style="font-size: 5rem; color: var(--primary); animation: spin 4s infinite linear;"></i>
-            </div>
-            
-            <!-- عنوان اصلی -->
-            <h1 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; font-weight: 700;">
-                در حال بروزرسانی
-            </h1>
-            
-            <!-- متن توضیح -->
-            <p style="font-size: 1.2rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
-                سایت در حال تعمیر و بهینه‌سازی است. به زودی با امکانات جدید بازخواهیم گشت.
-            </p>
-            
-            <!-- نوار پیشرفت متحرک -->
-            <div style="width: 100%; height: 10px; background: #e0e0e0; border-radius: 10px; margin-bottom: 2rem; overflow: hidden;">
-                <div style="width: 70%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 10px; animation: progress 2s infinite ease-in-out;"></div>
-            </div>
-            
-            <!-- ساعت و تاریخ -->
-            <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 2rem;">
-                <div style="background: #f8f9fa; padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    <i class="fas fa-calendar-alt" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 5px;"></i>
-                    <p style="color: var(--dark); font-weight: 600;">۱۴۰۴/۰۲/۰۱</p>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2BSteel | پلتفرم تخصصی قالب فلزی بتن و سوله</title>
+    
+    <!-- فونت و آیکون -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========== متغیرهای رنگ ========== */
+        :root {
+            --primary: #004586;
+            --primary-dark: #002f5c;
+            --accent: #E6B800;
+            --bg: #F7F7F7;
+            --card-bg: #FFFFFF;
+            --muted: #6b7280;
+            --dark: #1E1E1E;
+            --text-dark: #2A2A2A;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== ناوبری ========== */
+        .navbar {
+            background: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .navbar:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .logo-text .slogan {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #4b5563;
+            padding: 12px 20px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: #f3f4f6;
+            color: var(--primary);
+        }
+
+        @media (max-width: 992px) {
+            .nav-link {
+                font-size: 1.3rem;
+                padding: 10px 15px;
+            }
+        }
+
+        /* ========== دکمه‌ها ========== */
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--muted);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.85rem;
+        }
+
+        /* ========== صفحه اصلی - اسلایدشو ========== */
+        .hero-slideshow {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .hero-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 1;
+        }
+
+        .hero-slide-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hero-slide-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-slide-content p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* ========== شمارنده‌ها ========== */
+        .counters {
+            background: white;
+            padding: 3rem 0;
+            margin: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .counters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .counter-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .counter-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .counter-label {
+            font-size: 1.2rem;
+            color: #4b5563;
+        }
+
+        /* ========== صفحه سوله با بکگراند محو ========== */
+        #shed-page {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shed-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('images/slide1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(5px) brightness(0.5);
+            transform: scale(1.1);
+        }
+
+        .shed-content {
+            width: 70%;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========== کارت‌های ویژگی‌ها ========== */
+        .features {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+            transition: all 0.35s;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* ========== فرم‌های احراز هویت ========== */
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .auth-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .user-type-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-type-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-type-btn.active {
+            border-color: var(--primary);
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        /* ========== استایل کارت درخواست‌ها ========== */
+        .request-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-right: 4px solid var(--primary);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .request-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .request-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-open {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-in-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-info {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .request-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        /* ========== استایل پاسخ استعلام‌ها ========== */
+        .bid-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-right: 3px solid var(--success);
+        }
+
+        .bid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .bid-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--success);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 5px;
+            direction: ltr;
+            justify-content: center;
+        }
+
+        .star {
+            color: #ddd;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .star.active {
+            color: #fbbf24;
+        }
+
+        .star.fas {
+            color: #fbbf24;
+        }
+
+        /* ========== مودال ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* ========== استایل نوار اسکرول برای مودال ========== */
+        .modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+            border: 2px solid #f1f1f1;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* استایل برای نمایش بهتر مقاله */
+        #article-content {
+            scroll-behavior: smooth;
+            line-height: 1.8;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        #article-content h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        #article-content h3 {
+            color: var(--primary-dark);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.5rem;
+        }
+
+        #article-content h4 {
+            color: var(--dark);
+            margin: 1rem 0 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        #article-content p {
+            margin-bottom: 1rem;
+        }
+
+        #article-content li {
+            margin-right: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ========== داشبورد ========== */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* ========== پنل ادمین ========== */
+        .admin-panel {
+            padding: 2rem 0;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .admin-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            color: #10b981;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .admin-tabs-modern {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .admin-tab {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: none;
+        }
+
+        .admin-tab:hover {
+            background: #f3f4f6;
+        }
+
+        .admin-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-badge {
+            background: #ef4444;
+            color: white;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            margin-right: 5px;
+        }
+
+        .user-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .user-row:hover {
+            background: #f9fafb;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar-sm {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-verified {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-blocked {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ========== لودینگ‌های فانتزی ========== */
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .loading-dual-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid transparent;
+            border-top: 5px solid var(--primary);
+            border-bottom: 5px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1.5s ease-in-out infinite;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .loading-dots div {
+            width: 15px;
+            height: 15px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots div:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots div:nth-child(2) { animation-delay: -0.16s; }
+
+        .loading-glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-glass i {
+            font-size: 3rem;
+            color: var(--primary);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .loading-text::after {
+            content: '...';
+            position: absolute;
+            animation: dots 1.5s steps(4, end) infinite;
+            width: 24px;
+            text-align: left;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .loading-container {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin: 1rem 0;
+        }
+
+        .loading-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading-fullscreen p {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== ناوبری اصلی ========== -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-cubes"></i>
                 </div>
-                <div style="background: #f8f9fa; padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    <i class="fas fa-clock" style="color: var(--primary); font-size: 1.5rem; margin-bottom: 5px;"></i>
-                    <p style="color: var(--dark); font-weight: 600;" id="current-time">۲۰:۳۰</p>
+                <div class="logo-text">
+                    <h1>B2BSteel</h1>
+                    <div class="slogan">اعتماد - شفافیت - سرعت</div>
                 </div>
             </div>
             
-            <!-- دکمه اطلاع رسانی -->
-            <button onclick="window.location.href='mailto:info@b2bsteel.ir'" style="background: var(--primary); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,69,134,0.3); margin-bottom: 2rem;">
-                <i class="fas fa-bell"></i> به من اطلاع بده
-            </button>
-            
-            <!-- شبکه‌های اجتماعی -->
-            <div style="display: flex; gap: 20px; justify-content: center;">
-                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
-                    <i class="fab fa-telegram-plane" style="font-size: 1.5rem;"></i>
-                </a>
-                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
-                    <i class="fab fa-instagram" style="font-size: 1.5rem;"></i>
-                </a>
-                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
-                    <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
-                </a>
-                <a href="#" style="width: 45px; height: 45px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: all 0.3s;">
-                    <i class="fas fa-envelope" style="font-size: 1.5rem;"></i>
-                </a>
+            <div class="nav-links">
+                <a href="#" class="nav-link" onclick="window.showPage('home')">خانه</a>
+                <a href="#" class="nav-link" onclick="window.showPage('concrete-formwork')">قالب بتن</a>
+                <a href="#" class="nav-link" onclick="window.showPage('shed')">سوله</a>
+                <a href="#" class="nav-link" onclick="window.showPage('blog')">بلاگ</a>
+                <a href="#" class="nav-link" onclick="window.showPage('terms')">قوانین</a>
+                <a href="#" class="nav-link" onclick="window.showPage('guide')">راهنما</a>
+                
+                <div id="auth-buttons">
+                    <button class="btn btn-primary btn-sm" onclick="window.showPage('login')">ورود</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.showPage('register')">ثبت‌نام</button>
+                </div>
+                
+                <div id="user-menu" class="hidden">
+                    <button class="btn btn-primary btn-sm" onclick="window.showPage('dashboard')">داشبورد</button>
+                    <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
+                </div>
+                
+                <div id="seller-formwork-menu" class="hidden">
+                    <button class="btn btn-primary btn-sm" onclick="window.showPage('seller-formwork-dashboard')">داشبورد فروشنده قالب</button>
+                    <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
+                </div>
+                
+                <div id="seller-shed-menu" class="hidden">
+                    <button class="btn btn-success btn-sm" onclick="window.showPage('seller-shed-dashboard')">داشبورد فروشنده سوله</button>
+                    <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
+                </div>
+                
+                <div id="admin-menu" class="hidden">
+                    <button class="btn btn-warning btn-sm" onclick="window.showPage('admin')">پنل ادمین</button>
+                    <button class="btn btn-primary btn-sm" onclick="window.showPage('dashboard')">داشبورد</button>
+                    <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
+                </div>
             </div>
-            
-            <!-- کپی رایت -->
-            <p style="color: var(--muted); font-size: 0.9rem; margin-top: 2rem;">
-                &copy; ۱۴۰۴ تمامی حقوق برای B2BSteel محفوظ است.
-            </p>
         </div>
-    </div>
-</section>
+    </nav>
 
-<style>
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
-    
-    @keyframes progress {
-        0% {
-            transform: translateX(-100%);
-        }
-        50% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(100%);
-        }
-    }
-</style>
+    <!-- ========== صفحات اصلی ========== -->
+    <main id="pages">
+        <!-- صفحه اصلی با اسلایدشو ۳ عکسی -->
+        <section id="home-page" class="page">
+            <div class="hero-slideshow" onclick="window.nextSlide()">
+                <div class="hero-slide active" style="background-image: url('https://github.com/mnfasihi/b2bsteel-images/raw/main/slide1.jpg');">
+                    <div class="hero-slide-content">
+                        <h2>سازندگان قالب های فلزی بتن</h2>
+                        <p>همراه شما در اجرای پروژه ها</p>
+                    </div>
+                </div>
+                <div class="hero-slide" style="background-image: url('https://github.com/mnfasihi/b2bsteel-images/raw/main/slide2.png');">
+                    <div class="hero-slide-content">
+                        <h2 style="color: #E6B800;">سوله‌های صنعتی</h2>
+                        <p style="color: #E6B800;">طراحی و اجرای سوله با استانداردهای جهانی</p>
+                    </div>
+                </div>
+                <div class="hero-slide" style="background-image: url('https://github.com/mnfasihi/b2bsteel-images2/raw/main/IMAGE4.jpg');">
+                    <div class="hero-slide-content">
+                        <h2>سازندگان قالب های فلزی بتن</h2>
+                        <p>با تیمی مجرب و متخصص در کنار شما</p>
+                    </div>
+                </div>
+            </div>
 
-<script>
-    // آپدیت ساعت
-    function updateTime() {
-        const now = new Date();
-        const timeElement = document.getElementById('current-time');
-        if (timeElement) {
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            timeElement.textContent = `${hours}:${minutes}`;
+            <div class="counters">
+                <div class="container">
+                    <div class="counters-grid">
+                        <div class="counter-item">
+                            <div class="counter-number" id="counter-sellers">۰</div>
+                            <div class="counter-label">فروشنده ثبت‌نام شده</div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-number" id="counter-buyers">۰</div>
+                            <div class="counter-label">خریدار ثبت‌نام شده</div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-number" id="counter-transactions">۰</div>
+                            <div class="counter-label">فروش نهایی شده</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="container">
+                    <h2 class="section-title">چرا B2BSteel؟</h2>
+                    <div class="features-grid">
+                        <div class="feature-card fade-in">
+                            <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                            <h3>حریم خصوصی کاملاً محفوظ</h3>
+                            <p>اطلاعات هویتی فروشندگان تا زمان انتخاب نهایی مخفی می‌ماند.</p>
+                        </div>
+                        <div class="feature-card fade-in">
+                            <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                            <h3>شفافیت کامل قیمت</h3>
+                            <p>مقایسه آسان پیشنهادات قیمت فروشندگان مختلف.</p>
+                        </div>
+                        <div class="feature-card fade-in">
+                            <div class="feature-icon"><i class="fas fa-handshake"></i></div>
+                            <h3>ارتباط مستقیم و سریع</h3>
+                            <p>بدون واسطه، ارتباط مستقیم با فروشندگان معتبر.</p>
+                        </div>
+                        <div class="feature-card fade-in">
+                            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                            <h3>تایید هویت اعضا</h3>
+                            <p>تمام اعضا پس از بررسی مدارک تایید می‌شوند.</p>
+                        </div>
+                        <div class="feature-card fade-in">
+                            <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                            <h3>گارانتی و تضمین کیفیت</h3>
+                            <p>سیستم امتیازدهی کیفیت را تضمین می‌کند.</p>
+                        </div>
+                        <div class="feature-card fade-in">
+                            <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                            <h3>پشتیبانی ۲۴ ساعته</h3>
+                            <p>تیم پشتیبانی آماده پاسخگویی به سوالات شماست.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه قالب بتن با بکگراند محو -->
+        <section id="concrete-formwork-page" class="page hidden">
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+                        background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),
+                                    url('https://github.com/mnfasihi/b2bsteel-images/raw/main/slide1.jpg');
+                        background-size: cover; background-position: center; background-attachment: fixed; filter: blur(4px);">
+            </div>
+            
+            <div style="background: rgba(0, 69, 134, 0.85); color: white; padding: 4rem 0; text-align: center;">
+                <div class="container">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">بخش قالب فلزی بتن</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">خرید و فروش تخصصی انواع قالب فلزی بتن</p>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-primary" style="background: white; color: var(--primary); padding: 12px 25px;" onclick="window.showPage('register')">
+                            <i class="fas fa-user-tie"></i> من خریدار هستم
+                        </button>
+                        <button class="btn btn-success" style="padding: 12px 25px;" onclick="window.showPage('register')">
+                            <i class="fas fa-industry"></i> من فروشنده هستم
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container" style="padding: 4rem 0;">
+                <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="feature-card" style="background: white; border-radius: 14px; padding: 2rem;">
+                        <div class="feature-icon"><i class="fas fa-cube"></i></div>
+                        <h3>قالب مدولار</h3>
+                        <p>قالب‌بندی سریع و با کیفیت برای پروژه‌های مختلف ساختمانی</p>
+                    </div>
+                    <div class="feature-card" style="background: white; border-radius: 14px; padding: 2rem;">
+                        <div class="feature-icon"><i class="fas fa-building"></i></div>
+                        <h3>قالب دیوار و ستون</h3>
+                        <p>قالب‌های مخصوص دیوار و ستون با مقاومت بالا</p>
+                    </div>
+                    <div class="feature-card" style="background: white; border-radius: 14px; padding: 2rem;">
+                        <div class="feature-icon"><i class="fas fa-bridge"></i></div>
+                        <h3>قالب تونل و پل</h3>
+                        <p>قالب‌های تخصصی برای پروژه‌های بزرگ عمرانی</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-primary" style="padding: 15px 40px; font-size: 1.2rem;" onclick="window.enterConcreteFormworkSystem()">
+                        <i class="fas fa-sign-in-alt"></i> ورود به سیستم قالب بتن
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه سوله با بکگراند محو -->
+        <section id="shed-page" class="page hidden">
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+                        background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+                                    url('https://github.com/mnfasihi/b2bsteel-images/raw/main/slide2.png');
+                        background-size: cover; background-position: center; background-attachment: fixed; filter: blur(4px);">
+            </div>
+            
+            <div class="container" style="position: relative; z-index: 1; width: 70%; margin: 2rem auto; background: rgba(255, 255, 255, 0.95); border-radius: 15px; padding: 3rem 2rem;">
+                <h2 class="section-title" style="color: var(--primary); text-align: center; margin-bottom: 1.5rem;">بخش سوله</h2>
+                <p style="color: var(--muted); text-align: center;">انتخاب خدمات مورد نیاز خود در حوزه سوله</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin: 3rem 0;">
+                    <div style="background: white; border-radius: 10px; padding: 2.5rem; text-align: center;">
+                        <div style="width: 70px; height: 70px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.8rem; color: white;">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">سوله نو</h3>
+                        <button class="btn btn-primary" onclick="window.showPage('new-shed-request')" style="width: 100%; padding: 12px;">
+                            <i class="fas fa-file-alt"></i> پر کردن پرسشنامه سوله نو
+                        </button>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 10px; padding: 2.5rem; text-align: center;">
+                        <div style="width: 70px; height: 70px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.8rem; color: white;">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">سوله دست دوم</h3>
+                        <button class="btn btn-success" onclick="alert('بخش سوله دست دوم در حال توسعه است')" style="width: 100%; padding: 12px;">
+                            <i class="fas fa-search"></i> مشاهده آگهی‌ها
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه درخواست سوله نو -->
+        <section id="new-shed-request-page" class="page hidden">
+            <div class="container">
+                <div style="max-width: 800px; margin: 0 auto; padding: 2rem 0;">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <h1 style="color: var(--primary); margin-bottom: 0.5rem;">پرسشنامه درخواست سوله نو</h1>
+                        <p style="color: var(--muted);">لطفاً اطلاعات پروژه خود را با دقت وارد کنید</p>
+                    </div>
+                    
+                    <form id="new-shed-form">
+                        <!-- فرم درخواست سوله (برای اختصار حذف شده) -->
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه درخواست قالب بتن -->
+        <section id="new-concrete-request-page" class="page hidden">
+            <div class="container">
+                <div style="max-width: 800px; margin: 0 auto; padding: 2rem 0;">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <h1 style="color: var(--primary); margin-bottom: 0.5rem;">درخواست قالب بتن</h1>
+                        <p style="color: var(--muted);">لطفاً اطلاعات مورد نیاز را وارد کنید</p>
+                    </div>
+                    
+                    <form id="new-concrete-form">
+                        <!-- فرم درخواست قالب (برای اختصار حذف شده) -->
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه قوانین و شرایط -->
+        <section id="terms-page" class="page hidden">
+            <!-- محتوای صفحه قوانین (برای اختصار حذف شده) -->
+        </section>
+
+        <!-- صفحه راهنما -->
+        <section id="guide-page" class="page hidden">
+            <!-- محتوای صفحه راهنما (برای اختصار حذف شده) -->
+        </section>
+
+        <!-- صفحه بلاگ تخصصی -->
+        <section id="blog-page" class="page hidden">
+            <div class="container" style="padding: 3rem 0;">
+                <h2 class="section-title">وبلاگ تخصصی B2BSteel</h2>
+                <div id="blog-posts-container" class="blog-grid" style="min-height: 400px;"></div>
+            </div>
+        </section>
+
+        <!-- صفحه ثبت‌نام -->
+        <section id="register-page" class="page hidden">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2 class="auth-title">ثبت‌نام در B2BSteel</h2>
+                    <!-- فرم ثبت‌نام (برای اختصار حذف شده) -->
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه ورود -->
+        <section id="login-page" class="page hidden">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2 class="auth-title">ورود به حساب</h2>
+                    <!-- فرم ورود (برای اختصار حذف شده) -->
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه فراموشی رمز -->
+        <section id="forgot-password-page" class="page hidden">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2 class="auth-title">بازیابی رمز عبور</h2>
+                    <!-- فرم بازیابی رمز (برای اختصار حذف شده) -->
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه داشبورد خریدار -->
+        <section id="dashboard-page" class="page hidden">
+            <div class="container dashboard">
+                <div class="dashboard-header">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar">?</div>
+                        <div>
+                            <h2 id="user-name">کاربر عزیز</h2>
+                            <p id="user-type">نوع حساب: خریدار</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="dashboard-content"></div>
+            </div>
+        </section>
+
+        <!-- صفحه داشبورد فروشنده قالب -->
+        <section id="seller-formwork-dashboard-page" class="page hidden">
+            <!-- محتوای داشبورد فروشنده قالب -->
+        </section>
+
+        <!-- صفحه داشبورد فروشنده سوله -->
+        <section id="seller-shed-dashboard-page" class="page hidden">
+            <!-- محتوای داشبورد فروشنده سوله -->
+        </section>
+
+        <!-- صفحه پنل ادمین جدید -->
+        <section id="admin-page" class="page hidden">
+            <div class="container admin-panel">
+                <div class="admin-header">
+                    <div>
+                        <h1 class="section-title" style="margin-bottom: 0.5rem;">پنل مدیریت</h1>
+                        <p style="color: var(--muted);">خوش آمدید، <span id="admin-name">مدیر</span> | آخرین به‌روزرسانی: <span id="admin-last-update">۱۴۰۴/۰۲/۲۰</span></p>
+                    </div>
+                    <button class="btn btn-danger" onclick="window.exportAdminReport()">
+                        <i class="fas fa-download"></i> خروجی گزارش
+                    </button>
+                </div>
+                
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card" style="border-right: 4px solid var(--primary);">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div>
+                            <h3>کل کاربران</h3>
+                            <div class="value" id="admin-total-users">۰</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card" style="border-right: 4px solid #10b981;">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <h3>فروشندگان تأیید شده</h3>
+                            <div class="value" id="admin-verified-sellers">۰</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card" style="border-right: 4px solid #f59e0b;">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h3>در انتظار تأیید</h3>
+                            <div class="value" id="admin-pending-users">۰</div>
+                            <button class="btn btn-warning btn-sm" onclick="window.loadAdminTab('pending')">مشاهده</button>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card" style="border-right: 4px solid #ef4444;">
+                        <div class="stat-icon"><i class="fas fa-file-invoice"></i></div>
+                        <div>
+                            <h3>درخواست‌های فعال</h3>
+                            <div class="value" id="admin-active-requests">۰</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card" style="border-right: 4px solid #8b5cf6;">
+                        <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+                        <div>
+                            <h3>معاملات انجام شده</h3>
+                            <div class="value" id="admin-completed-deals">۰</div>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card" style="border-right: 4px solid #ec4899;">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                        <div>
+                            <h3>میانگین امتیازات</h3>
+                            <div class="value" id="admin-avg-rating">۰</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-tabs-modern">
+                    <button class="admin-tab active" onclick="window.loadAdminTab('dashboard')"><i class="fas fa-home"></i> خلاصه</button>
+                    <button class="admin-tab" onclick="window.loadAdminTab('users')"><i class="fas fa-users-cog"></i> مدیریت کاربران</button>
+                    <button class="admin-tab" onclick="window.loadAdminTab('pending')"><i class="fas fa-clock"></i> درخواست‌های تأیید <span class="tab-badge" id="pending-badge">۰</span></button>
+                    <button class="admin-tab" onclick="window.loadAdminTab('concrete-requests')"><i class="fas fa-cubes"></i> درخواست‌های قالب</button>
+                    <button class="admin-tab" onclick="window.loadAdminTab('shed-requests')"><i class="fas fa-warehouse"></i> درخواست‌های سوله</button>
+                    <button class="admin-tab" onclick="window.loadAdminTab('bids')"><i class="fas fa-gavel"></i> پیشنهادات</button>
+                    <button class="admin-tab" onclick="window.loadAdminTab('transactions')"><i class="fas fa-chart-line"></i> گزارشات</button>
+                    <button class="admin-tab" onclick="window.loadAdminTab('settings')"><i class="fas fa-cog"></i> تنظیمات</button>
+                </div>
+                
+                <div id="admin-content" style="min-height: 400px;"></div>
+            </div>
+        </section>
+
+        <!-- مودال‌ها -->
+        <!-- ... (مودال‌ها برای اختصار حذف شده) ... -->
+    </main>
+
+    <!-- فوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>B2BSteel</h3>
+                    <p>پلتفرم تخصصی قالب فلزی بتن و سوله</p>
+                </div>
+                <div class="footer-section">
+                    <h3>لینک‌های سریع</h3>
+                    <ul style="list-style: none;">
+                        <li><a href="#" onclick="window.showPage('home')">خانه</a></li>
+                        <li><a href="#" onclick="window.showPage('terms')">قوانین</a></li>
+                        <li><a href="#" onclick="window.showPage('guide')">راهنما</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>تماس با ما</h3>
+                    <ul style="list-style: none;">
+                        <li><i class="fas fa-phone"></i> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><i class="fas fa-envelope"></i> info@b2bsteel.ir</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© ۱۴۰۴ B2BSteel</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== اسکریپت‌ها ========== -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+            }
         }
-    }
-    
-    // اجرا هر ثانیه
-    setInterval(updateTime, 1000);
-    updateTime();
-</script>
+    </script>
+
+    <script type="module">
+        // ========== ایمپورت ==========
+        import { supabase } from './supabaseClient.js';
+        
+        window.supabase = supabase;
+        let currentUser = JSON.parse(localStorage.getItem('current_user')) || null;
+        window.currentUser = currentUser;
+        let selectedUserType = 'buyer';
+        let selectedUserLegalType = 'company';
+        let selectedSellerType = 'formwork';
+        let currentRating = 0;
+        let slideInterval;
+
+        // ========== توابع مودال قوانین ==========
+        window.showTermsModal = function() {
+            const modal = document.getElementById('terms-modal');
+            if (modal) modal.classList.add('active');
+            return false;
+        };
+
+        window.acceptTermsAndClose = function() {
+            const termsCheckbox = document.getElementById('accept-terms');
+            if (termsCheckbox) {
+                termsCheckbox.checked = true;
+                termsCheckbox.disabled = false;
+            }
+            window.closeModal('terms-modal');
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const termsLink = document.getElementById('terms-link');
+            if (termsLink) {
+                termsLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.showTermsModal();
+                });
+            }
+        });
+
+        // ========== توابع تبدیل اعداد ==========
+        function toEnglishNumbers(str) {
+            if (!str) return str;
+            const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            let result = str;
+            for (let i = 0; i < 10; i++) {
+                result = result.replace(new RegExp(persianDigits[i], 'g'), englishDigits[i]);
+            }
+            return result;
+        }
+
+        function parseFormattedNumber(formattedValue) {
+            if (!formattedValue || formattedValue === '') return 0;
+            let value = toEnglishNumbers(formattedValue);
+            value = value.replace(/[^\d]/g, '');
+            const num = parseInt(value);
+            return isNaN(num) ? 0 : num;
+        }
+
+        function toPersianNumbers(num) {
+            if (num === undefined || num === null) return '';
+            const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return num.toString().replace(/\d/g, d => persianDigits[d]);
+        }
+
+        function formatNumberFarsiDisplay(number) {
+            if (number === undefined || number === null) return '۰';
+            const num = typeof number === 'number' ? number : parseFloat(number);
+            if (isNaN(num)) return '۰';
+            return num.toLocaleString('fa-IR');
+        }
+
+        // ========== توابع کمکی ==========
+        window.formatPriceInput = function(input) {
+            if (!input) return;
+            let value = input.value;
+            if (value === '') {
+                if (input.id === 'bid-base-price') window.calculateFormworkTotal();
+                else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') window.calculateShedTotalPrice();
+                return;
+            }
+            value = toEnglishNumbers(value);
+            value = value.replace(/[^\d]/g, '');
+            if (value === '') {
+                input.value = '';
+                if (input.id === 'bid-base-price') window.calculateFormworkTotal();
+                else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') window.calculateShedTotalPrice();
+                return;
+            }
+            const num = parseInt(value, 10);
+            if (isNaN(num)) {
+                input.value = '';
+                if (input.id === 'bid-base-price') window.calculateFormworkTotal();
+                else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') window.calculateShedTotalPrice();
+                return;
+            }
+            const formatted = num.toLocaleString('fa-IR');
+            input.value = formatted;
+            if (input.id === 'bid-base-price') {
+                if (typeof window.calculateFormworkTotal === 'function') window.calculateFormworkTotal();
+            } else if (input.id === 'shed-bid-price-per-kg' || input.id === 'shed-bid-estimated-weight') {
+                if (typeof window.calculateShedTotalPrice === 'function') window.calculateShedTotalPrice();
+            }
+        };
+
+        window.previewBidImage = function(event) {
+            const input = event.target;
+            const preview = document.getElementById('bid-image-preview');
+            if (!preview) return;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+                preview.src = '';
+            }
+        };
+
+        // ========== بلاگ تخصصی ==========
+        const blogPosts = [
+            {
+                id: 1,
+                title: "انواع قالب‌های فلزی بتن و کاربردهای آنها در صنعت ساختمان",
+                date: "۱۴۰۴/۰۱/۲۰",
+                category: "قالب بتن",
+                summary: "قالب‌بندی یکی از مهمترین بخش‌های اجرای اسکلت بتنی است...",
+                image: "https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg",
+                link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article1",
+                author: "تیم فنی B2BSteel"
+            },
+            {
+                id: 2,
+                title: "قالب‌بندی دیوار و ستون؛ اصول و نکات اجرایی",
+                date: "۱۴۰۴/۰۱/۲۵",
+                category: "قالب بتن",
+                summary: "قالب‌بندی دیوارها و ستون‌ها از حساسترین مراحل اجرای سازه‌های بتنی است...",
+                image: "https://images.pexels.com/photos/161580/pexels-photo-161580.jpeg",
+                link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article2",
+                author: "مهندس رضایی"
+            },
+            {
+                id: 3,
+                title: "قالب‌بندی سقف؛ روش‌ها و تجهیزات مورد نیاز",
+                date: "۱۴۰۴/۰۲/۰۱",
+                category: "قالب بتن",
+                summary: "قالب‌بندی سقف یکی از پیچیده‌ترین و حساسترین بخش‌های قالب‌بندی است...",
+                image: "https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg",
+                link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article3",
+                author: "تیم فنی B2BSteel"
+            },
+            {
+                id: 4,
+                title: "قالب‌بندی فونداسیون؛ اصول و استانداردهای اجرایی",
+                date: "۱۴۰۴/۰۲/۰۵",
+                category: "قالب بتن",
+                summary: "فونداسیون یا پی، مهمترین بخش هر سازه است...",
+                image: "https://images.pexels.com/photos/256109/pexels-photo-256109.jpeg",
+                link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article4",
+                author: "مهندس کریمی"
+            },
+            {
+                id: 5,
+                title: "اصول نگهداری و افزایش عمر مفید قالب‌های فلزی بتن",
+                date: "۱۴۰۴/۰۲/۱۰",
+                category: "نکات فنی",
+                summary: "قالب‌های فلزی بتن یکی از سرمایه‌های اصلی پیمانکاران ساختمانی هستند...",
+                image: "https://images.pexels.com/photos/236059/pexels-photo-236059.jpeg",
+                link: "https://raw.githubusercontent.com/mnfasihi/b2bsteel-blog/refs/heads/main/article5",
+                author: "تیم فنی B2BSteel"
+            }
+        ];
+
+        function loadBlogPosts(category = 'all') {
+            const container = document.getElementById('blog-posts-container');
+            if (!container) return;
+            
+            let filteredPosts = blogPosts;
+            if (category !== 'all') {
+                filteredPosts = blogPosts.filter(post => post.category === category);
+            }
+            
+            if (filteredPosts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--muted);">مقاله‌ای یافت نشد</p>';
+                return;
+            }
+            
+            let html = '';
+            filteredPosts.forEach(post => {
+                html += `
+                    <div class="blog-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                        <img src="${post.image}" alt="${post.title}" style="width: 100%; height: 200px; object-fit: cover;">
+                        <div style="padding: 1.5rem;">
+                            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">${post.title}</h3>
+                            <p style="color: var(--muted); margin-bottom: 1rem;">${post.summary}</p>
+                            <a href="#" onclick='window.showArticle(${JSON.stringify(post)}); return false;' class="btn btn-primary btn-sm">مطالعه</a>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        window.showArticle = async function(article) {
+            try {
+                const response = await fetch(article.link);
+                let content = await response.text();
+                
+                const metadataMatch = content.match(/^---\n([\s\S]*?)\n---\n/);
+                if (metadataMatch) content = content.replace(metadataMatch[0], '');
+                
+                const lines = content.split('\n');
+                if (lines[0] && lines[0].includes(article.title.substring(0, 20))) lines.shift();
+                if (lines[0] && lines[0].includes('#')) lines.shift();
+                content = lines.join('\n');
+                
+                let htmlContent = content
+                    .replace(/^# (.*$)/gim, '<h1 style="color: var(--primary); font-size: 2rem;">$1</h1>')
+                    .replace(/^## (.*$)/gim, '<h2 style="color: var(--primary-dark); font-size: 1.5rem;">$1</h2>')
+                    .replace(/^### (.*$)/gim, '<h3 style="color: var(--dark); font-size: 1.3rem;">$1</h3>')
+                    .replace(/\n\n/g, '<br><br>');
+                
+                const modal = document.createElement('div');
+                modal.className = 'modal active';
+                modal.innerHTML = `
+                    <div class="modal-content" style="max-width: 800px;">
+                        <div class="modal-header">
+                            <h3>${article.title}</h3>
+                            <button class="close-modal" onclick="this.closest('.modal').remove()">&times;</button>
+                        </div>
+                        <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                            ${htmlContent}
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            } catch (error) {
+                console.error('خطا:', error);
+                alert('خطا در نمایش مقاله');
+            }
+        };
+
+        // ========== توابع اصلی سایت ==========
+        window.initSlideshow = function() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideInterval = setInterval(window.nextSlide, 10000);
+        };
+
+        window.nextSlide = function() {
+            const slides = document.querySelectorAll('.hero-slide');
+            if (slides.length === 0) return;
+            const current = document.querySelector('.hero-slide.active');
+            const currentIndex = Array.from(slides).indexOf(current);
+            current.classList.remove('active');
+            const nextIndex = (currentIndex + 1) % slides.length;
+            slides[nextIndex].classList.add('active');
+        };
+
+        window.loadCounters = async function() {
+            try {
+                const { count: sellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller');
+                const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
+                
+                const sellersEl = document.getElementById('counter-sellers');
+                const buyersEl = document.getElementById('counter-buyers');
+                const transactionsEl = document.getElementById('counter-transactions');
+                
+                if (sellersEl) sellersEl.textContent = sellers || 0;
+                if (buyersEl) buyersEl.textContent = buyers || 0;
+                if (transactionsEl) transactionsEl.textContent = '۰';
+            } catch (error) {
+                console.error('خطا:', error);
+            }
+        };
+
+        window.updateNavigation = function() {
+            const auth = document.getElementById('auth-buttons');
+            const user = document.getElementById('user-menu');
+            const sellerF = document.getElementById('seller-formwork-menu');
+            const sellerS = document.getElementById('seller-shed-menu');
+            const admin = document.getElementById('admin-menu');
+            
+            if (currentUser) {
+                auth.classList.add('hidden');
+                if (currentUser.isAdmin) {
+                    admin.classList.remove('hidden');
+                    user.classList.add('hidden');
+                    sellerF.classList.add('hidden');
+                    sellerS.classList.add('hidden');
+                } else if (currentUser.userType === 'buyer') {
+                    user.classList.remove('hidden');
+                    admin.classList.add('hidden');
+                    sellerF.classList.add('hidden');
+                    sellerS.classList.add('hidden');
+                } else if (currentUser.userType === 'seller') {
+                    if (currentUser.sellerType === 'formwork') {
+                        sellerF.classList.remove('hidden');
+                        user.classList.add('hidden');
+                        admin.classList.add('hidden');
+                        sellerS.classList.add('hidden');
+                    } else if (currentUser.sellerType === 'shed') {
+                        sellerS.classList.remove('hidden');
+                        user.classList.add('hidden');
+                        admin.classList.add('hidden');
+                        sellerF.classList.add('hidden');
+                    }
+                }
+            } else {
+                auth.classList.remove('hidden');
+                user.classList.add('hidden');
+                sellerF.classList.add('hidden');
+                sellerS.classList.add('hidden');
+                admin.classList.add('hidden');
+            }
+        };
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId)?.classList.remove('active');
+            if (modalId === 'terms-modal') {
+                const termsCheckbox = document.getElementById('accept-terms');
+                if (termsCheckbox && !termsCheckbox.checked) termsCheckbox.disabled = true;
+            }
+        };
+
+        // ========== انتخاب نوع کاربر ==========
+        window.selectUserType = function(type) {
+            selectedUserType = type;
+            document.querySelectorAll('#user-type-main-selector .user-type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
+            document.getElementById('seller-type-section').classList.toggle('hidden', type !== 'seller');
+        };
+
+        window.selectUserLegalType = function(type) {
+            selectedUserLegalType = type;
+            document.querySelectorAll('#user-legal-type-selector .user-type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
+            document.getElementById('company-fields').style.display = type === 'company' ? 'block' : 'none';
+        };
+
+        window.selectSellerType = function(type) {
+            selectedSellerType = type;
+            document.querySelectorAll('#seller-type-selector .user-type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
+        };
+
+        // ========== ثبت‌نام ==========
+        window.handleRegister = async function(data) {
+            try {
+                const { data: auth, error } = await supabase.auth.signUp({
+                    email: data.email,
+                    password: data.password,
+                    options: {
+                        data: {
+                            full_name: data.contactPerson,
+                            phone: data.phone,
+                            user_type: data.userType,
+                            seller_type: data.sellerType,
+                            company_name: data.company,
+                            user_legal_type: data.userLegalType
+                        }
+                    }
+                });
+                if (error) throw error;
+                
+                if (auth.user) {
+                    await supabase.from('profiles').insert([{
+                        user_id: auth.user.id,
+                        email: data.email,
+                        full_name: data.contactPerson,
+                        phone: data.phone,
+                        user_type: data.userType,
+                        seller_type: data.sellerType,
+                        company_name: data.company,
+                        user_legal_type: data.userLegalType,
+                        verification_status: 'pending',
+                        role: 'user'
+                    }]);
+                    
+                    currentUser = {
+                        id: auth.user.id,
+                        email: data.email,
+                        userType: data.userType,
+                        sellerType: data.sellerType,
+                        full_name: data.contactPerson,
+                        companyName: data.company,
+                        userLegalType: data.userLegalType,
+                        isAdmin: false
+                    };
+                    localStorage.setItem('current_user', JSON.stringify(currentUser));
+                    window.currentUser = currentUser;
+                }
+                return { success: true };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        };
+
+        // ========== ورود ==========
+        window.handleLogin = async function(email, password) {
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('user_id', data.user.id)
+                    .single();
+                
+                currentUser = {
+                    id: data.user.id,
+                    email: data.user.email,
+                    userType: profile?.user_type || 'buyer',
+                    sellerType: profile?.seller_type,
+                    full_name: profile?.full_name,
+                    companyName: profile?.company_name,
+                    userLegalType: profile?.user_legal_type,
+                    isAdmin: profile?.role === 'admin'
+                };
+                localStorage.setItem('current_user', JSON.stringify(currentUser));
+                window.currentUser = currentUser;
+                return { success: true, user: currentUser };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        };
+
+        window.logout = async function() {
+            await supabase.auth.signOut();
+            currentUser = null;
+            localStorage.removeItem('current_user');
+            window.currentUser = null;
+            window.showPage('home');
+        };
+
+        // ========== فرم ثبت‌نام ==========
+        document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (document.getElementById('reg-password').value !== document.getElementById('reg-password-confirm').value) {
+                alert('رمز عبور مطابقت ندارد');
+                return;
+            }
+            
+            const result = await window.handleRegister({
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-password').value,
+                contactPerson: document.getElementById('reg-contact').value,
+                phone: document.getElementById('reg-phone').value,
+                company: document.getElementById('reg-company').value,
+                position: document.getElementById('reg-position').value,
+                userType: selectedUserType,
+                sellerType: selectedUserType === 'seller' ? selectedSellerType : null,
+                userLegalType: selectedUserLegalType
+            });
+            
+            if (result.success) {
+                alert('ثبت‌نام موفق');
+                if (selectedUserType === 'buyer') window.showPage('dashboard');
+                else if (selectedUserType === 'seller' && selectedSellerType === 'formwork') window.showPage('seller-formwork-dashboard');
+                else if (selectedUserType === 'seller' && selectedSellerType === 'shed') window.showPage('seller-shed-dashboard');
+            } else {
+                alert(result.error);
+            }
+        });
+
+        // ========== فرم ورود ==========
+        document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const result = await window.handleLogin(
+                document.getElementById('login-email').value,
+                document.getElementById('login-password').value
+            );
+            
+            if (result.success) {
+                if (result.user.isAdmin) window.showPage('admin');
+                else if (result.user.userType === 'buyer') window.showPage('dashboard');
+                else if (result.user.userType === 'seller' && result.user.sellerType === 'formwork') window.showPage('seller-formwork-dashboard');
+                else if (result.user.userType === 'seller' && result.user.sellerType === 'shed') window.showPage('seller-shed-dashboard');
+            } else {
+                alert('ایمیل یا رمز اشتباه است');
+            }
+        });
+
+        // ========== توابع سوله ==========
+        window.toggleDrawingUpload = function(show) {
+            document.getElementById('drawing-upload-section').classList.toggle('hidden', !show);
+        };
+
+        window.toggleCraneDetails = function(show) {
+            document.getElementById('crane-details-section').classList.toggle('hidden', !show);
+        };
+
+        window.toggleOtherPaintType = function() {
+            const paint = document.getElementById('paint-type');
+            const other = document.getElementById('other-paint-type');
+            other.classList.toggle('hidden', paint.value !== 'other');
+        };
+
+        window.loadSecondhandSheds = function() {
+            alert('بخش سوله دست دوم در حال توسعه است');
+        };
+
+        window.showNewShedRequest = function() {
+            window.showPage('new-shed-request');
+        };
+
+        window.showNewConcreteRequest = function() {
+            window.showPage('new-concrete-request');
+        };
+
+        // ========== فرم درخواست سوله ==========
+        document.getElementById('new-shed-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // ... کد ارسال فرم سوله
+        });
+
+        // ========== فرم درخواست قالب بتن ==========
+        document.getElementById('new-concrete-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // ... کد ارسال فرم قالب
+        });
+
+        // ========== داشبورد خریدار ==========
+        window.loadBuyerDashboard = async function() {
+            if (!currentUser) return;
+            // ... کد داشبورد خریدار
+        };
+
+        window.loadMyRequests = async function(type = 'all') {
+            // ... کد بارگذاری درخواست‌ها
+        };
+
+        window.showBidDetails = async function(bidId, type) {
+            // ... کد نمایش جزئیات پیشنهاد
+        };
+
+        // ========== داشبورد فروشنده قالب ==========
+        window.loadSellerFormworkDashboard = async function() {
+            // ... کد داشبورد فروشنده قالب
+        };
+
+        // ========== داشبورد فروشنده سوله ==========
+        window.loadSellerShedDashboard = async function() {
+            // ... کد داشبورد فروشنده سوله
+        };
+
+        // ========== مودال پیشنهاد قالب ==========
+        window.showFormworkBidModal = function(requestId, title, description) {
+            // ... کد نمایش مودال پیشنهاد قالب
+        };
+
+        window.calculateFormworkTotal = function() {
+            // ... کد محاسبه قیمت قالب
+        };
+
+        window.submitFormworkBid = async function() {
+            // ... کد ارسال پیشنهاد قالب
+        };
+
+        // ========== مودال پیشنهاد سوله ==========
+        window.showShedBidModal = function(requestId, dimensions) {
+            // ... کد نمایش مودال پیشنهاد سوله
+        };
+
+        window.loadShedBuyerResponsibilities = async function(requestId) {
+            // ... کد بارگذاری مسئولیت‌های خریدار
+        };
+
+        window.calculateShedTotalPrice = function() {
+            // ... کد محاسبه قیمت سوله
+        };
+
+        window.submitShedBid = async function() {
+            // ... کد ارسال پیشنهاد سوله
+        };
+
+        // ========== انتخاب پیشنهاد ==========
+        window.selectBid = async function(bidId, type) {
+            // ... کد انتخاب پیشنهاد
+        };
+
+        // ========== امتیاز دهی ==========
+        window.showRatingModal = function(bidId, sellerId) {
+            document.getElementById('rating-bid-id').value = bidId;
+            document.getElementById('rating-seller-id').value = sellerId;
+            document.getElementById('rating-seller-info').textContent = 'امتیاز به فروشنده';
+            document.getElementById('rating-modal').classList.add('active');
+            currentRating = 0;
+            document.querySelectorAll('.rating-stars .star').forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+            });
+        };
+
+        window.setRating = function(rating) {
+            currentRating = rating;
+            document.querySelectorAll('.rating-stars .star').forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas', 'active');
+                } else {
+                    star.classList.remove('fas', 'active');
+                    star.classList.add('far');
+                }
+            });
+        };
+
+        window.submitRating = async function() {
+            if (!currentRating) {
+                alert('لطفاً امتیاز را انتخاب کنید');
+                return;
+            }
+            
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+            
+            const rating = {
+                bid_id: document.getElementById('rating-bid-id').value,
+                seller_id: document.getElementById('rating-seller-id').value,
+                buyer_id: user.id,
+                rating: currentRating,
+                comment: document.getElementById('rating-comment').value,
+                created_at: new Date().toISOString()
+            };
+            
+            try {
+                const { error } = await supabase.from('ratings').insert([rating]);
+                if (error) throw error;
+                alert('✅ امتیاز شما ثبت شد');
+                window.closeModal('rating-modal');
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
+        // ========== پنل ادمین ==========
+        window.loadAdminPanel = async function() {
+            try {
+                const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+                const { count: buyers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
+                const { count: formworkSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'formwork');
+                const { count: shedSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('seller_type', 'shed');
+                const { count: concreteReqs } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true });
+                const { count: shedReqs } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true });
+                
+                document.getElementById('admin-total-users').textContent = totalUsers || 0;
+                document.getElementById('admin-total-buyers').textContent = buyers || 0;
+                document.getElementById('admin-formwork-sellers').textContent = formworkSellers || 0;
+                document.getElementById('admin-shed-sellers').textContent = shedSellers || 0;
+                document.getElementById('admin-concrete-requests').textContent = concreteReqs || 0;
+                document.getElementById('admin-shed-requests').textContent = shedReqs || 0;
+                
+                window.loadAdminTab('users');
+            } catch (error) {
+                console.error('خطا:', error);
+            }
+        };
+
+        // ========== سیستم لودینگ پیشرفته ==========
+        const LoadingSystem = {
+            showInElement: (element, type = 'spinner', message = 'در حال بارگذاری...') => {
+                const loaders = {
+                    spinner: `<div class="loading-container"><div class="loading-spinner"></div><p style="margin-top: 1rem; color: var(--muted);">${message}</p></div>`,
+                    dual: `<div class="loading-container"><div class="loading-dual-spinner"></div><p style="margin-top: 1rem; color: var(--muted);">${message}</p></div>`,
+                    dots: `<div class="loading-container"><div class="loading-dots"><div></div><div></div><div></div></div><p style="margin-top: 1rem; color: var(--muted);">${message}</p></div>`,
+                    glass: `<div class="loading-container loading-glass"><i class="fas fa-circle-notch fa-spin"></i><p style="margin-top: 1rem; color: var(--primary); font-weight: 600;">${message}</p></div>`,
+                    text: `<div class="loading-container"><p class="loading-text">${message}</p></div>`
+                };
+                element.innerHTML = loaders[type] || loaders.spinner;
+            },
+            showFullscreen: (message = 'لطفاً صبر کنید...') => {
+                const loader = document.createElement('div');
+                loader.id = 'fullscreen-loader';
+                loader.className = 'loading-fullscreen';
+                loader.innerHTML = `<div class="loading-dual-spinner"></div><p>${message}</p>`;
+                document.body.appendChild(loader);
+            },
+            hideFullscreen: () => {
+                const loader = document.getElementById('fullscreen-loader');
+                if (loader) {
+                    loader.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => loader.remove(), 300);
+                }
+            },
+            showRandom: (element, message = 'در حال بارگذاری...') => {
+                const types = ['spinner', 'dual', 'dots', 'glass', 'text'];
+                const randomType = types[Math.floor(Math.random() * types.length)];
+                LoadingSystem.showInElement(element, randomType, message);
+            }
+        };
+
+        // ========== توابع مشترک ==========
+        const dashboardHelpers = {
+            formatDate: (date) => new Date(date).toLocaleDateString('fa-IR'),
+            formatPrice: (price) => price?.toLocaleString('fa-IR') + ' ریال' || '۰ ریال',
+            statusBadge: (status) => {
+                const badges = {
+                    'open': '<span class="badge-open">باز</span>',
+                    'completed': '<span class="badge-completed">تکمیل شده</span>',
+                    'pending': '<span class="badge-warning">در انتظار</span>',
+                    'verified': '<span class="badge-success">تأیید شده</span>',
+                    'rejected': '<span class="badge-danger">رد شده</span>',
+                    'blocked': '<span class="badge-danger">مسدود</span>'
+                };
+                return badges[status] || '<span class="badge-info">نامشخص</span>';
+            },
+            showLoading: (element) => {
+                element.innerHTML = `<div style="text-align: center; padding: 3rem;"><i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i><p>در حال بارگذاری...</p></div>`;
+            },
+            showError: (element, message) => {
+                element.innerHTML = `<div style="text-align: center; padding: 3rem; color: var(--danger);"><i class="fas fa-exclamation-circle" style="font-size: 3rem;"></i><p>${message || 'خطا در بارگذاری'}</p></div>`;
+            },
+            showEmpty: (element, message, icon = 'fa-folder-open') => {
+                element.innerHTML = `<div style="text-align: center; padding: 3rem; color: var(--muted);"><i class="fas ${icon}" style="font-size: 3rem;"></i><p>${message || 'موردی یافت نشد'}</p></div>`;
+            }
+        };
+
+        // ========== کامپوننت فیلتر ==========
+        class FilterComponent {
+            constructor(containerId, options, onFilterChange) {
+                this.container = document.getElementById(containerId);
+                this.options = options;
+                this.onFilterChange = onFilterChange;
+                this.filters = {};
+                this.render();
+            }
+            
+            render() {
+                let html = '<div class="filter-container" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem;">';
+                this.options.forEach(option => {
+                    if (option.type === 'select') {
+                        html += `<select class="form-control filter-${option.name}" style="width: 200px;" onchange="window.filterManager.update('${option.name}', this.value)"><option value="all">${option.label}</option>${option.items.map(item => `<option value="${item.value}">${item.text}</option>`).join('')}</select>`;
+                    } else if (option.type === 'search') {
+                        html += `<input type="text" class="form-control filter-${option.name}" placeholder="${option.placeholder}" style="flex: 1;" onkeyup="window.filterManager.update('${option.name}', this.value)">`;
+                    } else if (option.type === 'date') {
+                        html += `<input type="date" class="form-control filter-${option.name}" onchange="window.filterManager.update('${option.name}', this.value)">`;
+                    }
+                });
+                html += '</div>';
+                this.container.innerHTML = html;
+            }
+            
+            update(name, value) {
+                this.filters[name] = value === 'all' ? null : value;
+                if (this.onFilterChange) this.onFilterChange(this.filters);
+            }
+        }
+
+        window.filterManager = null;
+
+        // ========== مدیریت کش ==========
+        const DataCache = {
+            cache: {},
+            expiryTime: 30000,
+            async get(key, fetchFunction) {
+                const now = Date.now();
+                const cached = this.cache[key];
+                if (cached && (now - cached.timestamp) < this.expiryTime) {
+                    return cached.data;
+                }
+                const data = await fetchFunction();
+                this.cache[key] = { data, timestamp: now };
+                return data;
+            },
+            clear(key) {
+                if (key) delete this.cache[key];
+                else this.cache = {};
+            }
+        };
+
+        // ========== توابع مدیریت کاربران ==========
+        window.verifySeller = async function(userId) {
+            if (!confirm('آیا از تأیید این فروشنده اطمینان دارید؟')) return;
+            try {
+                const { error } = await supabase.from('profiles').update({ verification_status: 'verified' }).eq('user_id', userId);
+                if (error) throw error;
+                alert('✅ فروشنده با موفقیت تأیید شد');
+                window.loadAdminTab('pending');
+            } catch (error) {
+                alert('❌ خطا: ' + error.message);
+            }
+        };
+
+        window.rejectSeller = async function(userId) {
+            const reason = prompt('لطفاً دلیل رد فروشنده را وارد کنید:');
+            if (reason === null) return;
+            try {
+                const { error } = await supabase.from('profiles').update({ verification_status: 'rejected', reject_reason: reason }).eq('user_id', userId);
+                if (error) throw error;
+                alert('❌ فروشنده رد شد');
+                window.loadAdminTab('pending');
+            } catch (error) {
+                alert('❌ خطا: ' + error.message);
+            }
+        };
+
+        window.blockUser = async function(userId, fullName) {
+            if (!confirm(`آیا از مسدود کردن کاربر "${fullName}" اطمینان دارید؟`)) return;
+            try {
+                const { error } = await supabase.from('profiles').update({ verification_status: 'blocked', blocked_at: new Date().toISOString() }).eq('user_id', userId);
+                if (error) throw error;
+                alert('⛔ کاربر مسدود شد');
+                window.loadAdminTab('users');
+            } catch (error) {
+                alert('❌ خطا: ' + error.message);
+            }
+        };
+
+        window.activateUser = async function(userId, fullName) {
+            if (!confirm(`آیا کاربر "${fullName}" فعال شود؟`)) return;
+            try {
+                const { error } = await supabase.from('profiles').update({ verification_status: 'verified', blocked_at: null }).eq('user_id', userId);
+                if (error) throw error;
+                alert('✅ کاربر فعال شد');
+                window.loadAdminTab('users');
+            } catch (error) {
+                alert('❌ خطا: ' + error.message);
+            }
+        };
+
+        window.searchUsers = async function() {
+            const searchTerm = document.getElementById('user-search')?.value.toLowerCase() || '';
+            const filterType = document.getElementById('user-filter')?.value || 'all';
+            
+            try {
+                let query = supabase.from('profiles').select('*');
+                if (filterType !== 'all') {
+                    if (filterType === 'buyer') query = query.eq('user_type', 'buyer');
+                    else if (filterType === 'seller') query = query.eq('user_type', 'seller');
+                    else if (filterType === 'pending') query = query.eq('verification_status', 'pending');
+                    else if (filterType === 'verified') query = query.eq('verification_status', 'verified');
+                    else if (filterType === 'blocked') query = query.eq('verification_status', 'blocked');
+                }
+                const { data: users } = await query.order('created_at', { ascending: false });
+                const filteredUsers = users?.filter(user => 
+                    user.full_name?.toLowerCase().includes(searchTerm) ||
+                    user.email?.toLowerCase().includes(searchTerm) ||
+                    user.company_name?.toLowerCase().includes(searchTerm) ||
+                    user.phone?.includes(searchTerm)
+                );
+                displayUsersList(filteredUsers);
+            } catch (error) {
+                console.error('خطا:', error);
+            }
+        };
+
+        function displayUsersList(users) {
+            const content = document.getElementById('admin-content');
+            
+            if (!users || users.length === 0) {
+                content.innerHTML = `<div style="text-align: center; padding: 3rem; background: white; border-radius: 10px;"><i class="fas fa-users-slash" style="font-size: 3rem; color: var(--muted); margin-bottom: 1rem;"></i><p style="color: var(--muted);">کاربری یافت نشد</p></div>`;
+                return;
+            }
+            
+            let html = `
+                <div style="margin-bottom: 1rem; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <input type="text" id="user-search" placeholder="جستجو..." class="form-control" style="flex: 1;" onkeyup="window.searchUsers()">
+                    <select id="user-filter" class="form-control" style="width: 200px;" onchange="window.searchUsers()">
+                        <option value="all">همه کاربران</option>
+                        <option value="buyer">خریداران</option>
+                        <option value="seller">فروشندگان</option>
+                        <option value="pending">در انتظار تأیید</option>
+                        <option value="verified">تأیید شده</option>
+                        <option value="blocked">مسدود شده</option>
+                    </select>
+                </div>
+                <div class="requests-list">
+            `;
+            
+            users.forEach(user => {
+                const userType = user.user_type === 'buyer' ? 'خریدار' : (user.user_type === 'seller' ? 'فروشنده' : 'نامشخص');
+                const userStatus = user.verification_status || 'pending';
+                
+                let statusClass = 'status-pending';
+                let statusText = 'در انتظار';
+                
+                if (userStatus === 'verified') {
+                    statusClass = 'status-verified';
+                    statusText = 'تأیید شده';
+                } else if (userStatus === 'rejected') {
+                    statusClass = 'status-rejected';
+                    statusText = 'رد شده';
+                } else if (userStatus === 'blocked') {
+                    statusClass = 'status-blocked';
+                    statusText = '⛔ مسدود';
+                }
+                
+                html += `
+                    <div class="user-row">
+                        <div class="user-info">
+                            <div class="user-avatar-sm">${(user.full_name || 'کاربر').charAt(0)}</div>
+                            <div>
+                                <div style="font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                                    ${user.full_name || 'بدون نام'}
+                                    ${user.role === 'admin' ? '<span class="user-status" style="background: #fef3c7; color: #92400e;">ادمین</span>' : ''}
+                                </div>
+                                <div style="font-size: 0.85rem; color: var(--muted);">
+                                    <i class="fas fa-envelope"></i> ${user.email || '—'} | 
+                                    <i class="fas fa-phone"></i> ${user.phone || '—'}
+                                </div>
+                                <div style="font-size: 0.85rem; color: var(--muted);">
+                                    <i class="fas fa-building"></i> ${user.company_name || '—'}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <span class="user-status ${statusClass}">${statusText}</span>
+                            <span class="user-status" style="background: #e0e7ff; color: #3730a3;">${userType}</span>
+                            
+                            ${user.role !== 'admin' ? `
+                                ${userStatus === 'blocked' ? `
+                                    <button class="btn btn-success btn-sm" onclick="window.activateUser('${user.user_id}', '${user.full_name}')">
+                                        <i class="fas fa-check-circle"></i> فعال‌سازی
+                                    </button>
+                                ` : `
+                                    <button class="btn btn-danger btn-sm" onclick="window.blockUser('${user.user_id}', '${user.full_name}')">
+                                        <i class="fas fa-ban"></i> مسدود
+                                    </button>
+                                `}
+                                
+                                ${user.user_type === 'seller' && userStatus === 'pending' ? `
+                                    <button class="btn btn-success btn-sm" onclick="window.verifySeller('${user.user_id}')">
+                                        <i class="fas fa-check"></i> تأیید
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="window.rejectSeller('${user.user_id}')">
+                                        <i class="fas fa-times"></i> رد
+                                    </button>
+                                ` : ''}
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        // ========== نمایش پیشنهادات با فیلتر ==========
+        function displayFilteredBids(allBids, filters) {
+            const content = document.getElementById('admin-content');
+            
+            let filteredBids = allBids;
+            if (filters.type && filters.type !== 'all') filteredBids = filteredBids.filter(b => b.type === filters.type);
+            if (filters.status && filters.status !== 'all') filteredBids = filteredBids.filter(b => filters.status === 'selected' ? b.selected : !b.selected);
+            if (filters.search) {
+                const searchTerm = filters.search.toLowerCase();
+                filteredBids = filteredBids.filter(b => 
+                    b.profiles?.full_name?.toLowerCase().includes(searchTerm) ||
+                    b.profiles?.company_name?.toLowerCase().includes(searchTerm) ||
+                    b.notes?.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            let html = '<div class="bids-grid" style="display: grid; gap: 1rem;">';
+            filteredBids.forEach(bid => {
+                const price = bid.total_price || bid.price || 0;
+                html += `
+                    <div class="request-item" style="border-right-color: ${bid.selected ? 'var(--success)' : 'var(--info)'};">
+                        <div class="request-header">
+                            <div class="request-title">${bid.type === 'قالب' ? '🏗️' : '🏭'} پیشنهاد ${bid.type}</div>
+                            <span class="request-badge ${bid.selected ? 'badge-completed' : 'badge-open'}">${bid.selected ? 'انتخاب شده' : 'در انتظار'}</span>
+                        </div>
+                        <div class="request-details">
+                            <div><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</div>
+                            <div><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</div>
+                            <div><strong>قیمت:</strong> ${dashboardHelpers.formatPrice(price)}</div>
+                            <div><strong>زمان تحویل:</strong> ${bid.delivery_time || '—'} روز</div>
+                            <div><strong>تاریخ:</strong> ${dashboardHelpers.formatDate(bid.created_at)}</div>
+                        </div>
+                        ${bid.notes ? `<div style="margin-top: 0.5rem; padding: 0.5rem; background: #f8fafc; border-radius: 6px;"><small>📝 ${bid.notes}</small></div>` : ''}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            if (filteredBids.length === 0) {
+                dashboardHelpers.showEmpty(content, 'پیشنهادی با این فیلترها یافت نشد', 'fa-search');
+            } else {
+                content.innerHTML = html;
+            }
+        }
+
+        // ========== تابع اصلی لود تب‌های ادمین ==========
+        window.loadAdminTab = async function(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const content = document.getElementById('admin-content');
+            
+            // نمایش لودینگ
+            LoadingSystem.showInElement(content, 'dual', 'در حال بارگذاری...');
+            
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            if (tab === 'users') {
+                try {
+                    const { data: users } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
+                    displayUsersList(users);
+                } catch (error) {
+                    console.error('خطا:', error);
+                    content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری کاربران</p>';
+                }
+                
+            } else if (tab === 'pending') {
+                try {
+                    const { data: pendingUsers } = await supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('user_type', 'seller')
+                        .eq('verification_status', 'pending')
+                        .order('created_at', { ascending: false });
+                    displayUsersList(pendingUsers);
+                } catch (error) {
+                    console.error('خطا:', error);
+                    content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
+                }
+                
+            } else if (tab === 'concrete-requests') {
+                try {
+                    const { data: requests } = await supabase.from('concrete_requests').select('*').order('created_at', { ascending: false });
+                    if (!requests || requests.length === 0) {
+                        content.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">درخواستی وجود ندارد</p>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    for (const req of requests || []) {
+                        const { data: bids } = await supabase.from('formwork_bids').select('*, profiles(full_name, company_name)').eq('request_id', req.id);
+                        const { data: buyer } = await supabase.from('profiles').select('full_name, email').eq('user_id', req.user_id).single();
+                        
+                        html += `
+                            <div class="request-with-bids">
+                                <div class="request-header">
+                                    <div class="request-title">${req.title || 'درخواست قالب'}</div>
+                                    <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'بسته'}</span>
+                                </div>
+                                <div class="request-details">
+                                    <div><strong>خریدار:</strong> ${buyer?.full_name || 'نا مشخص'}</div>
+                                    <div><strong>مکان:</strong> ${req.project_location || '—'}</div>
+                                    <div><strong>مواد:</strong> ${req.material || '—'}</div>
+                                    <div><strong>تاریخ:</strong> ${new Date(req.created_at).toLocaleDateString('fa-IR')}</div>
+                                </div>
+                                <div class="bids-container">
+                                    <h4>پاسخ استعلام‌ها (${bids?.length || 0})</h4>
+                                    ${bids?.map(bid => `
+                                        <div class="bid-item">
+                                            <div><strong>فروشنده:</strong> ${bid.profiles?.full_name || '—'} (${bid.profiles?.company_name || '—'})</div>
+                                            <div><strong>قیمت کل:</strong> ${bid.total_price?.toLocaleString('fa-IR')} ریال</div>
+                                            <div><strong>زمان تحویل:</strong> ${bid.delivery_time} روز</div>
+                                            <div><strong>وضعیت:</strong> ${bid.selected ? '✅ انتخاب شده' : '⏳ در انتظار'}</div>
+                                        </div>
+                                    `).join('') || '<p>پاسخی ثبت نشده</p>'}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    content.innerHTML = html;
+                } catch (error) {
+                    console.error('خطا:', error);
+                    content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
+                }
+                
+            } else if (tab === 'shed-requests') {
+                try {
+                    const { data: requests } = await supabase.from('shed_requests').select('*').order('created_at', { ascending: false });
+                    if (!requests || requests.length === 0) {
+                        content.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">درخواستی وجود ندارد</p>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    for (const req of requests || []) {
+                        const { data: bids } = await supabase.from('shed_bids').select('*, profiles(full_name, company_name)').eq('request_id', req.id);
+                        const { data: buyer } = await supabase.from('profiles').select('full_name, email').eq('user_id', req.user_id).single();
+                        const dims = req.dimensions || {};
+                        
+                        html += `
+                            <div class="request-with-bids">
+                                <div class="request-header">
+                                    <div class="request-title">درخواست سوله</div>
+                                    <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'بسته'}</span>
+                                </div>
+                                <div class="request-details">
+                                    <div><strong>خریدار:</strong> ${buyer?.full_name || 'نا مشخص'}</div>
+                                    <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
+                                    <div><strong>مکان:</strong> ${req.location || '—'}</div>
+                                    <div><strong>کاربری:</strong> ${req.usage || '—'}</div>
+                                </div>
+                                <div class="bids-container">
+                                    <h4>پاسخ استعلام‌ها (${bids?.length || 0})</h4>
+                                    ${bids?.map(bid => `
+                                        <div class="bid-item">
+                                            <div><strong>فروشنده:</strong> ${bid.profiles?.full_name || '—'} (${bid.profiles?.company_name || '—'})</div>
+                                            <div><strong>قیمت:</strong> ${bid.price?.toLocaleString('fa-IR')} ریال</div>
+                                            <div><strong>وزن:</strong> ${bid.weight} تن</div>
+                                            <div><strong>وضعیت:</strong> ${bid.selected ? '✅ انتخاب شده' : '⏳ در انتظار'}</div>
+                                        </div>
+                                    `).join('') || '<p>پاسخی ثبت نشده</p>'}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    content.innerHTML = html;
+                } catch (error) {
+                    console.error('خطا:', error);
+                    content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
+                }
+                
+            } else if (tab === 'bids') {
+                try {
+                    const [formworkBids, shedBids] = await Promise.all([
+                        DataCache.get('formwork_bids', async () => {
+                            const { data } = await supabase
+                                .from('formwork_bids')
+                                .select('*, profiles(full_name, company_name), concrete_requests(title)')
+                                .order('created_at', { ascending: false });
+                            return data;
+                        }),
+                        DataCache.get('shed_bids', async () => {
+                            const { data } = await supabase
+                                .from('shed_bids')
+                                .select('*, profiles(full_name, company_name), shed_requests(dimensions)')
+                                .order('created_at', { ascending: false });
+                            return data;
+                        })
+                    ]);
+
+                    const allBids = [
+                        ...(formworkBids || []).map(b => ({ ...b, type: 'قالب' })),
+                        ...(shedBids || []).map(b => ({ ...b, type: 'سوله' }))
+                    ];
+
+                    if (allBids.length === 0) {
+                        dashboardHelpers.showEmpty(content, 'هیچ پیشنهادی یافت نشد', 'fa-gavel');
+                        return;
+                    }
+
+                    if (!document.getElementById('bids-filter')) {
+                        const filterContainer = document.createElement('div');
+                        filterContainer.id = 'bids-filter';
+                        filterContainer.style.marginBottom = '1rem';
+                        content.parentNode.insertBefore(filterContainer, content);
+                        
+                        window.filterManager = new FilterComponent('bids-filter', [
+                            { type: 'select', name: 'type', label: 'همه انواع', items: [
+                                { value: 'قالب', text: 'قالب بتن' },
+                                { value: 'سوله', text: 'سوله' }
+                            ]},
+                            { type: 'select', name: 'status', label: 'همه وضعیت‌ها', items: [
+                                { value: 'selected', text: 'انتخاب شده' },
+                                { value: 'pending', text: 'در انتظار' }
+                            ]},
+                            { type: 'search', name: 'search', placeholder: 'جستجو در پیشنهادات...' }
+                        ], (filters) => {
+                            displayFilteredBids(allBids, filters);
+                        });
+                    }
+
+                    displayFilteredBids(allBids, {});
+                } catch (error) {
+                    console.error('خطا:', error);
+                    dashboardHelpers.showError(content, 'خطا در بارگذاری پیشنهادات');
+                }
+                
+            } else if (tab === 'transactions') {
+                try {
+                    const [completedConcrete, completedShed, totalUsers] = await Promise.all([
+                        supabase.from('concrete_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
+                        supabase.from('shed_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
+                        supabase.from('profiles').select('*', { count: 'exact', head: true })
+                    ]);
+
+                    const totalDeals = (completedConcrete.count || 0) + (completedShed.count || 0);
+                    
+                    content.innerHTML = `
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div class="admin-stat-card" style="border-right: 4px solid var(--primary);">
+                                <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+                                <div>
+                                    <h3>کل معاملات</h3>
+                                    <div class="value">${totalDeals.toLocaleString('fa-IR')}</div>
+                                </div>
+                            </div>
+                            <div class="admin-stat-card" style="border-right: 4px solid #10b981;">
+                                <div class="stat-icon"><i class="fas fa-cubes"></i></div>
+                                <div>
+                                    <h3>قالب بتن</h3>
+                                    <div class="value">${(completedConcrete.count || 0).toLocaleString('fa-IR')}</div>
+                                </div>
+                            </div>
+                            <div class="admin-stat-card" style="border-right: 4px solid #f59e0b;">
+                                <div class="stat-icon"><i class="fas fa-warehouse"></i></div>
+                                <div>
+                                    <h3>سوله</h3>
+                                    <div class="value">${(completedShed.count || 0).toLocaleString('fa-IR')}</div>
+                                </div>
+                            </div>
+                            <div class="admin-stat-card" style="border-right: 4px solid #8b5cf6;">
+                                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                                <div>
+                                    <h3>کاربران فعال</h3>
+                                    <div class="value">${(totalUsers.count || 0).toLocaleString('fa-IR')}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                            <i class="fas fa-chart-bar" style="font-size: 3rem; color: var(--muted); margin-bottom: 1rem;"></i>
+                            <p style="color: var(--muted);">گزارشات پیشرفته به زودی اضافه می‌شود</p>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('خطا:', error);
+                    dashboardHelpers.showError(content, 'خطا در بارگذاری گزارشات');
+                }
+                
+            } else if (tab === 'dashboard') {
+                content.innerHTML = `
+                    <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                        <i class="fas fa-chart-pie" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary);">داشبورد خلاصه</h3>
+                        <p style="color: var(--muted);">به زودی آمار و نمودارهای پیشرفته در این بخش نمایش داده می‌شود.</p>
+                    </div>
+                `;
+                
+            } else if (tab === 'settings') {
+                content.innerHTML = `
+                    <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                        <i class="fas fa-cog" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--primary);">تنظیمات</h3>
+                        <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
+                    </div>
+                `;
+            }
+        };
+
+        // ========== توابع جدید ادمین ==========
+        window.exportAdminReport = function() {
+            alert('گزارش در حال تهیه است...');
+        };
+
+        window.loadAdminDashboard = async function() {
+            try {
+                const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+                const { count: pendingUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('verification_status', 'pending');
+                const { count: verifiedSellers } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller').eq('verification_status', 'verified');
+                
+                const { count: activeConcrete } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true }).eq('status', 'open');
+                const { count: activeShed } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true }).eq('status', 'open');
+                
+                const { count: completedDeals } = await supabase.from('concrete_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed');
+                const { count: shedCompleted } = await supabase.from('shed_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed');
+                
+                const { data: ratings } = await supabase.from('ratings').select('rating');
+                const avgRating = ratings?.length ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1) : 0;
+                
+                document.getElementById('admin-total-users').textContent = totalUsers || 0;
+                document.getElementById('admin-pending-users').textContent = pendingUsers || 0;
+                document.getElementById('admin-verified-sellers').textContent = verifiedSellers || 0;
+                document.getElementById('admin-active-requests').textContent = (activeConcrete || 0) + (activeShed || 0);
+                document.getElementById('active-concrete').textContent = activeConcrete || 0;
+                document.getElementById('active-shed').textContent = activeShed || 0;
+                document.getElementById('admin-completed-deals').textContent = (completedDeals || 0) + (shedCompleted || 0);
+                document.getElementById('admin-avg-rating').textContent = avgRating;
+                document.getElementById('pending-badge').textContent = pendingUsers || 0;
+            } catch (error) {
+                console.error('خطا در بارگذاری داشبورد:', error);
+            }
+        };
+
+        window.enterConcreteFormworkSystem = function() {
+            if (currentUser) {
+                if (currentUser.userType === 'buyer') window.showPage('dashboard');
+                else if (currentUser.userType === 'seller' && currentUser.sellerType === 'formwork') window.showPage('seller-formwork-dashboard');
+                else if (currentUser.userType === 'seller' && currentUser.sellerType === 'shed') window.showPage('seller-shed-dashboard');
+                else if (currentUser.isAdmin) window.showPage('admin');
+            } else {
+                window.showPage('login');
+            }
+        };
+
+        // ========== نمایش صفحات ==========
+        window.showPage = function(pageId) {
+            console.log('📄 نمایش صفحه:', pageId);
+            
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            
+            const target = document.getElementById(`${pageId}-page`);
+            if (target) {
+                target.classList.remove('hidden');
+                console.log('✅ صفحه نمایش داده شد:', pageId);
+            } else {
+                console.error('❌ صفحه پیدا نشد:', pageId);
+                return;
+            }
+            
+            if (typeof window.updateNavigation === 'function') window.updateNavigation();
+            
+            if (pageId === 'dashboard') {
+                if (typeof window.loadBuyerDashboard === 'function') window.loadBuyerDashboard();
+            } else if (pageId === 'admin') {
+                if (typeof window.loadAdminPanel === 'function') window.loadAdminPanel();
+            } else if (pageId === 'seller-formwork-dashboard') {
+                if (typeof window.loadSellerFormworkDashboard === 'function') window.loadSellerFormworkDashboard();
+            } else if (pageId === 'seller-shed-dashboard') {
+                if (typeof window.loadSellerShedDashboard === 'function') window.loadSellerShedDashboard();
+            } else if (pageId === 'home') {
+                if (typeof window.loadCounters === 'function') window.loadCounters();
+                if (typeof window.initSlideshow === 'function') window.initSlideshow();
+            } else if (pageId === 'blog') {
+                setTimeout(() => {
+                    if (typeof loadBlogPosts === 'function') loadBlogPosts('all');
+                }, 100);
+            }
+        };
+
+        // ========== مقداردهی اولیه ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 سایت راه‌اندازی شد');
+            if (typeof window.updateNavigation === 'function') window.updateNavigation();
+            if (typeof window.showPage === 'function') window.showPage('home');
+            if (typeof window.loadCounters === 'function') window.loadCounters();
+            if (typeof window.initSlideshow === 'function') window.initSlideshow();
+        });
+    </script>
+</body>
+</html>
