@@ -4046,18 +4046,18 @@ window.loadSellerFormworkDashboard = async function() {
         }
         
         container.innerHTML = html;
-        
+     }
+ // رفرش خودکار هر 30 ثانیه - اینجا باید باشه
+        setTimeout(() => {
+            if (document.getElementById('seller-formwork-dashboard-page')?.classList.contains('hidden') === false) {
+                window.loadSellerFormworkDashboard();
+            }
+        }, 30000);   
     } catch (error) {
         console.error('خطا:', error);
         document.getElementById('seller-formwork-requests').innerHTML = 
             '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
     }
-        // رفرش خودکار هر 30 ثانیه
-        setTimeout(() => {
-            if (document.getElementById('seller-formwork-dashboard-page')?.classList.contains('hidden') === false) {
-                window.loadSellerFormworkDashboard();
-            }
-        }, 30000);
 };
     
  // ========== داشبورد فروشنده سوله ==========
@@ -4180,18 +4180,19 @@ window.loadSellerShedDashboard = async function() {
         }
         
         container.innerHTML = html;
-        
+}
+            // رفرش خودکار هر 30 ثانیه
+        setTimeout(() => {
+            if (document.getElementById('seller-formwork-dashboard-page')?.classList.contains('hidden') === false) {
+                window.loadSellerFormworkDashboard();
+            }
+        }, 30000);    
     } catch (error) {
         console.error('خطا:', error);
         document.getElementById('seller-shed-requests').innerHTML = 
             '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
     }
-        // رفرش خودکار هر 30 ثانیه
-        setTimeout(() => {
-            if (document.getElementById('seller-formwork-dashboard-page')?.classList.contains('hidden') === false) {
-                window.loadSellerFormworkDashboard();
-            }
-        }, 30000);
+
 };
        // ========== مودال پیشنهاد قالب ==========
     window.showFormworkBidModal = function(requestId, title, description) {
@@ -4502,99 +4503,87 @@ window.loadSellerShedDashboard = async function() {
         }
     };
     
-         // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
-    window.selectBid = async function(bidId, type) {
-        if (!confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟ با انتخاب این پیشنهاد، اطلاعات فروشنده برای شما نمایش داده می‌شود و درخواست بسته خواهد شد.')) return;
+  // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
+window.selectBid = async function(bidId, type) {
+    if (!confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟ با انتخاب این پیشنهاد، اطلاعات فروشنده برای شما نمایش داده می‌شود و درخواست بسته خواهد شد.')) return;
+    
+    const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
+    const requestTable = type === 'concrete' ? 'concrete_requests' : 'shed_requests';
+    
+    try {
+        // دریافت اطلاعات پیشنهاد و فروشنده
+        const { data: bid, error: bidError } = await supabase
+            .from(table)
+            .select('*, profiles(full_name, company_name, phone, email)')
+            .eq('id', bidId)
+            .single();
         
-        const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
-        const requestTable = type === 'concrete' ? 'concrete_requests' : 'shed_requests';
+        if (bidError) throw bidError;
         
-        try {
-            // دریافت اطلاعات پیشنهاد و فروشنده
-            const { data: bid, error: bidError } = await supabase
-                .from(table)
-                .select('*, profiles(full_name, company_name, phone, email)')
-                .eq('id', bidId)
-                .single();
-            
-            if (bidError) throw bidError;
-            
-            // غیرفعال کردن همه پیشنهادات این درخواست
-            await supabase
-                .from(table)
-                .update({ selected: false })
-                .eq('request_id', bid.request_id);
-            
-            // انتخاب این پیشنهاد
-            await supabase
-                .from(table)
-                .update({ selected: true })
-                .eq('id', bidId);
-            
-            // بستن درخواست
-            await supabase
-                .from(requestTable)
-                .update({ status: 'completed' })
-                .eq('id', bid.request_id);
-            
-            // نمایش اطلاعات فروشنده
-            const sellerInfo = `
-                <div class="seller-contact-info">
-                    <h4><i class="fas fa-check-circle" style="color: var(--success);"></i> پیشنهاد با موفقیت انتخاب شد</h4>
-                    <p>اطلاعات تماس فروشنده برای شما ارسال شد:</p>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-user"></i></div>
-                        <div><strong>نام:</strong> ${bid.profiles?.full_name || '—'}</div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-building"></i></div>
-                        <div><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                        <div><strong>تلفن:</strong> ${bid.profiles?.phone || '—'}</div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                        <div><strong>ایمیل:</strong> ${bid.profiles?.email || '—'}</div>
-                    </div>
+        // غیرفعال کردن همه پیشنهادات این درخواست
+        await supabase
+            .from(table)
+            .update({ selected: false })
+            .eq('request_id', bid.request_id);
+        
+        // انتخاب این پیشنهاد
+        await supabase
+            .from(table)
+            .update({ selected: true })
+            .eq('id', bidId);
+        
+        // بستن درخواست
+        await supabase
+            .from(requestTable)
+            .update({ status: 'completed' })
+            .eq('id', bid.request_id);
+        
+        // نمایش اطلاعات فروشنده
+        const sellerInfo = `
+            <div class="seller-contact-info">
+                <h4><i class="fas fa-check-circle" style="color: var(--success);"></i> پیشنهاد با موفقیت انتخاب شد</h4>
+                <p>اطلاعات تماس فروشنده برای شما ارسال شد:</p>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-user"></i></div>
+                    <div><strong>نام:</strong> ${bid.profiles?.full_name || '—'}</div>
                 </div>
-                <p style="margin-top: 15px;">اکنون می‌توانید مستقیماً با فروشنده تماس بگیرید و مراحل بعدی را پیگیری کنید.</p>
-            `;
-            
-            document.getElementById('seller-info-content').innerHTML = sellerInfo;
-            document.getElementById('seller-info-modal').classList.add('active');
-            
-            // به‌روزرسانی لیست درخواست‌ها برای خریدار
-            window.loadMyRequests('all');
-            
-            // ارسال نوتیفیکیشن به فروشنده (اختیاری - در صورت وجود جدول notifications)
-            try {
-                // بررسی وجود جدول notifications
-                const { error: tableCheck } = await supabase
-                    .from('notifications')
-                    .select('id')
-                    .limit(1);
-                
-                if (!tableCheck) {
-                    await supabase.from('notifications').insert([{
-                        user_id: bid.seller_id,
-                        title: '🎉 پیشنهاد شما انتخاب شد',
-                        message: `پیشنهاد شما برای ${type === 'concrete' ? 'قالب بتن' : 'سوله'} توسط خریدار انتخاب شد.`,
-                        type: 'bid_selected',
-                        related_id: bidId,
-                        is_read: false,
-                        created_at: new Date().toISOString()
-                    }]);
-                }
-            } catch (notifError) {
-                console.log('ارسال نوتیفیکیشن امکان‌پذیر نیست:', notifError);
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-building"></i></div>
+                    <div><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                    <div><strong>تلفن:</strong> ${bid.profiles?.phone || '—'}</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div><strong>ایمیل:</strong> ${bid.profiles?.email || '—'}</div>
+                </div>
+            </div>
+            <p style="margin-top: 15px;">اکنون می‌توانید مستقیماً با فروشنده تماس بگیرید و مراحل بعدی را پیگیری کنید.</p>
+        `;
+        
+        document.getElementById('seller-info-content').innerHTML = sellerInfo;
+        document.getElementById('seller-info-modal').classList.add('active');
+        
+        // تشخیص زبانه فعلی و به‌روزرسانی همان زبانه
+        const activeTab = document.querySelector('.dashboard-actions .btn-primary');
+        let tabType = 'all';
+        if (activeTab) {
+            if (activeTab.getAttribute('onclick')?.includes("'concrete'")) {
+                tabType = 'concrete';
+            } else if (activeTab.getAttribute('onclick')?.includes("'shed'")) {
+                tabType = 'shed';
             }
-            
-        } catch (error) {
-            alert(error.message);
         }
-    };
+        
+        // به‌روزرسانی لیست درخواست‌ها با همان زبانه
+        window.loadMyRequests(tabType);
+        
+    } catch (error) {
+        alert(error.message);
+    }
+};
     // ========== امتیاز دهی ==========
     window.showRatingModal = function(bidId, sellerId) {
         document.getElementById('rating-bid-id').value = bidId;
