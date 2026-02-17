@@ -928,7 +928,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
         }
-
         .guide-number {
             width: 50px;
             height: 50px;
@@ -1121,7 +1120,56 @@
     </style>
 </head>
 <body>
+/* ========== استایل جدید برای اطلاعات تماس فروشنده ========== */
+.seller-contact-info {
+    background: #e6f7e6;
+    border: 2px solid var(--success);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
 
+.seller-contact-info h4 {
+    color: var(--success);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed #a7f3d0;
+}
+
+.contact-item:last-child {
+    border-bottom: none;
+}
+
+.contact-icon {
+    width: 35px;
+    height: 35px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--success);
+}
+
+/* ========== استایل دکمه ویرایش ========== */
+.btn-edit {
+    background: var(--warning);
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #d97706;
+    transform: translateY(-2px);
+}
 <!-- ========== ناوبری اصلی ========== -->
 <nav class="navbar">
     <div class="container nav-container">
@@ -2223,7 +2271,13 @@
             <div style="background: #eff6ff; padding: 10px 15px; border-radius: 6px; margin-bottom: 20px; border-right: 4px solid var(--primary);">
                 <strong>پروژه:</strong> <span id="bid-project-title">در حال بارگذاری...</span>
             </div>
-            
+                        <div id="bid-project-full-details" style="background: #f9fafb; padding: 15px; border-radius: 6px; margin-bottom: 20px; max-height: 200px; overflow-y: auto;">
+                <h4 style="color: var(--primary); margin-bottom: 10px;">جزئیات کامل پروژه:</h4>
+                <div id="bid-project-description"></div>
+                <div id="bid-project-location"></div>
+                <div id="bid-project-material"></div>
+                <div id="bid-project-items"></div>
+            </div>
             <form id="submit-formwork-bid-form">
                 <input type="hidden" id="bid-request-id">
                 
@@ -2322,7 +2376,15 @@
                 <strong>پروژه سوله:</strong> <span id="shed-bid-project-title">در حال بارگذاری...</span><br>
                 <strong>ابعاد:</strong> <span id="shed-bid-dimensions"></span>
             </div>
-            
+                      <div id="shed-bid-full-details" style="background: #f9fafb; padding: 15px; border-radius: 6px; margin-bottom: 20px; max-height: 250px; overflow-y: auto;">
+                <h4 style="color: var(--primary); margin-bottom: 10px;">جزئیات کامل پروژه:</h4>
+                <div id="shed-bid-usage"></div>
+                <div id="shed-bid-location"></div>
+                <div id="shed-bid-drawing-info"></div>
+                <div id="shed-bid-crane-info"></div>
+                <div id="shed-bid-paint-info"></div>
+                <div id="shed-bid-weight-info"></div>
+            </div>  
             <!-- نمایش مسئولیت‌های خریدار -->
             <div id="shed-bid-buyer-responsibilities" style="background: #fef3c7; padding: 10px 15px; border-radius: 6px; margin-bottom: 20px; border-right: 4px solid #f59e0b;">
                 <strong>مسئولیت‌های خریدار:</strong> <span id="shed-bid-responsibilities-list">در حال بارگذاری...</span>
@@ -2623,7 +2685,159 @@
         </div>
     </div>
 </div>
-
+<!-- مودال جدید: نمایش اطلاعات فروشنده پس از انتخاب -->
+<div id="seller-info-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-check-circle" style="color: var(--success);"></i> اطلاعات فروشنده منتخب</h3>
+            <button class="close-modal" onclick="window.closeModal('seller-info-modal')">&times;</button>
+        </div>
+        <div class="modal-body" id="seller-info-content">
+            <!-- محتوا با JS پر می‌شود -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="window.closeModal('seller-info-modal')">متوجه شدم</button>
+        </div>
+    </div>
+</div>
+<!-- مودال ویرایش پیشنهاد قالب بتن -->
+<div id="edit-formwork-bid-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>ویرایش پیشنهاد قیمت</h3>
+            <button class="close-modal" onclick="window.closeModal('edit-formwork-bid-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="edit-formwork-bid-form">
+                <input type="hidden" id="edit-bid-id">
+                <input type="hidden" id="edit-request-id">
+                
+                <div class="form-group">
+                    <label for="edit-bid-base-price">قیمت پایه (ریال)</label>
+                    <input type="text" id="edit-bid-base-price" class="form-control" required oninput="window.formatPriceInput(this)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-bid-vat">درصد ارزش افزوده</label>
+                    <select id="edit-bid-vat" class="form-control" required onchange="window.calculateEditFormworkTotal()">
+                        <option value="9">۹٪</option>
+                        <option value="10">۱۰٪</option>
+                        <option value="11">۱۱٪</option>
+                        <option value="12">۱۲٪</option>
+                        <option value="13">۱۳٪</option>
+                        <option value="14">۱۴٪</option>
+                        <option value="15">۱۵٪</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-bid-loading">درصد بارگیری</label>
+                    <select id="edit-bid-loading" class="form-control" required onchange="window.calculateEditFormworkTotal()">
+                        <option value="1">۱٪</option>
+                        <option value="2">۲٪</option>
+                    </select>
+                </div>
+                
+                <div class="price-breakdown" style="background: #f8fafc; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>قیمت پایه:</span>
+                        <span id="edit-display-base-price">۰ ریال</span>
+                    </div>
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>ارزش افزوده:</span>
+                        <span id="edit-display-vat">۰ ریال</span>
+                    </div>
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>بارگیری:</span>
+                        <span id="edit-display-loading">۰ ریال</span>
+                    </div>
+                    <div class="price-row total" style="display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); border-top: 2px solid var(--primary); padding-top: 10px;">
+                        <span>قیمت کل نهایی:</span>
+                        <span id="edit-display-total">۰ ریال</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-bid-delivery">زمان تحویل (روز)</label>
+                    <input type="number" id="edit-bid-delivery" class="form-control" required min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-bid-warranty">گارانتی (ماه)</label>
+                    <input type="number" id="edit-bid-warranty" class="form-control" required min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-bid-notes">توضیحات</label>
+                    <textarea id="edit-bid-notes" class="form-control" rows="3"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="window.closeModal('edit-formwork-bid-modal')">انصراف</button>
+            <button class="btn btn-primary" onclick="window.updateFormworkBid()">به‌روزرسانی پیشنهاد</button>
+        </div>
+    </div>
+</div>
+<!-- مودال ویرایش پیشنهاد سوله -->
+<div id="edit-shed-bid-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>ویرایش پیشنهاد قیمت سوله</h3>
+            <button class="close-modal" onclick="window.closeModal('edit-shed-bid-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="edit-shed-bid-form">
+                <input type="hidden" id="edit-shed-bid-id">
+                <input type="hidden" id="edit-shed-request-id">
+                
+                <div class="form-group">
+                    <label for="edit-shed-bid-price-per-kg">قیمت هر کیلوگرم (ریال)</label>
+                    <input type="text" id="edit-shed-bid-price-per-kg" class="form-control" required oninput="window.formatPriceInput(this)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-shed-bid-estimated-weight">وزن حدودی (کیلوگرم)</label>
+                    <input type="text" id="edit-shed-bid-estimated-weight" class="form-control" required oninput="window.formatPriceInput(this)">
+                </div>
+                
+                <div class="price-breakdown" style="background: #f8fafc; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>قیمت هر کیلوگرم:</span>
+                        <span id="edit-display-price-per-kg">۰ ریال</span>
+                    </div>
+                    <div class="price-row" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>وزن حدودی:</span>
+                        <span id="edit-display-estimated-weight">۰ کیلوگرم</span>
+                    </div>
+                    <div class="price-row total" style="display: flex; justify-content: space-between; font-weight: bold; color: var(--primary); border-top: 2px solid var(--primary); padding-top: 10px;">
+                        <span>قیمت کل نهایی:</span>
+                        <span id="edit-display-shed-total">۰ ریال</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-shed-bid-delivery">زمان تحویل (روز)</label>
+                    <input type="number" id="edit-shed-bid-delivery" class="form-control" required min="30">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-shed-bid-warranty">گارانتی (ماه)</label>
+                    <input type="number" id="edit-shed-bid-warranty" class="form-control" required min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-shed-bid-notes">توضیحات</label>
+                    <textarea id="edit-shed-bid-notes" class="form-control" rows="3"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="window.closeModal('edit-shed-bid-modal')">انصراف</button>
+            <button class="btn btn-primary" onclick="window.updateShedBid()">به‌روزرسانی پیشنهاد</button>
+        </div>
+    </div>
+</div>
 <!-- فوتر -->
 <footer class="footer">
     <div class="container">
@@ -3581,7 +3795,7 @@
         container.innerHTML = html;
     };
     
-    window.showBidDetails = async function(bidId, type) {
+       window.showBidDetails = async function(bidId, type) {
         const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
         const { data: bid, error } = await supabase
             .from(table)
@@ -3596,10 +3810,22 @@
         
         let html = '';
         if (type === 'concrete') {
-            // برای قالب بتن - با مقادیر پیش‌فرض
             html = `
                 <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
                 <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
+                ${bid.selected ? `
+                    <div class="seller-contact-info">
+                        <h4><i class="fas fa-phone-alt"></i> اطلاعات تماس فروشنده</h4>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                            <div>${bid.profiles?.phone || '—'}</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div>${bid.profiles?.email || '—'}</div>
+                        </div>
+                    </div>
+                ` : ''}
                 <p><strong>قیمت پایه:</strong> ${(bid.base_price || 0).toLocaleString('fa-IR')} ریال</p>
                 <p><strong>ارزش افزوده:</strong> ${bid.vat_percent || 0}٪ (${(bid.vat_amount || 0).toLocaleString('fa-IR')} ریال)</p>
                 <p><strong>بارگیری:</strong> ${bid.loading_percent || 0}٪ (${(bid.loading_amount || 0).toLocaleString('fa-IR')} ریال)</p>
@@ -3609,28 +3835,31 @@
                 ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
             `;
         } else {
-            // برای سوله - با مقادیر پیش‌فرض و دیباگ
-            console.log('📊 داده‌های پیشنهاد سوله:', bid);
-            
-            // محاسبه مقادیر با پیش‌فرض مناسب
             const pricePerKg = bid.price_per_kg || bid.price || 0;
             const estimatedWeight = bid.estimated_weight || bid.weight || 0;
             const totalPrice = bid.total_price || (pricePerKg * estimatedWeight) || 0;
-            const deliveryTime = bid.delivery_time || 60;
-            const constructionTime = bid.construction_time || 45;
-            const installationTime = bid.installation_time || 30;
-            const warrantyMonths = bid.warranty_months || 6;
             
             html = `
                 <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
                 <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
+                ${bid.selected ? `
+                    <div class="seller-contact-info">
+                        <h4><i class="fas fa-phone-alt"></i> اطلاعات تماس فروشنده</h4>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                            <div>${bid.profiles?.phone || '—'}</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div>${bid.profiles?.email || '—'}</div>
+                        </div>
+                    </div>
+                ` : ''}
                 <p><strong>قیمت هر کیلوگرم:</strong> ${pricePerKg.toLocaleString('fa-IR')} ریال</p>
                 <p><strong>وزن حدودی:</strong> ${estimatedWeight.toLocaleString('fa-IR')} کیلوگرم</p>
                 <p><strong>قیمت کل:</strong> ${totalPrice.toLocaleString('fa-IR')} ریال</p>
-                <p><strong>زمان تحویل:</strong> ${deliveryTime} روز</p>
-                <p><strong>زمان ساخت:</strong> ${constructionTime} روز</p>
-                <p><strong>زمان نصب:</strong> ${installationTime} روز</p>
-                <p><strong>گارانتی:</strong> ${warrantyMonths} ماه</p>
+                <p><strong>زمان تحویل:</strong> ${bid.delivery_time || 60} روز</p>
+                <p><strong>گارانتی:</strong> ${bid.warranty_months || 6} ماه</p>
                 ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
             `;
         }
@@ -3639,208 +3868,253 @@
         document.getElementById('bid-details-modal').classList.add('active');
     };
     
-    // ========== داشبورد فروشنده قالب ==========
-    window.loadSellerFormworkDashboard = async function() {
-        if (!currentUser) return;
+   // ========== داشبورد فروشنده قالب ==========
+window.loadSellerFormworkDashboard = async function() {
+    if (!currentUser) return;
+    
+    document.getElementById('seller-formwork-name').textContent = currentUser.full_name || 'فروشنده قالب';
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    try {
+        // آمار پیشنهادات
+        const { count: bidsCount } = await supabase
+            .from('formwork_bids')
+            .select('*', { count: 'exact', head: true })
+            .eq('seller_id', user.id);
         
-        document.getElementById('seller-formwork-name').textContent = currentUser.full_name || 'فروشنده قالب';
+        const { count: selectedCount } = await supabase
+            .from('formwork_bids')
+            .select('*', { count: 'exact', head: true })
+            .eq('seller_id', user.id)
+            .eq('selected', true);
         
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        document.getElementById('formwork-bids-count').textContent = bidsCount || 0;
+        document.getElementById('formwork-selected-count').textContent = selectedCount || 0;
         
-        try {
-            // آمار پیشنهادات
-            const { count: bidsCount } = await supabase
-                .from('formwork_bids')
-                .select('*', { count: 'exact', head: true })
-                .eq('seller_id', user.id);
+        // دریافت امتیازات
+        const { data: ratings } = await supabase
+            .from('ratings')
+            .select('rating')
+            .eq('seller_id', user.id);
+        
+        const avgRating = ratings?.length 
+            ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
+            : 0;
+        document.getElementById('formwork-rating').textContent = avgRating;
+        
+        // بارگذاری سطح اعتبار
+        await window.loadVendorTrustLevel('formwork');
+        
+        // دریافت درخواست‌های باز
+        const { data: requests } = await supabase
+            .from('concrete_requests')
+            .select('*')
+            .eq('status', 'open')
+            .order('created_at', { ascending: false });
+        
+        const container = document.getElementById('seller-formwork-requests');
+        
+        if (!requests?.length) {
+            container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
+            return;
+        }
+        
+        // دریافت پیشنهادات ارسالی این فروشنده به همراه وضعیت selected
+        const { data: myBids } = await supabase
+            .from('formwork_bids')
+            .select('*')
+            .eq('seller_id', user.id);
+        
+        const myBidMap = new Map();
+        (myBids || []).forEach(bid => {
+            myBidMap.set(bid.request_id, bid);
+        });
+        
+        let html = '';
+        for (const req of requests) {
+            const myBid = myBidMap.get(req.id);
+            const hasBid = !!myBid;
             
-            const { count: selectedCount } = await supabase
-                .from('formwork_bids')
-                .select('*', { count: 'exact', head: true })
-                .eq('seller_id', user.id)
-                .eq('selected', true);
-            
-            document.getElementById('formwork-bids-count').textContent = bidsCount || 0;
-            document.getElementById('formwork-selected-count').textContent = selectedCount || 0;
-            
-            // دریافت امتیازات
-            const { data: ratings } = await supabase
-                .from('ratings')
-                .select('rating')
-                .eq('seller_id', user.id);
-            
-            const avgRating = ratings?.length 
-                ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
-                : 0;
-            document.getElementById('formwork-rating').textContent = avgRating;
-            
-            // بارگذاری سطح اعتبار
-            await window.loadVendorTrustLevel('formwork');
-            
-            // دریافت درخواست‌های باز
-            const { data: requests } = await supabase
-                .from('concrete_requests')
-                .select('*')
-                .eq('status', 'open')
-                .order('created_at', { ascending: false });
-            
-            const container = document.getElementById('seller-formwork-requests');
-            
-            if (!requests?.length) {
-                container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
-                return;
-            }
-            
-            // دریافت پیشنهادات ارسالی این فروشنده
-            const { data: myBids } = await supabase
-                .from('formwork_bids')
-                .select('request_id')
-                .eq('seller_id', user.id);
-            
-            const myBidRequestIds = new Set((myBids || []).map(b => b.request_id));
-            
-            let html = '';
-            for (const req of requests) {
-                const hasBid = myBidRequestIds.has(req.id);
-                
-                html += `
-                    <div class="request-item" style="border-right-color: ${hasBid ? '#10b981' : '#004586'};">
-                        <div class="request-header">
-                            <div class="request-title">${req.title || 'درخواست قالب'}</div>
-                            <span class="request-badge badge-open">باز</span>
-                        </div>
-                        <div class="request-details">
-                            <div><strong>مکان:</strong> ${req.project_location || 'نامشخص'}</div>
-                            <div><strong>مواد:</strong> ${req.material || 'نامشخص'}</div>
-                            <div><strong>تاریخ:</strong> ${new Date(req.created_at).toLocaleDateString('fa-IR')}</div>
-                        </div>
-                        <div class="request-actions">
-                            ${!hasBid ? `
-                                <button class="btn btn-primary" onclick="window.showFormworkBidModal('${req.id}', '${req.title || 'درخواست قالب'}', '${req.description || ''}')">
-                                    <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
+            html += `
+                <div class="request-item" style="border-right-color: ${hasBid ? (myBid?.selected ? '#10b981' : '#f59e0b') : '#004586'};">
+                    <div class="request-header">
+                        <div class="request-title">${req.title || 'درخواست قالب'}</div>
+                        <span class="request-badge badge-open">باز</span>
+                    </div>
+                    <div class="request-details">
+                        <div><strong>مکان:</strong> ${req.project_location || 'نامشخص'}</div>
+                        <div><strong>مواد:</strong> ${req.material || 'نامشخص'}</div>
+                        <div><strong>تاریخ:</strong> ${new Date(req.created_at).toLocaleDateString('fa-IR')}</div>
+                    </div>
+                    <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                        <strong>توضیحات پروژه:</strong>
+                        <p>${req.description || '—'}</p>
+                        ${req.items?.length ? `<p><strong>اقلام:</strong> ${req.items.join('، ')}</p>` : ''}
+                        ${req.deadline ? `<p><strong>مهلت:</strong> ${req.deadline}</p>` : ''}
+                    </div>
+                    <div class="request-actions">
+                        ${!hasBid ? `
+                            <button class="btn btn-primary" onclick="window.showFormworkBidModal('${req.id}', '${req.title || 'درخواست قالب'}', '${req.description || ''}')">
+                                <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
+                            </button>
+                        ` : `
+                            <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
+                            </span>
+                            ${!myBid.selected ? `
+                                <button class="btn btn-edit btn-sm" onclick="window.showEditFormworkBidModal('${myBid.id}')">
+                                    <i class="fas fa-edit"></i> ویرایش
                                 </button>
                             ` : `
-                                <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px;">
-                                    <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
+                                <span style="color: var(--success); font-weight: 600;">
+                                    <i class="fas fa-star"></i> انتخاب شده
                                 </span>
                             `}
-                        </div>
+                        `}
                     </div>
-                `;
-            }
-            
-            container.innerHTML = html;
-            
-        } catch (error) {
-            console.error('خطا:', error);
-            document.getElementById('seller-formwork-requests').innerHTML = 
-                '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
+                </div>
+            `;
         }
-    };
+        
+        container.innerHTML = html;
+        
+    } catch (error) {
+        console.error('خطا:', error);
+        document.getElementById('seller-formwork-requests').innerHTML = 
+            '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
+    }
+};
     
-    // ========== داشبورد فروشنده سوله ==========
-    window.loadSellerShedDashboard = async function() {
-        if (!currentUser) return;
+ // ========== داشبورد فروشنده سوله ==========
+window.loadSellerShedDashboard = async function() {
+    if (!currentUser) return;
+    
+    document.getElementById('seller-shed-name').textContent = currentUser.full_name || 'فروشنده سوله';
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    try {
+        // آمار پیشنهادات
+        const { count: bidsCount } = await supabase
+            .from('shed_bids')
+            .select('*', { count: 'exact', head: true })
+            .eq('seller_id', user.id);
         
-        document.getElementById('seller-shed-name').textContent = currentUser.full_name || 'فروشنده سوله';
+        const { count: selectedCount } = await supabase
+            .from('shed_bids')
+            .select('*', { count: 'exact', head: true })
+            .eq('seller_id', user.id)
+            .eq('selected', true);
         
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        document.getElementById('shed-bids-count').textContent = bidsCount || 0;
+        document.getElementById('shed-selected-count').textContent = selectedCount || 0;
         
-        try {
-            // آمار پیشنهادات
-            const { count: bidsCount } = await supabase
-                .from('shed_bids')
-                .select('*', { count: 'exact', head: true })
-                .eq('seller_id', user.id);
+        // دریافت امتیازات
+        const { data: ratings } = await supabase
+            .from('ratings')
+            .select('rating')
+            .eq('seller_id', user.id);
+        
+        const avgRating = ratings?.length 
+            ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
+            : 0;
+        document.getElementById('shed-rating').textContent = avgRating;
+        
+        // بارگذاری سطح اعتبار
+        await window.loadVendorTrustLevel('shed');
+        
+        // دریافت درخواست‌های باز
+        const { data: requests } = await supabase
+            .from('shed_requests')
+            .select('*')
+            .eq('status', 'open')
+            .order('created_at', { ascending: false });
+        
+        const container = document.getElementById('seller-shed-requests');
+        
+        if (!requests?.length) {
+            container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
+            return;
+        }
+        
+        // دریافت پیشنهادات ارسالی این فروشنده به همراه وضعیت selected
+        const { data: myBids } = await supabase
+            .from('shed_bids')
+            .select('*')
+            .eq('seller_id', user.id);
+        
+        const myBidMap = new Map();
+        (myBids || []).forEach(bid => {
+            myBidMap.set(bid.request_id, bid);
+        });
+        
+        let html = '';
+        for (const req of requests) {
+            const myBid = myBidMap.get(req.id);
+            const hasBid = !!myBid;
+            const dims = req.dimensions || {};
             
-            const { count: selectedCount } = await supabase
-                .from('shed_bids')
-                .select('*', { count: 'exact', head: true })
-                .eq('seller_id', user.id)
-                .eq('selected', true);
-            
-            document.getElementById('shed-bids-count').textContent = bidsCount || 0;
-            document.getElementById('shed-selected-count').textContent = selectedCount || 0;
-            
-            // دریافت امتیازات
-            const { data: ratings } = await supabase
-                .from('ratings')
-                .select('rating')
-                .eq('seller_id', user.id);
-            
-            const avgRating = ratings?.length 
-                ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
-                : 0;
-            document.getElementById('shed-rating').textContent = avgRating;
-            
-            // بارگذاری سطح اعتبار
-            await window.loadVendorTrustLevel('shed');
-            
-            // دریافت درخواست‌های باز
-            const { data: requests } = await supabase
-                .from('shed_requests')
-                .select('*')
-                .eq('status', 'open')
-                .order('created_at', { ascending: false });
-            
-            const container = document.getElementById('seller-shed-requests');
-            
-            if (!requests?.length) {
-                container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
-                return;
-            }
-            
-            // دریافت پیشنهادات ارسالی این فروشنده
-            const { data: myBids } = await supabase
-                .from('shed_bids')
-                .select('request_id')
-                .eq('seller_id', user.id);
-            
-            const myBidRequestIds = new Set((myBids || []).map(b => b.request_id));
-            
-            let html = '';
-            for (const req of requests) {
-                const hasBid = myBidRequestIds.has(req.id);
-                const dims = req.dimensions || {};
-                
-                html += `
-                    <div class="request-item" style="border-right-color: ${hasBid ? '#10b981' : '#004586'};">
-                        <div class="request-header">
-                            <div class="request-title">درخواست سوله</div>
-                            <span class="request-badge badge-open">باز</span>
-                        </div>
-                        <div class="request-details">
-                            <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
-                            <div><strong>مکان:</strong> ${req.location || 'نامشخص'}</div>
-                            <div><strong>کاربری:</strong> ${req.usage || 'نامشخص'}</div>
-                        </div>
-                        <div class="request-actions">
-                            ${!hasBid ? `
-                                <button class="btn btn-primary" onclick='window.showShedBidModal("${req.id}", ${JSON.stringify(dims)})'>
-                                    <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
+            html += `
+                <div class="request-item" style="border-right-color: ${hasBid ? (myBid?.selected ? '#10b981' : '#f59e0b') : '#004586'};">
+                    <div class="request-header">
+                        <div class="request-title">درخواست سوله</div>
+                        <span class="request-badge badge-open">باز</span>
+                    </div>
+                    <div class="request-details">
+                        <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
+                        <div><strong>مکان:</strong> ${req.location || 'نامشخص'}</div>
+                        <div><strong>کاربری:</strong> ${req.usage || 'نامشخص'}</div>
+                    </div>
+                    <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                        <strong>جزئیات پروژه:</strong>
+                        <p><strong>نقشه:</strong> ${req.has_drawing ? 'دارد' : 'ندارد'}</p>
+                        <p><strong>جرثقیل:</strong> ${req.needs_crane ? `بله (${req.crane_tonnage} تن)` : 'خیر'}</p>
+                        <p><strong>فونداسیون:</strong> ${req.foundation === 'yes' ? 'آماده' : 'نیاز دارد'}</p>
+                        <p><strong>رنگ:</strong> ${req.paint_type || '—'} (${req.paint_thickness || '—'} میکرون)</p>
+                        <p><strong>وزن:</strong> ${req.weight || 'نامشخص'} تن</p>
+                        <p><strong>مسئولیت خریدار:</strong> ${req.buyer_responsibilities?.map(r => {
+                            if (r === 'steel') return 'تهیه آهن آلات';
+                            if (r === 'bolts') return 'تهیه پیچ و مهره';
+                            if (r === 'transport') return 'حمل';
+                            return r;
+                        }).join('، ') || 'هیچکدام'}</p>
+                    </div>
+                    <div class="request-actions">
+                        ${!hasBid ? `
+                            <button class="btn btn-primary" onclick='window.showShedBidModal("${req.id}", ${JSON.stringify(dims)})'>
+                                <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
+                            </button>
+                        ` : `
+                            <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
+                            </span>
+                            ${!myBid.selected ? `
+                                <button class="btn btn-edit btn-sm" onclick="window.showEditShedBidModal('${myBid.id}')">
+                                    <i class="fas fa-edit"></i> ویرایش
                                 </button>
                             ` : `
-                                <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px;">
-                                    <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
+                                <span style="color: var(--success); font-weight: 600;">
+                                    <i class="fas fa-star"></i> انتخاب شده
                                 </span>
                             `}
-                        </div>
+                        `}
                     </div>
-                `;
-            }
-            
-            container.innerHTML = html;
-            
-        } catch (error) {
-            console.error('خطا:', error);
-            document.getElementById('seller-shed-requests').innerHTML = 
-                '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
+                </div>
+            `;
         }
-    };
-    
-    // ========== مودال پیشنهاد قالب ==========
+        
+        container.innerHTML = html;
+        
+    } catch (error) {
+        console.error('خطا:', error);
+        document.getElementById('seller-shed-requests').innerHTML = 
+            '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
+    }
+};
+       // ========== مودال پیشنهاد قالب ==========
     window.showFormworkBidModal = function(requestId, title, description) {
         console.log('🔵 showFormworkBidModal فراخوانی شد');
         
@@ -3850,10 +4124,8 @@
         const projectTitleEl = document.getElementById('bid-project-title');
         if (projectTitleEl) projectTitleEl.textContent = title || 'درخواست قالب';
         
-        const projectDetailsEl = document.getElementById('bid-project-details');
-        if (projectDetailsEl) {
-            projectDetailsEl.textContent = description ? description.substring(0, 100) + '...' : '';
-        }
+        // نمایش جزئیات کامل پروژه
+        window.showFullRequestDetails(requestId, 'concrete');
         
         const basePriceInput = document.getElementById('bid-base-price');
         if (basePriceInput) basePriceInput.value = '';
@@ -3987,7 +4259,7 @@
         }
     };
     
-    // ========== مودال پیشنهاد سوله ==========
+       // ========== مودال پیشنهاد سوله ==========
     window.showShedBidModal = function(requestId, dimensions) {
         console.log('🔵 showShedBidModal فراخوانی شد', requestId, dimensions);
         
@@ -4003,7 +4275,10 @@
             dimensionsEl.textContent = `${dimensions?.length || '?'}×${dimensions?.width || '?'}×${dimensions?.height || '?'}`;
         }
         
-        // بارگذاری مسئولیت‌های خریدار (اگه نیاز باشه)
+        // نمایش جزئیات کامل پروژه
+        window.showFullRequestDetails(requestId, 'shed');
+        
+        // بارگذاری مسئولیت‌های خریدار
         window.loadShedBuyerResponsibilities(requestId);
         
         // ریست کردن مقادیر
@@ -4148,20 +4423,22 @@
         }
     };
     
-    // ========== انتخاب پیشنهاد ==========
+      // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
     window.selectBid = async function(bidId, type) {
-        if (!confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟')) return;
+        if (!confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟ با انتخاب این پیشنهاد، اطلاعات فروشنده برای شما نمایش داده می‌شود و درخواست بسته خواهد شد.')) return;
         
         const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
         const requestTable = type === 'concrete' ? 'concrete_requests' : 'shed_requests';
         
         try {
-            // دریافت request_id
-            const { data: bid } = await supabase
+            // دریافت اطلاعات پیشنهاد و فروشنده
+            const { data: bid, error: bidError } = await supabase
                 .from(table)
-                .select('request_id')
+                .select('*, profiles(full_name, company_name, phone, email)')
                 .eq('id', bidId)
                 .single();
+            
+            if (bidError) throw bidError;
             
             // غیرفعال کردن همه پیشنهادات این درخواست
             await supabase
@@ -4181,8 +4458,37 @@
                 .update({ status: 'completed' })
                 .eq('id', bid.request_id);
             
-            alert('✅ پیشنهاد انتخاب شد. اطلاعات فروشنده برای شما ارسال شد.');
+            // نمایش اطلاعات فروشنده
+            const sellerInfo = `
+                <div class="seller-contact-info">
+                    <h4><i class="fas fa-check-circle" style="color: var(--success);"></i> پیشنهاد با موفقیت انتخاب شد</h4>
+                    <p>اطلاعات تماس فروشنده برای شما ارسال شد:</p>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-user"></i></div>
+                        <div><strong>نام:</strong> ${bid.profiles?.full_name || '—'}</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-building"></i></div>
+                        <div><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div><strong>تلفن:</strong> ${bid.profiles?.phone || '—'}</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div><strong>ایمیل:</strong> ${bid.profiles?.email || '—'}</div>
+                    </div>
+                </div>
+                <p style="margin-top: 15px;">اکنون می‌توانید مستقیماً با فروشنده تماس بگیرید و مراحل بعدی را پیگیری کنید.</p>
+            `;
+            
+            document.getElementById('seller-info-content').innerHTML = sellerInfo;
+            document.getElementById('seller-info-modal').classList.add('active');
+            
+            // به‌روزرسانی لیست درخواست‌ها
             window.loadMyRequests('all');
+            
         } catch (error) {
             alert(error.message);
         }
@@ -4466,7 +4772,195 @@
             console.error(error);
         }
     };
+        // ========== توابع نمایش جزئیات پروژه ==========
     
+    // نمایش جزئیات کامل درخواست برای فروشنده
+    window.showFullRequestDetails = async function(requestId, type) {
+        if (type === 'concrete') {
+            const { data: req } = await supabase
+                .from('concrete_requests')
+                .select('*')
+                .eq('id', requestId)
+                .single();
+            
+            if (req) {
+                document.getElementById('bid-project-description').innerHTML = `<strong>توضیحات:</strong> ${req.description || '—'}`;
+                document.getElementById('bid-project-location').innerHTML = `<strong>مکان:</strong> ${req.project_location || '—'}`;
+                document.getElementById('bid-project-material').innerHTML = `<strong>جنس:</strong> ${req.material || '—'}`;
+                document.getElementById('bid-project-items').innerHTML = `<strong>اقلام:</strong> ${req.items?.join('، ') || '—'}`;
+            }
+        } else {
+            const { data: req } = await supabase
+                .from('shed_requests')
+                .select('*')
+                .eq('id', requestId)
+                .single();
+            
+            if (req) {
+                const dims = req.dimensions || {};
+                document.getElementById('shed-bid-usage').innerHTML = `<strong>کاربری:</strong> ${req.usage || '—'}`;
+                document.getElementById('shed-bid-location').innerHTML = `<strong>مکان:</strong> ${req.location || '—'}`;
+                document.getElementById('shed-bid-drawing-info').innerHTML = `<strong>نقشه:</strong> ${req.has_drawing ? 'دارد' : 'ندارد'}`;
+                document.getElementById('shed-bid-crane-info').innerHTML = `<strong>جرثقیل:</strong> ${req.needs_crane ? `بله (${req.crane_tonnage} تن)` : 'خیر'}`;
+                document.getElementById('shed-bid-paint-info').innerHTML = `<strong>رنگ:</strong> ${req.paint_type || '—'} (${req.paint_thickness || '—'} میکرون)`;
+                document.getElementById('shed-bid-weight-info').innerHTML = `<strong>وزن:</strong> ${req.weight || 'نامشخص'} تن`;
+            }
+        }
+    };
+
+    // ========== توابع ویرایش پیشنهاد ==========
+
+    // محاسبه قیمت در مودال ویرایش قالب
+    window.calculateEditFormworkTotal = function() {
+        let basePriceInput = document.getElementById('edit-bid-base-price');
+        if (!basePriceInput) return;
+        
+        let basePrice = parseFormattedNumber(basePriceInput.value);
+        let vatSelect = document.getElementById('edit-bid-vat');
+        let vatPercent = vatSelect ? parseInt(vatSelect.value) : 15;
+        let loadingSelect = document.getElementById('edit-bid-loading');
+        let loadingPercent = loadingSelect ? parseInt(loadingSelect.value) : 2;
+        
+        let vat = Math.round(basePrice * vatPercent / 100);
+        let loading = Math.round(basePrice * loadingPercent / 100);
+        let total = basePrice + vat + loading;
+        
+        document.getElementById('edit-display-base-price').textContent = basePrice.toLocaleString('fa-IR') + ' ریال';
+        document.getElementById('edit-display-vat').textContent = vat.toLocaleString('fa-IR') + ' ریال';
+        document.getElementById('edit-display-loading').textContent = loading.toLocaleString('fa-IR') + ' ریال';
+        document.getElementById('edit-display-total').textContent = total.toLocaleString('fa-IR') + ' ریال';
+    };
+
+    // نمایش مودال ویرایش پیشنهاد قالب
+    window.showEditFormworkBidModal = async function(bidId) {
+        const { data: bid } = await supabase
+            .from('formwork_bids')
+            .select('*')
+            .eq('id', bidId)
+            .single();
+        
+        if (!bid) return;
+        
+        document.getElementById('edit-bid-id').value = bid.id;
+        document.getElementById('edit-request-id').value = bid.request_id;
+        document.getElementById('edit-bid-base-price').value = bid.base_price.toLocaleString('fa-IR');
+        document.getElementById('edit-bid-vat').value = bid.vat_percent;
+        document.getElementById('edit-bid-loading').value = bid.loading_percent;
+        document.getElementById('edit-bid-delivery').value = bid.delivery_time;
+        document.getElementById('edit-bid-warranty').value = bid.warranty_months;
+        document.getElementById('edit-bid-notes').value = bid.notes || '';
+        
+        window.calculateEditFormworkTotal();
+        
+        document.getElementById('edit-formwork-bid-modal').classList.add('active');
+    };
+
+    // به‌روزرسانی پیشنهاد قالب
+    window.updateFormworkBid = async function() {
+        const bidId = document.getElementById('edit-bid-id').value;
+        const basePrice = parseFormattedNumber(document.getElementById('edit-bid-base-price').value);
+        const vatPercent = parseInt(document.getElementById('edit-bid-vat').value);
+        const loadingPercent = parseInt(document.getElementById('edit-bid-loading').value);
+        const vat = Math.round(basePrice * vatPercent / 100);
+        const loading = Math.round(basePrice * loadingPercent / 100);
+        const total = basePrice + vat + loading;
+        
+        try {
+            const { error } = await supabase
+                .from('formwork_bids')
+                .update({
+                    base_price: basePrice,
+                    vat_percent: vatPercent,
+                    loading_percent: loadingPercent,
+                    vat_amount: vat,
+                    loading_amount: loading,
+                    total_price: total,
+                    delivery_time: parseInt(document.getElementById('edit-bid-delivery').value),
+                    warranty_months: parseInt(document.getElementById('edit-bid-warranty').value),
+                    notes: document.getElementById('edit-bid-notes').value,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', bidId);
+            
+            if (error) throw error;
+            
+            alert('✅ پیشنهاد با موفقیت ویرایش شد');
+            window.closeModal('edit-formwork-bid-modal');
+            window.loadSellerFormworkDashboard();
+        } catch (error) {
+            alert('❌ خطا: ' + error.message);
+        }
+    };
+
+    // محاسبه قیمت در مودال ویرایش سوله
+    window.calculateEditShedTotal = function() {
+        const priceInput = document.getElementById('edit-shed-bid-price-per-kg');
+        const weightInput = document.getElementById('edit-shed-bid-estimated-weight');
+        
+        if (!priceInput || !weightInput) return;
+        
+        const pricePerKg = parseFormattedNumber(priceInput.value);
+        const estimatedWeight = parseFormattedNumber(weightInput.value);
+        const totalPrice = pricePerKg * estimatedWeight;
+        
+        document.getElementById('edit-display-price-per-kg').textContent = formatNumberFarsiDisplay(pricePerKg) + ' ریال';
+        document.getElementById('edit-display-estimated-weight').textContent = formatNumberFarsiDisplay(estimatedWeight) + ' کیلوگرم';
+        document.getElementById('edit-display-shed-total').textContent = formatNumberFarsiDisplay(totalPrice) + ' ریال';
+    };
+
+    // نمایش مودال ویرایش پیشنهاد سوله
+    window.showEditShedBidModal = async function(bidId) {
+        const { data: bid } = await supabase
+            .from('shed_bids')
+            .select('*')
+            .eq('id', bidId)
+            .single();
+        
+        if (!bid) return;
+        
+        document.getElementById('edit-shed-bid-id').value = bid.id;
+        document.getElementById('edit-shed-request-id').value = bid.request_id;
+        document.getElementById('edit-shed-bid-price-per-kg').value = bid.price_per_kg.toLocaleString('fa-IR');
+        document.getElementById('edit-shed-bid-estimated-weight').value = bid.estimated_weight.toLocaleString('fa-IR');
+        document.getElementById('edit-shed-bid-delivery').value = bid.delivery_time;
+        document.getElementById('edit-shed-bid-warranty').value = bid.warranty_months;
+        document.getElementById('edit-shed-bid-notes').value = bid.notes || '';
+        
+        window.calculateEditShedTotal();
+        
+        document.getElementById('edit-shed-bid-modal').classList.add('active');
+    };
+
+    // به‌روزرسانی پیشنهاد سوله
+    window.updateShedBid = async function() {
+        const bidId = document.getElementById('edit-shed-bid-id').value;
+        const pricePerKg = parseFormattedNumber(document.getElementById('edit-shed-bid-price-per-kg').value);
+        const estimatedWeight = parseFormattedNumber(document.getElementById('edit-shed-bid-estimated-weight').value);
+        const totalPrice = pricePerKg * estimatedWeight;
+        
+        try {
+            const { error } = await supabase
+                .from('shed_bids')
+                .update({
+                    price_per_kg: pricePerKg,
+                    estimated_weight: estimatedWeight,
+                    total_price: totalPrice,
+                    delivery_time: parseInt(document.getElementById('edit-shed-bid-delivery').value),
+                    warranty_months: parseInt(document.getElementById('edit-shed-bid-warranty').value),
+                    notes: document.getElementById('edit-shed-bid-notes').value,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', bidId);
+            
+            if (error) throw error;
+            
+            alert('✅ پیشنهاد با موفقیت ویرایش شد');
+            window.closeModal('edit-shed-bid-modal');
+            window.loadSellerShedDashboard();
+        } catch (error) {
+            alert('❌ خطا: ' + error.message);
+        }
+    };
     window.loadAdminTab = async function(tab) {
         document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
         event.target.classList.add('active');
