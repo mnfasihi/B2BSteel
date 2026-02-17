@@ -1119,141 +1119,6 @@
     background: #fee2e2;
     color: #991b1b;
 }
-/* ========== لودینگ‌های فانتزی ========== */
-
-/* لودینگ ۱: چرخونک ساده با رنگ‌های B2BSteel */
-.loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-}
-
-/* لودینگ ۲: دوتایی چرخونک */
-.loading-dual-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid transparent;
-    border-top: 5px solid var(--primary);
-    border-bottom: 5px solid var(--accent);
-    border-radius: 50%;
-    animation: spin 1.5s ease-in-out infinite;
-}
-
-/* لودینگ ۳: نقطه‌های جهنده */
-.loading-dots {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.loading-dots div {
-    width: 15px;
-    height: 15px;
-    background: var(--primary);
-    border-radius: 50%;
-    animation: bounce 1.4s infinite ease-in-out both;
-}
-
-.loading-dots div:nth-child(1) { animation-delay: -0.32s; }
-.loading-dots div:nth-child(2) { animation-delay: -0.16s; }
-
-/* لودینگ ۴: شیشه‌ای (Glassmorphism) */
-.loading-glass {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.loading-glass i {
-    font-size: 3rem;
-    color: var(--primary);
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
-/* لودینگ ۵: متن متحرک */
-.loading-text {
-    font-size: 1.2rem;
-    color: var(--primary);
-    position: relative;
-}
-
-.loading-text::after {
-    content: '...';
-    position: absolute;
-    animation: dots 1.5s steps(4, end) infinite;
-    width: 24px;
-    text-align: left;
-}
-
-/* انیمیشن‌ها */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes bounce {
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1); }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.7; }
-}
-
-@keyframes dots {
-    0%, 20% { content: ''; }
-    40% { content: '.'; }
-    60% { content: '..'; }
-    80%, 100% { content: '...'; }
-}
-
-/* ========== کانتینر لودینگ ========== */
-.loading-container {
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin: 1rem 0;
-}
-
-/* لودینگ تمام صفحه */
-.loading-fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.loading-fullscreen p {
-    color: var(--primary);
-    font-size: 1.2rem;
-    font-weight: 600;
-    animation: pulse 1.5s ease-in-out infinite;
-}
     </style>
 </head>
 <body>
@@ -1889,29 +1754,6 @@
                 </div>
             </div>
         </div>
-<!-- صفحه راهنما - اضافه کن به بخش تست -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
-    <button class="btn btn-primary" onclick="LoadingSystem.showInElement(document.getElementById('loading-demo'), 'spinner')">
-        لودینگ چرخونک
-    </button>
-    <button class="btn btn-success" onclick="LoadingSystem.showInElement(document.getElementById('loading-demo'), 'dual')">
-        لودینگ دوتایی
-    </button>
-    <button class="btn btn-info" onclick="LoadingSystem.showInElement(document.getElementById('loading-demo'), 'dots')">
-        لودینگ نقطه‌ای
-    </button>
-    <button class="btn btn-warning" onclick="LoadingSystem.showInElement(document.getElementById('loading-demo'), 'glass')">
-        لودینگ شیشه‌ای
-    </button>
-    <button class="btn btn-secondary" onclick="LoadingSystem.showInElement(document.getElementById('loading-demo'), 'text')">
-        لودینگ متنی
-    </button>
-    <button class="btn btn-danger" onclick="LoadingSystem.showRandom(document.getElementById('loading-demo'))">
-        لودینگ تصادفی
-    </button>
-</div>
-
-<div id="loading-demo" style="min-height: 200px;"></div>
     </section>
 
    <!-- صفحه بلاگ تخصصی -->
@@ -4265,6 +4107,11 @@ window.showArticle = async function(article) {
         }
     };
 // ========== اینجا توابع جدید رو اضافه کن ==========
+window.exportAdminReport = function() {
+    alert('گزارش در حال تهیه است...');
+    // اینجا می‌تونیم بعداً اکسل یا PDF بسازیم
+};
+
 window.loadAdminTab = async function(tab) {
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
     event.target.classList.add('active');
@@ -4272,8 +4119,12 @@ window.loadAdminTab = async function(tab) {
     const content = document.getElementById('admin-content');
     
     // نمایش لودینگ
-     // نمایش لودینگ با سیستم جدید
-    LoadingSystem.showInElement(content, 'dual', 'در حال بارگذاری...');
+    content.innerHTML = `
+        <div style="text-align: center; padding: 3rem;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+            <p style="color: var(--muted);">در حال بارگذاری...</p>
+        </div>
+    `;
     
     // تأخیر کوتاه برای نمایش لودینگ
     await new Promise(resolve => setTimeout(resolve, 300));
@@ -4422,136 +4273,32 @@ window.loadAdminTab = async function(tab) {
         } catch (error) {
             console.error('خطا:', error);
             content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری درخواست‌ها</p>';
-        } else if (tab === 'bids') {
-        try {
-            // دریافت همه پیشنهادات
-            const [formworkBids, shedBids] = await Promise.all([
-                DataCache.get('formwork_bids', async () => {
-                    const { data } = await supabase
-                        .from('formwork_bids')
-                        .select('*, profiles(full_name, company_name), concrete_requests(title)')
-                        .order('created_at', { ascending: false });
-                    return data;
-                }),
-                DataCache.get('shed_bids', async () => {
-                    const { data } = await supabase
-                        .from('shed_bids')
-                        .select('*, profiles(full_name, company_name), shed_requests(dimensions)')
-                        .order('created_at', { ascending: false });
-                    return data;
-                })
-            ]);
-
-            // ترکیب و آماده‌سازی
-            const allBids = [
-                ...(formworkBids || []).map(b => ({ ...b, type: 'قالب' })),
-                ...(shedBids || []).map(b => ({ ...b, type: 'سوله' }))
-            ];
-
-            if (allBids.length === 0) {
-                dashboardHelpers.showEmpty(content, 'هیچ پیشنهادی یافت نشد', 'fa-gavel');
-                return;
-            }
-
-            // ایجاد فیلتر
-            if (!document.getElementById('bids-filter')) {
-                const filterContainer = document.createElement('div');
-                filterContainer.id = 'bids-filter';
-                filterContainer.style.marginBottom = '1rem';
-                content.parentNode.insertBefore(filterContainer, content);
-                
-                window.filterManager = new FilterComponent('bids-filter', [
-                    {
-                        type: 'select',
-                        name: 'type',
-                        label: 'همه انواع',
-                        items: [
-                            { value: 'قالب', text: 'قالب بتن' },
-                            { value: 'سوله', text: 'سوله' }
-                        ]
-                    },
-                    {
-                        type: 'select',
-                        name: 'status',
-                        label: 'همه وضعیت‌ها',
-                        items: [
-                            { value: 'selected', text: 'انتخاب شده' },
-                            { value: 'pending', text: 'در انتظار' }
-                        ]
-                    },
-                    {
-                        type: 'search',
-                        name: 'search',
-                        placeholder: 'جستجو در پیشنهادات...'
-                    }
-                ], (filters) => {
-                    displayFilteredBids(allBids, filters);
-                });
-            }
-
-            displayFilteredBids(allBids, {});
-
-        } catch (error) {
-            console.error('خطا:', error);
-            dashboardHelpers.showError(content, 'خطا در بارگذاری پیشنهادات');
         }
-           } else if (tab === 'transactions') {
-        try {
-            // آمار معاملات
-            const [completedConcrete, completedShed, totalUsers] = await Promise.all([
-                supabase.from('concrete_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
-                supabase.from('shed_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
-                supabase.from('profiles').select('*', { count: 'exact', head: true })
-            ]);
-
-            const totalDeals = (completedConcrete.count || 0) + (completedShed.count || 0);
-            
-            content.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-                    <div class="admin-stat-card" style="border-right: 4px solid var(--primary);">
-                        <div class="stat-icon"><i class="fas fa-handshake"></i></div>
-                        <div>
-                            <h3>کل معاملات</h3>
-                            <div class="value">${totalDeals.toLocaleString('fa-IR')}</div>
-                        </div>
-                    </div>
-                    <div class="admin-stat-card" style="border-right: 4px solid #10b981;">
-                        <div class="stat-icon"><i class="fas fa-cubes"></i></div>
-                        <div>
-                            <h3>قالب بتن</h3>
-                            <div class="value">${(completedConcrete.count || 0).toLocaleString('fa-IR')}</div>
-                        </div>
-                    </div>
-                    <div class="admin-stat-card" style="border-right: 4px solid #f59e0b;">
-                        <div class="stat-icon"><i class="fas fa-warehouse"></i></div>
-                        <div>
-                            <h3>سوله</h3>
-                            <div class="value">${(completedShed.count || 0).toLocaleString('fa-IR')}</div>
-                        </div>
-                    </div>
-                    <div class="admin-stat-card" style="border-right: 4px solid #8b5cf6;">
-                        <div class="stat-icon"><i class="fas fa-users"></i></div>
-                        <div>
-                            <h3>کاربران فعال</h3>
-                            <div class="value">${(totalUsers.count || 0).toLocaleString('fa-IR')}</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
-                    <i class="fas fa-chart-bar" style="font-size: 3rem; color: var(--muted); margin-bottom: 1rem;"></i>
-                    <p style="color: var(--muted);">گزارشات پیشرفته به زودی اضافه می‌شود</p>
-                </div>
-            `;
-        } catch (error) {
-            console.error('خطا:', error);
-            dashboardHelpers.showError(content, 'خطا در بارگذاری گزارشات');
-        }
+        
+    } else if (tab === 'bids') {
+        content.innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                <i class="fas fa-gavel" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--primary);">پیشنهادات</h3>
+                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
+            </div>
+        `;
+        
     } else if (tab === 'dashboard') {
         content.innerHTML = `
             <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
                 <i class="fas fa-chart-pie" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                 <h3 style="color: var(--primary);">داشبورد خلاصه</h3>
                 <p style="color: var(--muted);">به زودی آمار و نمودارهای پیشرفته در این بخش نمایش داده می‌شود.</p>
+            </div>
+        `;
+        
+    } else if (tab === 'transactions') {
+        content.innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 2rem; text-align: center;">
+                <i class="fas fa-chart-line" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--primary);">گزارشات</h3>
+                <p style="color: var(--muted);">این بخش در حال تکمیل است و به زودی فعال می‌شود.</p>
             </div>
         `;
         
@@ -4565,68 +4312,6 @@ window.loadAdminTab = async function(tab) {
         `;
     }
 };
-// ========== نمایش پیشنهادات با فیلتر ==========
-function displayFilteredBids(allBids, filters) {
-    const content = document.getElementById('admin-content');
-    
-    // اعمال فیلترها
-    let filteredBids = allBids;
-    
-    if (filters.type && filters.type !== 'all') {
-        filteredBids = filteredBids.filter(b => b.type === filters.type);
-    }
-    
-    if (filters.status && filters.status !== 'all') {
-        filteredBids = filteredBids.filter(b => 
-            filters.status === 'selected' ? b.selected : !b.selected
-        );
-    }
-    
-    if (filters.search) {
-        const searchTerm = filters.search.toLowerCase();
-        filteredBids = filteredBids.filter(b => 
-            b.profiles?.full_name?.toLowerCase().includes(searchTerm) ||
-            b.profiles?.company_name?.toLowerCase().includes(searchTerm) ||
-            b.notes?.toLowerCase().includes(searchTerm)
-        );
-    }
-    
-    let html = '<div class="bids-grid" style="display: grid; gap: 1rem;">';
-    
-    filteredBids.forEach(bid => {
-        const isSelected = bid.selected ? '✅' : '⏳';
-        const price = bid.total_price || bid.price || 0;
-        
-        html += `
-            <div class="request-item" style="border-right-color: ${bid.selected ? 'var(--success)' : 'var(--info)'};">
-                <div class="request-header">
-                    <div class="request-title">
-                        ${bid.type === 'قالب' ? '🏗️' : '🏭'} پیشنهاد ${bid.type}
-                    </div>
-                    <span class="request-badge ${bid.selected ? 'badge-completed' : 'badge-open'}">
-                        ${bid.selected ? 'انتخاب شده' : 'در انتظار'}
-                    </span>
-                </div>
-                <div class="request-details">
-                    <div><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</div>
-                    <div><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</div>
-                    <div><strong>قیمت:</strong> ${dashboardHelpers.formatPrice(price)}</div>
-                    <div><strong>زمان تحویل:</strong> ${bid.delivery_time || '—'} روز</div>
-                    <div><strong>تاریخ:</strong> ${dashboardHelpers.formatDate(bid.created_at)}</div>
-                </div>
-                ${bid.notes ? `<div style="margin-top: 0.5rem; padding: 0.5rem; background: #f8fafc; border-radius: 6px;"><small>📝 ${bid.notes}</small></div>` : ''}
-            </div>
-        `;
-    });
-    
-    html += '</div>';
-    
-    if (filteredBids.length === 0) {
-        dashboardHelpers.showEmpty(content, 'پیشنهادی با این فیلترها یافت نشد', 'fa-search');
-    } else {
-        content.innerHTML = html;
-    }
-}
 // ========== توابع مدیریت کاربران ==========
 
 // تأیید فروشنده
@@ -4852,210 +4537,7 @@ function displayUsersList(users) {
     html += '</div>';
     content.innerHTML = html;
 }
-    // ========== توابع مشترک برای همه بخش‌ها ==========
-const dashboardHelpers = {
-    formatDate: (date) => {
-        return new Date(date).toLocaleDateString('fa-IR');
-    },
     
-    formatPrice: (price) => {
-        return price?.toLocaleString('fa-IR') + ' ریال' || '۰ ریال';
-    },
-    
-    statusBadge: (status) => {
-        const badges = {
-            'open': '<span class="badge-open">باز</span>',
-            'completed': '<span class="badge-completed">تکمیل شده</span>',
-            'pending': '<span class="badge-warning">در انتظار</span>',
-            'verified': '<span class="badge-success">تأیید شده</span>',
-            'rejected': '<span class="badge-danger">رد شده</span>'
-        };
-        return badges[status] || '<span class="badge-info">نامشخص</span>';
-    },
-    
-    showLoading: (element) => {
-        element.innerHTML = `
-            <div style="text-align: center; padding: 3rem;">
-                <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i>
-                <p>در حال بارگذاری...</p>
-            </div>
-        `;
-    },
-    
-    showError: (element, message) => {
-        element.innerHTML = `
-            <div style="text-align: center; padding: 3rem; color: var(--danger);">
-                <i class="fas fa-exclamation-circle" style="font-size: 3rem;"></i>
-                <p>${message || 'خطا در بارگذاری'}</p>
-            </div>
-        `;
-    },
-    
-    showEmpty: (element, message, icon = 'fa-folder-open') => {
-        element.innerHTML = `
-            <div style="text-align: center; padding: 3rem; color: var(--muted);">
-                <i class="fas ${icon}" style="font-size: 3rem;"></i>
-                <p>${message || 'موردی یافت نشد'}</p>
-            </div>
-        `;
-    }
-};
-// ========== سیستم لودینگ پیشرفته ==========
-const LoadingSystem = {
-    // نمایش لودینگ در المنت مشخص
-    showInElement: (element, type = 'spinner', message = 'در حال بارگذاری...') => {
-        const loaders = {
-            spinner: `
-                <div class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <p style="margin-top: 1rem; color: var(--muted);">${message}</p>
-                </div>
-            `,
-            dual: `
-                <div class="loading-container">
-                    <div class="loading-dual-spinner"></div>
-                    <p style="margin-top: 1rem; color: var(--muted);">${message}</p>
-                </div>
-            `,
-            dots: `
-                <div class="loading-container">
-                    <div class="loading-dots">
-                        <div></div><div></div><div></div>
-                    </div>
-                    <p style="margin-top: 1rem; color: var(--muted);">${message}</p>
-                </div>
-            `,
-            glass: `
-                <div class="loading-container loading-glass">
-                    <i class="fas fa-circle-notch fa-spin"></i>
-                    <p style="margin-top: 1rem; color: var(--primary); font-weight: 600;">${message}</p>
-                </div>
-            `,
-            text: `
-                <div class="loading-container">
-                    <p class="loading-text">${message}</p>
-                </div>
-            `
-        };
-        
-        element.innerHTML = loaders[type] || loaders.spinner;
-    },
-    
-    // نمایش لودینگ تمام صفحه
-    showFullscreen: (message = 'لطفاً صبر کنید...') => {
-        const loader = document.createElement('div');
-        loader.id = 'fullscreen-loader';
-        loader.className = 'loading-fullscreen';
-        loader.innerHTML = `
-            <div class="loading-dual-spinner"></div>
-            <p>${message}</p>
-        `;
-        document.body.appendChild(loader);
-    },
-    
-    // بستن لودینگ تمام صفحه
-    hideFullscreen: () => {
-        const loader = document.getElementById('fullscreen-loader');
-        if (loader) {
-            loader.style.animation = 'fadeOut 0.3s ease';
-            setTimeout(() => loader.remove(), 300);
-        }
-    },
-    
-    // لودینگ تصادفی (برای تنوع)
-    showRandom: (element, message = 'در حال بارگذاری...') => {
-        const types = ['spinner', 'dual', 'dots', 'glass', 'text'];
-        const randomType = types[Math.floor(Math.random() * types.length)];
-        LoadingSystem.showInElement(element, randomType, message);
-    }
-};
-
-// اضافه کردن انیمیشن fadeOut
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
-// ========== کامپوننت فیلتر ==========
-class FilterComponent {
-    constructor(containerId, options, onFilterChange) {
-        this.container = document.getElementById(containerId);
-        this.options = options;
-        this.onFilterChange = onFilterChange;
-        this.filters = {};
-        this.render();
-    }
-    
-    render() {
-        let html = '<div class="filter-container" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem;">';
-        
-        this.options.forEach(option => {
-            if (option.type === 'select') {
-                html += `
-                    <select class="form-control filter-${option.name}" style="width: 200px;" onchange="window.filterManager.update('${option.name}', this.value)">
-                        <option value="all">${option.label}</option>
-                        ${option.items.map(item => `<option value="${item.value}">${item.text}</option>`).join('')}
-                    </select>
-                `;
-            } else if (option.type === 'search') {
-                html += `
-                    <input type="text" class="form-control filter-${option.name}" 
-                           placeholder="${option.placeholder}" style="flex: 1;"
-                           onkeyup="window.filterManager.update('${option.name}', this.value)">
-                `;
-            } else if (option.type === 'date') {
-                html += `
-                    <input type="date" class="form-control filter-${option.name}" 
-                           onchange="window.filterManager.update('${option.name}', this.value)">
-                `;
-            }
-        });
-        
-        html += '</div>';
-        this.container.innerHTML = html;
-    }
-    
-    update(name, value) {
-        this.filters[name] = value === 'all' ? null : value;
-        if (this.onFilterChange) {
-            this.onFilterChange(this.filters);
-        }
-    }
-}
-
-window.filterManager = null;
-// ========== مدیریت کش ==========
-const DataCache = {
-    cache: {},
-    expiryTime: 30000,
-    
-    async get(key, fetchFunction) {
-        const now = Date.now();
-        const cached = this.cache[key];
-        
-        if (cached && (now - cached.timestamp) < this.expiryTime) {
-            return cached.data;
-        }
-        
-        const data = await fetchFunction();
-        this.cache[key] = {
-            data: data,
-            timestamp: now
-        };
-        return data;
-    },
-    
-    clear(key) {
-        if (key) {
-            delete this.cache[key];
-        } else {
-            this.cache = {};
-        }
-    }
-};
     window.enterConcreteFormworkSystem = function() {
         if (currentUser) {
             if (currentUser.userType === 'buyer') window.showPage('dashboard');
@@ -5100,6 +4582,9 @@ window.loadAdminDashboard = async function() {
     }
 };
 
+window.exportAdminReport = function() {
+    alert('گزارش در حال تهیه است...');
+};
  // ========== نمایش صفحات ==========
 window.showPage = function(pageId) {
     console.log('📄 نمایش صفحه:', pageId);
