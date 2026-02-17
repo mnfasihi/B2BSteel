@@ -3681,193 +3681,259 @@
             document.getElementById('active-requests').textContent = (activeCount || 0) + (shedActiveCount || 0);
         }
     };
-    
     window.loadMyRequests = async function(type = 'all') {
-        if (!currentUser) return;
-        
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-        
-        let requests = [];
-        let allBids = [];
-        
-        if (type === 'all' || type === 'concrete') {
-            const { data: concrete } = await supabase
-                .from('concrete_requests')
-                .select('*')
-                .eq('user_id', user.id)
-                .order('created_at', { ascending: false });
-            if (concrete) {
-                requests.push(...concrete.map(r => ({ ...r, requestType: 'concrete' })));
-                
-                // دریافت پیشنهادات برای هر درخواست
-                for (const req of concrete) {
-                    const { data: bids } = await supabase
-                        .from('formwork_bids')
-                        .select('*, profiles(full_name, company_name)')
-                        .eq('request_id', req.id);
-                    if (bids) allBids.push(...bids);
-                }
-            }
+    if (!currentUser) return;
+    
+    // به‌روزرسانی وضعیت دکمه‌ها
+    document.querySelectorAll('.dashboard-actions .btn').forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-info');
+    });
+    
+    if (type === 'all') {
+        const allBtn = document.querySelector('button[onclick="window.loadMyRequests(\'all\')"]');
+        if (allBtn) {
+            allBtn.classList.remove('btn-info');
+            allBtn.classList.add('btn-primary');
         }
-        
-        if (type === 'all' || type === 'shed') {
-            const { data: shed } = await supabase
-                .from('shed_requests')
-                .select('*')
-                .eq('user_id', user.id)
-                .order('created_at', { ascending: false });
-            if (shed) {
-                requests.push(...shed.map(r => ({ ...r, requestType: 'shed' })));
-                
-                // دریافت پیشنهادات برای هر درخواست
-                for (const req of shed) {
-                    const { data: bids } = await supabase
-                        .from('shed_bids')
-                        .select('*, profiles(full_name, company_name)')
-                        .eq('request_id', req.id);
-                    if (bids) allBids.push(...bids);
-                }
-            }
+    } else if (type === 'concrete') {
+        const concreteBtn = document.querySelector('button[onclick="window.loadMyRequests(\'concrete\')"]');
+        if (concreteBtn) {
+            concreteBtn.classList.remove('btn-info');
+            concreteBtn.classList.add('btn-primary');
         }
-        
-        document.getElementById('received-bids').textContent = allBids.length;
-        
-        const container = document.getElementById('buyer-requests-container');
-        if (!requests.length) {
-            container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی یافت نشد</p>';
-            return;
+    } else if (type === 'shed') {
+        const shedBtn = document.querySelector('button[onclick="window.loadMyRequests(\'shed\')"]');
+        if (shedBtn) {
+            shedBtn.classList.remove('btn-info');
+            shedBtn.classList.add('btn-primary');
         }
-        
-        let html = '';
-        for (const req of requests) {
-            const bids = allBids.filter(b => b.request_id === req.id);
+    }
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    let requests = [];
+    let allBids = [];
+    
+    if (type === 'all' || type === 'concrete') {
+        const { data: concrete } = await supabase
+            .from('concrete_requests')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+        if (concrete) {
+            requests.push(...concrete.map(r => ({ ...r, requestType: 'concrete' })));
             
-            html += `
-                <div class="request-item">
-                    <div class="request-header">
-                        <div class="request-title">${req.title || 'درخواست ' + (req.requestType === 'concrete' ? 'قالب' : 'سوله')}</div>
-                        <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'بسته'}</span>
-                    </div>
-                    <div class="request-details">
-                        <div><strong>تاریخ:</strong> ${new Date(req.created_at).toLocaleDateString('fa-IR')}</div>
-                        ${req.project_location ? `<div><strong>مکان:</strong> ${req.project_location}</div>` : ''}
-                        ${req.location ? `<div><strong>مکان:</strong> ${req.location}</div>` : ''}
-                        ${req.dimensions ? `<div><strong>ابعاد:</strong> ${req.dimensions.length}×${req.dimensions.width}×${req.dimensions.height}</div>` : ''}
-                        ${req.material ? `<div><strong>جنس:</strong> ${req.material}</div>` : ''}
-                    </div>
-                    
-                    ${bids.length ? `
-                        <div style="margin-top: 15px;">
-                            <strong>پیشنهادات دریافتی (${bids.length}):</strong>
-                            ${bids.map(bid => `
-                                <div class="bid-item" style="border-right-color: ${bid.selected ? 'var(--success)' : 'var(--info)'};">
-                                    <div class="bid-header">
-                                        <span class="bid-price">${(bid.total_price || bid.price || 0).toLocaleString('fa-IR')} ریال</span>
-                                        <span>زمان تحویل: ${bid.delivery_time || bid.construction_time || '?'} روز</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                                        <span>فروشنده: ${bid.profiles?.full_name || 'نا مشخص'}</span>
-                                        ${bid.selected ? '<span style="color: green;">✓ انتخاب شده</span>' : ''}
-                                    </div>
-                                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
-                                        <button class="btn btn-info btn-sm" onclick="window.showBidDetails('${bid.id}', '${req.requestType}')">
-                                            جزئیات
-                                        </button>
-                                        ${!bid.selected && req.status === 'open' ? `
-                                            <button class="btn btn-success btn-sm" onclick="window.selectBid('${bid.id}', '${req.requestType}')">
-                                                انتخاب
-                                            </button>
-                                        ` : ''}
-                                        ${bid.selected ? `
-                                            <button class="btn btn-warning btn-sm" onclick="window.showRatingModal('${bid.id}', '${bid.seller_id}')">
-                                                امتیاز دهی
-                                            </button>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    ` : '<p style="color: #999; margin-top: 10px;">تاکنون پیشنهادی دریافت نشده</p>'}
+            // دریافت پیشنهادات برای هر درخواست
+            for (const req of concrete) {
+                const { data: bids } = await supabase
+                    .from('formwork_bids')
+                    .select('*, profiles(full_name, company_name, phone, email)')
+                    .eq('request_id', req.id);
+                if (bids) allBids.push(...bids);
+            }
+        }
+    }
+    
+    if (type === 'all' || type === 'shed') {
+        const { data: shed } = await supabase
+            .from('shed_requests')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+        if (shed) {
+            requests.push(...shed.map(r => ({ ...r, requestType: 'shed' })));
+            
+            // دریافت پیشنهادات برای هر درخواست
+            for (const req of shed) {
+                const { data: bids } = await supabase
+                    .from('shed_bids')
+                    .select('*, profiles(full_name, company_name, phone, email)')
+                    .eq('request_id', req.id);
+                if (bids) allBids.push(...bids);
+            }
+        }
+    }
+    
+    document.getElementById('received-bids').textContent = allBids.length;
+    
+    const container = document.getElementById('buyer-requests-container');
+    if (!requests.length) {
+        container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی یافت نشد</p>';
+        return;
+    }
+    
+    let html = '';
+    for (const req of requests) {
+        const bids = allBids.filter(b => b.request_id === req.id);
+        
+        // نمایش جزئیات کامل پروژه برای خریدار
+        let projectDetails = '';
+        if (req.requestType === 'concrete') {
+            projectDetails = `
+                <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                    <p><strong>توضیحات:</strong> ${req.description || '—'}</p>
+                    <p><strong>مکان:</strong> ${req.project_location || '—'}</p>
+                    <p><strong>جنس:</strong> ${req.material || '—'}</p>
+                    <p><strong>اقلام:</strong> ${req.items?.join('، ') || '—'}</p>
+                    ${req.deadline ? `<p><strong>مهلت:</strong> ${req.deadline}</p>` : ''}
+                </div>
+            `;
+        } else {
+            const dims = req.dimensions || {};
+            projectDetails = `
+                <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                    <p><strong>ابعاد:</strong> ${dims.length || '?'} × ${dims.width || '?'} × ${dims.height || '?'} متر</p>
+                    <p><strong>کاربری:</strong> ${req.usage || '—'}</p>
+                    <p><strong>مکان:</strong> ${req.location || '—'}</p>
+                    <p><strong>نقشه:</strong> ${req.has_drawing ? 'دارد' : 'ندارد'}</p>
+                    <p><strong>جرثقیل:</strong> ${req.needs_crane ? `بله (${req.crane_tonnage} تن)` : 'خیر'}</p>
+                    <p><strong>فونداسیون:</strong> ${req.foundation === 'yes' ? 'آماده' : 'نیاز دارد'}</p>
+                    <p><strong>رنگ:</strong> ${req.paint_type || '—'} (${req.paint_thickness || '—'} میکرون)</p>
+                    <p><strong>مسئولیت خریدار:</strong> ${req.buyer_responsibilities?.map(r => {
+                        if (r === 'steel') return 'تهیه آهن آلات';
+                        if (r === 'bolts') return 'تهیه پیچ و مهره';
+                        if (r === 'transport') return 'حمل';
+                        return r;
+                    }).join('، ') || 'هیچکدام'}</p>
                 </div>
             `;
         }
         
-        container.innerHTML = html;
-    };
+        html += `
+            <div class="request-item">
+                <div class="request-header">
+                    <div class="request-title">${req.title || 'درخواست ' + (req.requestType === 'concrete' ? 'قالب' : 'سوله')}</div>
+                    <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'بسته'}</span>
+                </div>
+                
+                ${projectDetails}
+                
+                ${bids.length ? `
+                    <div style="margin-top: 15px;">
+                        <strong>پیشنهادات دریافتی (${bids.length}):</strong>
+                        ${bids.map(bid => {
+                            // بررسی اینکه آیا این پیشنهاد انتخاب شده
+                            const isSelected = bid.selected === true;
+                            
+                            return `
+                            <div class="bid-item" style="border-right-color: ${isSelected ? 'var(--success)' : 'var(--info)'}; background: ${isSelected ? '#f0fff4' : '#f8fafc'};">
+                                <div class="bid-header">
+                                    <span class="bid-price" style="${isSelected ? 'color: var(--success); font-weight: bold;' : ''}">
+                                        ${isSelected ? '✓ ' : ''}${(bid.total_price || bid.price || 0).toLocaleString('fa-IR')} ریال
+                                    </span>
+                                    <span>زمان تحویل: ${bid.delivery_time || bid.construction_time || '?'} روز</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span>فروشنده: ${bid.profiles?.full_name || 'نا مشخص'}</span>
+                                    ${isSelected ? '<span style="color: green; font-weight: 600;"><i class="fas fa-check-circle"></i> انتخاب شده</span>' : ''}
+                                </div>
+                                ${isSelected && bid.profiles ? `
+                                <div style="background: #e6f7e6; padding: 8px; border-radius: 4px; margin-top: 8px; font-size: 0.9rem;">
+                                    <i class="fas fa-phone" style="color: var(--success);"></i> تماس: ${bid.profiles.phone || '—'} 
+                                    <span style="margin: 0 5px;">|</span> 
+                                    <i class="fas fa-envelope" style="color: var(--success);"></i> ایمیل: ${bid.profiles.email || '—'}
+                                </div>
+                                ` : ''}
+                                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
+                                    <button class="btn btn-info btn-sm" onclick="window.showBidDetails('${bid.id}', '${req.requestType}')">
+                                        جزئیات
+                                    </button>
+                                    ${!isSelected && req.status === 'open' ? `
+                                        <button class="btn btn-success btn-sm" onclick="window.selectBid('${bid.id}', '${req.requestType}')">
+                                            انتخاب
+                                        </button>
+                                    ` : ''}
+                                    ${isSelected ? `
+                                        <button class="btn btn-warning btn-sm" onclick="window.showRatingModal('${bid.id}', '${bid.seller_id}')">
+                                            امتیاز دهی
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `}).join('')}
+                    </div>
+                ` : '<p style="color: #999; margin-top: 10px;">تاکنون پیشنهادی دریافت نشده</p>'}
+            </div>
+        `;
+    }
     
-       window.showBidDetails = async function(bidId, type) {
-        const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
-        const { data: bid, error } = await supabase
-            .from(table)
-            .select('*, profiles(full_name, company_name, phone, email)')
-            .eq('id', bidId)
-            .single();
-        
-        if (error || !bid) {
-            alert('خطا در دریافت اطلاعات پیشنهاد');
-            return;
-        }
-        
-        let html = '';
-        if (type === 'concrete') {
-            html = `
-                <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
-                <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
-                ${bid.selected ? `
-                    <div class="seller-contact-info">
-                        <h4><i class="fas fa-phone-alt"></i> اطلاعات تماس فروشنده</h4>
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                            <div>${bid.profiles?.phone || '—'}</div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                            <div>${bid.profiles?.email || '—'}</div>
-                        </div>
+    container.innerHTML = html;
+};
+
+window.showBidDetails = async function(bidId, type) {
+    const table = type === 'concrete' ? 'formwork_bids' : 'shed_bids';
+    const { data: bid, error } = await supabase
+        .from(table)
+        .select('*, profiles(full_name, company_name, phone, email)')
+        .eq('id', bidId)
+        .single();
+    
+    if (error || !bid) {
+        alert('خطا در دریافت اطلاعات پیشنهاد');
+        return;
+    }
+    
+    let html = '';
+    if (type === 'concrete') {
+        html = `
+            <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
+            <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
+            ${bid.selected ? `
+                <div class="seller-contact-info">
+                    <h4><i class="fas fa-phone-alt"></i> اطلاعات تماس فروشنده</h4>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>${bid.profiles?.phone || '—'}</div>
                     </div>
-                ` : ''}
-                <p><strong>قیمت پایه:</strong> ${(bid.base_price || 0).toLocaleString('fa-IR')} ریال</p>
-                <p><strong>ارزش افزوده:</strong> ${bid.vat_percent || 0}٪ (${(bid.vat_amount || 0).toLocaleString('fa-IR')} ریال)</p>
-                <p><strong>بارگیری:</strong> ${bid.loading_percent || 0}٪ (${(bid.loading_amount || 0).toLocaleString('fa-IR')} ریال)</p>
-                <p><strong>قیمت کل:</strong> ${(bid.total_price || 0).toLocaleString('fa-IR')} ریال</p>
-                <p><strong>زمان تحویل:</strong> ${bid.delivery_time || 30} روز</p>
-                <p><strong>گارانتی:</strong> ${bid.warranty_months || 12} ماه</p>
-                ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
-            `;
-        } else {
-            const pricePerKg = bid.price_per_kg || bid.price || 0;
-            const estimatedWeight = bid.estimated_weight || bid.weight || 0;
-            const totalPrice = bid.total_price || (pricePerKg * estimatedWeight) || 0;
-            
-            html = `
-                <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
-                <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
-                ${bid.selected ? `
-                    <div class="seller-contact-info">
-                        <h4><i class="fas fa-phone-alt"></i> اطلاعات تماس فروشنده</h4>
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                            <div>${bid.profiles?.phone || '—'}</div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                            <div>${bid.profiles?.email || '—'}</div>
-                        </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>${bid.profiles?.email || '—'}</div>
                     </div>
-                ` : ''}
-                <p><strong>قیمت هر کیلوگرم:</strong> ${pricePerKg.toLocaleString('fa-IR')} ریال</p>
-                <p><strong>وزن حدودی:</strong> ${estimatedWeight.toLocaleString('fa-IR')} کیلوگرم</p>
-                <p><strong>قیمت کل:</strong> ${totalPrice.toLocaleString('fa-IR')} ریال</p>
-                <p><strong>زمان تحویل:</strong> ${bid.delivery_time || 60} روز</p>
-                <p><strong>گارانتی:</strong> ${bid.warranty_months || 6} ماه</p>
-                ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
-            `;
-        }
+                </div>
+            ` : ''}
+            <p><strong>قیمت پایه:</strong> ${(bid.base_price || 0).toLocaleString('fa-IR')} ریال</p>
+            <p><strong>ارزش افزوده:</strong> ${bid.vat_percent || 0}٪ (${(bid.vat_amount || 0).toLocaleString('fa-IR')} ریال)</p>
+            <p><strong>بارگیری:</strong> ${bid.loading_percent || 0}٪ (${(bid.loading_amount || 0).toLocaleString('fa-IR')} ریال)</p>
+            <p><strong>قیمت کل:</strong> ${(bid.total_price || 0).toLocaleString('fa-IR')} ریال</p>
+            <p><strong>زمان تحویل:</strong> ${bid.delivery_time || 30} روز</p>
+            <p><strong>گارانتی:</strong> ${bid.warranty_months || 12} ماه</p>
+            ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
+        `;
+    } else {
+        const pricePerKg = bid.price_per_kg || bid.price || 0;
+        const estimatedWeight = bid.estimated_weight || bid.weight || 0;
+        const totalPrice = bid.total_price || (pricePerKg * estimatedWeight) || 0;
         
-        document.getElementById('bid-details-content').innerHTML = html;
-        document.getElementById('bid-details-modal').classList.add('active');
-    };
+        html = `
+            <p><strong>فروشنده:</strong> ${bid.profiles?.full_name || 'نا مشخص'}</p>
+            <p><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</p>
+            ${bid.selected ? `
+                <div class="seller-contact-info">
+                    <h4><i class="fas fa-phone-alt"></i> اطلاعات تماس فروشنده</h4>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>${bid.profiles?.phone || '—'}</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>${bid.profiles?.email || '—'}</div>
+                    </div>
+                </div>
+            ` : ''}
+            <p><strong>قیمت هر کیلوگرم:</strong> ${pricePerKg.toLocaleString('fa-IR')} ریال</p>
+            <p><strong>وزن حدودی:</strong> ${estimatedWeight.toLocaleString('fa-IR')} کیلوگرم</p>
+            <p><strong>قیمت کل:</strong> ${totalPrice.toLocaleString('fa-IR')} ریال</p>
+            <p><strong>زمان تحویل:</strong> ${bid.delivery_time || 60} روز</p>
+            <p><strong>گارانتی:</strong> ${bid.warranty_months || 6} ماه</p>
+            ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
+        `;
+    }
+    
+    document.getElementById('bid-details-content').innerHTML = html;
+    document.getElementById('bid-details-modal').classList.add('active');
+};
     
    // ========== داشبورد فروشنده قالب ==========
 window.loadSellerFormworkDashboard = async function() {
@@ -3986,6 +4052,12 @@ window.loadSellerFormworkDashboard = async function() {
         document.getElementById('seller-formwork-requests').innerHTML = 
             '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
     }
+        // رفرش خودکار هر 30 ثانیه
+        setTimeout(() => {
+            if (document.getElementById('seller-formwork-dashboard-page')?.classList.contains('hidden') === false) {
+                window.loadSellerFormworkDashboard();
+            }
+        }, 30000);
 };
     
  // ========== داشبورد فروشنده سوله ==========
@@ -4114,6 +4186,12 @@ window.loadSellerShedDashboard = async function() {
         document.getElementById('seller-shed-requests').innerHTML = 
             '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
     }
+        // رفرش خودکار هر 30 ثانیه
+        setTimeout(() => {
+            if (document.getElementById('seller-formwork-dashboard-page')?.classList.contains('hidden') === false) {
+                window.loadSellerFormworkDashboard();
+            }
+        }, 30000);
 };
        // ========== مودال پیشنهاد قالب ==========
     window.showFormworkBidModal = function(requestId, title, description) {
@@ -4424,7 +4502,7 @@ window.loadSellerShedDashboard = async function() {
         }
     };
     
-      // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
+         // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
     window.selectBid = async function(bidId, type) {
         if (!confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟ با انتخاب این پیشنهاد، اطلاعات فروشنده برای شما نمایش داده می‌شود و درخواست بسته خواهد شد.')) return;
         
@@ -4487,14 +4565,36 @@ window.loadSellerShedDashboard = async function() {
             document.getElementById('seller-info-content').innerHTML = sellerInfo;
             document.getElementById('seller-info-modal').classList.add('active');
             
-            // به‌روزرسانی لیست درخواست‌ها
+            // به‌روزرسانی لیست درخواست‌ها برای خریدار
             window.loadMyRequests('all');
+            
+            // ارسال نوتیفیکیشن به فروشنده (اختیاری - در صورت وجود جدول notifications)
+            try {
+                // بررسی وجود جدول notifications
+                const { error: tableCheck } = await supabase
+                    .from('notifications')
+                    .select('id')
+                    .limit(1);
+                
+                if (!tableCheck) {
+                    await supabase.from('notifications').insert([{
+                        user_id: bid.seller_id,
+                        title: '🎉 پیشنهاد شما انتخاب شد',
+                        message: `پیشنهاد شما برای ${type === 'concrete' ? 'قالب بتن' : 'سوله'} توسط خریدار انتخاب شد.`,
+                        type: 'bid_selected',
+                        related_id: bidId,
+                        is_read: false,
+                        created_at: new Date().toISOString()
+                    }]);
+                }
+            } catch (notifError) {
+                console.log('ارسال نوتیفیکیشن امکان‌پذیر نیست:', notifError);
+            }
             
         } catch (error) {
             alert(error.message);
         }
     };
-    
     // ========== امتیاز دهی ==========
     window.showRatingModal = function(bidId, sellerId) {
         document.getElementById('rating-bid-id').value = bidId;
