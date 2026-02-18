@@ -4193,139 +4193,6 @@ window.loadSellerShedDashboard = async function() {
         }
     }, 30000);
 };
-// ========== داشبورد فروشنده سوله ==========
-window.loadSellerShedDashboard = async function() {
-    if (!currentUser) return;
-    
-    document.getElementById('seller-shed-name').textContent = currentUser.full_name || 'فروشنده سوله';
-    
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    
-    try {
-        // آمار پیشنهادات
-        const { count: bidsCount } = await supabase
-            .from('shed_bids')
-            .select('*', { count: 'exact', head: true })
-            .eq('seller_id', user.id);
-        
-        const { count: selectedCount } = await supabase
-            .from('shed_bids')
-            .select('*', { count: 'exact', head: true })
-            .eq('seller_id', user.id)
-            .eq('selected', true);
-        
-        document.getElementById('shed-bids-count').textContent = bidsCount || 0;
-        document.getElementById('shed-selected-count').textContent = selectedCount || 0;
-        
-        // دریافت امتیازات
-        const { data: ratings } = await supabase
-            .from('ratings')
-            .select('rating')
-            .eq('seller_id', user.id);
-        
-        const avgRating = ratings?.length 
-            ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
-            : 0;
-        document.getElementById('shed-rating').textContent = avgRating;
-        
-        // بارگذاری سطح اعتبار
-        await window.loadVendorTrustLevel('shed');
-        
-        // دریافت درخواست‌های باز
-        const { data: requests } = await supabase
-            .from('shed_requests')
-            .select('*')
-            .eq('status', 'open')
-            .order('created_at', { ascending: false });
-        
-        const container = document.getElementById('seller-shed-requests');
-        
-        if (!requests?.length) {
-            container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
-        } else {
-            // دریافت پیشنهادات ارسالی این فروشنده به همراه وضعیت selected
-            const { data: myBids } = await supabase
-                .from('shed_bids')
-                .select('*')
-                .eq('seller_id', user.id);
-            
-            const myBidMap = new Map();
-            (myBids || []).forEach(bid => {
-                myBidMap.set(bid.request_id, bid);
-            });
-            
-            let html = '';
-            for (const req of requests) {
-                const myBid = myBidMap.get(req.id);
-                const hasBid = !!myBid;
-                const dims = req.dimensions || {};
-                
-                html += `
-                    <div class="request-item" style="border-right-color: ${hasBid ? (myBid?.selected ? '#10b981' : '#f59e0b') : '#004586'};">
-                        <div class="request-header">
-                            <div class="request-title">درخواست سوله</div>
-                            <span class="request-badge badge-open">باز</span>
-                        </div>
-                        <div class="request-details">
-                            <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
-                            <div><strong>مکان:</strong> ${req.location || 'نامشخص'}</div>
-                            <div><strong>کاربری:</strong> ${req.usage || 'نامشخص'}</div>
-                        </div>
-                        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin: 10px 0;">
-                            <strong>جزئیات پروژه:</strong>
-                            <p><strong>نقشه:</strong> ${req.has_drawing ? 'دارد' : 'ندارد'}</p>
-                            <p><strong>جرثقیل:</strong> ${req.needs_crane ? `بله (${req.crane_tonnage} تن)` : 'خیر'}</p>
-                            <p><strong>فونداسیون:</strong> ${req.foundation === 'yes' ? 'آماده' : 'نیاز دارد'}</p>
-                            <p><strong>رنگ:</strong> ${req.paint_type || '—'} (${req.paint_thickness || '—'} میکرون)</p>
-                            <p><strong>وزن:</strong> ${req.weight || 'نامشخص'} تن</p>
-                            <p><strong>مسئولیت خریدار:</strong> ${req.buyer_responsibilities?.map(r => {
-                                if (r === 'steel') return 'تهیه آهن آلات';
-                                if (r === 'bolts') return 'تهیه پیچ و مهره';
-                                if (r === 'transport') return 'حمل';
-                                return r;
-                            }).join('، ') || 'هیچکدام'}</p>
-                        </div>
-                        <div class="request-actions">
-                            ${!hasBid ? `
-                                <button class="btn btn-primary" onclick='window.showShedBidModal("${req.id}", ${JSON.stringify(dims)})'>
-                                    <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
-                                </button>
-                            ` : `
-                                <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
-                                    <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
-                                </span>
-                                ${!myBid.selected ? `
-                                    <button class="btn btn-edit btn-sm" onclick="window.showEditShedBidModal('${myBid.id}')">
-                                        <i class="fas fa-edit"></i> ویرایش
-                                    </button>
-                                ` : `
-                                    <span style="color: var(--success); font-weight: 600;">
-                                        <i class="fas fa-star"></i> انتخاب شده
-                                    </span>
-                                `}
-                            `}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            container.innerHTML = html;
-        }
-        
-    } catch (error) {
-        console.error('خطا:', error);
-        document.getElementById('seller-shed-requests').innerHTML = 
-            '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
-    }
-    
-    // رفرش خودکار هر 30 ثانیه - باید بیرون از try/catch باشه
-    setTimeout(() => {
-        if (document.getElementById('seller-shed-dashboard-page')?.classList.contains('hidden') === false) {
-            window.loadSellerShedDashboard();
-        }
-    }, 30000);
-};
        // ========== مودال پیشنهاد قالب ==========
     window.showFormworkBidModal = function(requestId, title, description) {
         console.log('🔵 showFormworkBidModal فراخوانی شد');
@@ -4889,48 +4756,81 @@ window.selectBid = async function(bidId, type) {
         return levels[level] || levels[1];
     };
 
-    // بارگذاری سطح اعتبار فروشنده
-    window.loadVendorTrustLevel = async function(sellerType) {
-        if (!currentUser) return;
+   // بارگذاری سطح اعتبار فروشنده
+window.loadVendorTrustLevel = async function(sellerType) {
+    if (!currentUser) return;
+    
+    try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        // فقط فیلدهایی که مطمئن هستیم وجود دارن رو درخواست می‌کنیم
+        const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('trust_level, verification_status')
+            .eq('user_id', user.id)
+            .single();
+
+        // اگر خطا داشت، مقدار پیش‌فرض برمی‌گردونیم
+        const currentLevel = profile?.trust_level || 1;
+        const levelInfo = window.getTrustLevelInfo(currentLevel);
         
-        try {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return;
-
-            const { data: profile, error } = await supabase
-                .from('profiles')
-                .select('trust_level, trust_level_expiry, economic_code, phone, address, verification_status')
-                .eq('user_id', user.id)
-                .single();
-
-            const currentLevel = profile?.trust_level || 1;
-            const levelInfo = window.getTrustLevelInfo(currentLevel);
+        // آپدیت UI بر اساس نوع فروشنده
+        if (sellerType === 'formwork') {
+            const iconEl = document.getElementById('formwork-trust-level-icon');
+            const badgeEl = document.getElementById('formwork-trust-level-badge');
+            const descEl = document.getElementById('formwork-trust-level-desc');
+            const btnEl = document.getElementById('formwork-upgrade-btn');
             
-            // آپدیت UI بر اساس نوع فروشنده
-            if (sellerType === 'formwork') {
-                document.getElementById('formwork-trust-level-icon').textContent = levelInfo.icon;
-                document.getElementById('formwork-trust-level-badge').innerHTML = `<i class="fas fa-shield-alt"></i> ${levelInfo.badge}`;
-                document.getElementById('formwork-trust-level-desc').textContent = levelInfo.desc;
-                
-                // غیرفعال کردن دکمه اگر در بالاترین سطح باشد
+            if (iconEl) iconEl.textContent = levelInfo.icon;
+            if (badgeEl) badgeEl.innerHTML = `<i class="fas fa-shield-alt"></i> ${levelInfo.badge}`;
+            if (descEl) descEl.textContent = levelInfo.desc;
+            
+            // غیرفعال کردن دکمه اگر در بالاترین سطح باشد
+            if (btnEl) {
                 if (currentLevel >= 4) {
-                    document.getElementById('formwork-upgrade-btn').disabled = true;
-                    document.getElementById('formwork-upgrade-btn').innerHTML = '<i class="fas fa-check"></i> بالاترین سطح';
-                }
-            } else if (sellerType === 'shed') {
-                document.getElementById('shed-trust-level-icon').textContent = levelInfo.icon;
-                document.getElementById('shed-trust-level-badge').innerHTML = `<i class="fas fa-shield-alt"></i> ${levelInfo.badge}`;
-                document.getElementById('shed-trust-level-desc').textContent = levelInfo.desc;
-                
-                if (currentLevel >= 4) {
-                    document.getElementById('shed-upgrade-btn').disabled = true;
-                    document.getElementById('shed-upgrade-btn').innerHTML = '<i class="fas fa-check"></i> بالاترین سطح';
+                    btnEl.disabled = true;
+                    btnEl.innerHTML = '<i class="fas fa-check"></i> بالاترین سطح';
                 }
             }
-        } catch (error) {
-            console.error('خطا در بارگذاری سطح اعتبار:', error);
+        } else if (sellerType === 'shed') {
+            const iconEl = document.getElementById('shed-trust-level-icon');
+            const badgeEl = document.getElementById('shed-trust-level-badge');
+            const descEl = document.getElementById('shed-trust-level-desc');
+            const btnEl = document.getElementById('shed-upgrade-btn');
+            
+            if (iconEl) iconEl.textContent = levelInfo.icon;
+            if (badgeEl) badgeEl.innerHTML = `<i class="fas fa-shield-alt"></i> ${levelInfo.badge}`;
+            if (descEl) descEl.textContent = levelInfo.desc;
+            
+            if (btnEl) {
+                if (currentLevel >= 4) {
+                    btnEl.disabled = true;
+                    btnEl.innerHTML = '<i class="fas fa-check"></i> بالاترین سطح';
+                }
+            }
         }
-    };
+    } catch (error) {
+        console.error('خطا در بارگذاری سطح اعتبار:', error);
+        // مقدار پیش‌فرض رو نشون می‌دیم
+        const levelInfo = window.getTrustLevelInfo(1);
+        if (sellerType === 'formwork') {
+            const iconEl = document.getElementById('formwork-trust-level-icon');
+            const badgeEl = document.getElementById('formwork-trust-level-badge');
+            const descEl = document.getElementById('formwork-trust-level-desc');
+            if (iconEl) iconEl.textContent = levelInfo.icon;
+            if (badgeEl) badgeEl.innerHTML = `<i class="fas fa-shield-alt"></i> ${levelInfo.badge}`;
+            if (descEl) descEl.textContent = levelInfo.desc;
+        } else if (sellerType === 'shed') {
+            const iconEl = document.getElementById('shed-trust-level-icon');
+            const badgeEl = document.getElementById('shed-trust-level-badge');
+            const descEl = document.getElementById('shed-trust-level-desc');
+            if (iconEl) iconEl.textContent = levelInfo.icon;
+            if (badgeEl) badgeEl.innerHTML = `<i class="fas fa-shield-alt"></i> ${levelInfo.badge}`;
+            if (descEl) descEl.textContent = levelInfo.desc;
+        }
+    }
+};
 
     // نمایش مودال ارتقاء سطح
     window.showUpgradeModal = function(sellerType) {
