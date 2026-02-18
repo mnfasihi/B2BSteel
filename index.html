@@ -3935,7 +3935,7 @@ window.showBidDetails = async function(bidId, type) {
     document.getElementById('bid-details-modal').classList.add('active');
 };
     
-// ========== داشبورد فروشنده قالب بتن (اصلاح شده) ==========
+// ========== داشبورد فروشنده قالب (رفع مشکل حذف) ==========
 window.loadSellerFormworkDashboard = async function() {
     if (!currentUser) return;
     
@@ -3974,53 +3974,35 @@ window.loadSellerFormworkDashboard = async function() {
         // بارگذاری سطح اعتبار
         await window.loadVendorTrustLevel('formwork');
         
-        // دریافت همه پیشنهادهای این فروشنده
+        // ========== بخش اصلی اصلاح شده ==========
+        // دریافت همه پیشنهادهای این فروشنده به همراه اطلاعات درخواست مربوطه
         const { data: myBids } = await supabase
             .from('formwork_bids')
-            .select('request_id, selected')
+            .select(`
+                id,
+                selected,
+                request_id,
+                concrete_requests!inner (*)
+            `)
             .eq('seller_id', user.id);
-        
-        const myRequestIds = (myBids || []).map(bid => bid.request_id);
-        const myBidMap = new Map();
-        (myBids || []).forEach(bid => {
-            myBidMap.set(bid.request_id, bid);
-        });
-        
-        // دریافت درخواست‌هایی که فروشنده براشون پیشنهاد داده (حتی اگه بسته باشن)
-        let biddedRequests = [];
-        if (myRequestIds.length > 0) {
-            const { data: bidsRequests } = await supabase
-                .from('concrete_requests')
-                .select('*')
-                .in('id', myRequestIds);
-            biddedRequests = bidsRequests || [];
-        }
-        
-        // دریافت درخواست‌های باز (برای پیشنهادهای جدید)
-        const { data: openRequests } = await supabase
-            .from('concrete_requests')
-            .select('*')
-            .eq('status', 'open');
-        
-        // ترکیب و حذف تکراری
-        const allRequests = [...(openRequests || []), ...biddedRequests];
-        const uniqueRequests = Array.from(new Map(allRequests.map(r => [r.id, r])).values());
-        
-        // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
-        uniqueRequests.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         
         const container = document.getElementById('seller-formwork-requests');
         
-        if (!uniqueRequests.length) {
-            container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
+        if (!myBids || myBids.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: var(--muted);">هنوز پیشنهادی ارسال نکرده‌اید</p>';
         } else {
             let html = '';
-            for (const req of uniqueRequests) {
-                const myBid = myBidMap.get(req.id);
-                const hasBid = !!myBid;
+            
+            // مرتب‌سازی بر اساس تاریخ ایجاد درخواست (جدیدترین اول)
+            const sortedBids = [...myBids].sort((a, b) => 
+                new Date(b.concrete_requests.created_at) - new Date(a.concrete_requests.created_at)
+            );
+            
+            for (const bid of sortedBids) {
+                const req = bid.concrete_requests;
                 
                 html += `
-                    <div class="request-item" style="border-right-color: ${hasBid ? (myBid?.selected ? '#10b981' : '#f59e0b') : '#004586'};">
+                    <div class="request-item" style="border-right-color: ${bid.selected ? '#10b981' : '#f59e0b'};">
                         <div class="request-header">
                             <div class="request-title">${req.title || 'درخواست قالب'}</div>
                             <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'تکمیل شده'}</span>
@@ -4031,29 +4013,21 @@ window.loadSellerFormworkDashboard = async function() {
                             <div><strong>تاریخ:</strong> ${new Date(req.created_at).toLocaleDateString('fa-IR')}</div>
                         </div>
                         <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin: 10px 0;">
-                            <strong>توضیحات پروژه:</strong>
-                            <p>${req.description || '—'}</p>
-                            ${req.items?.length ? `<p><strong>اقلام:</strong> ${req.items.join('، ')}</p>` : ''}
-                            ${req.deadline ? `<p><strong>مهلت:</strong> ${req.deadline}</p>` : ''}
+                            <strong>پیشنهاد شما:</strong>
+                            <p><strong>قیمت کل:</strong> ${bid.total_price?.toLocaleString('fa-IR')} ریال</p>
+                            <p><strong>زمان تحویل:</strong> ${bid.delivery_time || '—'} روز</p>
+                            <p><strong>وضعیت:</strong> ${bid.selected ? '✓ انتخاب شده' : '⏳ در انتظار انتخاب'}</p>
+                            ${bid.notes ? `<p><strong>توضیحات:</strong> ${bid.notes}</p>` : ''}
                         </div>
                         <div class="request-actions">
-                            ${!hasBid && req.status === 'open' ? `
-                                <button class="btn btn-primary" onclick="window.showFormworkBidModal('${req.id}', '${req.title || 'درخواست قالب'}', '${req.description || ''}')">
-                                    <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
+                            ${!bid.selected && req.status === 'open' ? `
+                                <button class="btn btn-edit btn-sm" onclick="window.showEditFormworkBidModal('${bid.id}')">
+                                    <i class="fas fa-edit"></i> ویرایش پیشنهاد
                                 </button>
-                            ` : hasBid ? `
-                                <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
-                                    <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
+                            ` : bid.selected ? `
+                                <span style="color: var(--success); font-weight: 600; padding: 8px 15px; background: #e6f7e6; border-radius: 20px;">
+                                    <i class="fas fa-star"></i> پیشنهاد منتخب
                                 </span>
-                                ${!myBid.selected && req.status === 'open' ? `
-                                    <button class="btn btn-edit btn-sm" onclick="window.showEditFormworkBidModal('${myBid.id}')">
-                                        <i class="fas fa-edit"></i> ویرایش
-                                    </button>
-                                ` : myBid.selected ? `
-                                    <span style="color: var(--success); font-weight: 600;">
-                                        <i class="fas fa-star"></i> انتخاب شده
-                                    </span>
-                                ` : ''}
                             ` : ''}
                         </div>
                     </div>
@@ -4076,7 +4050,7 @@ window.loadSellerFormworkDashboard = async function() {
         }
     }, 30000);
 };
-// ========== داشبورد فروشنده سوله (اصلاح شده) ==========
+// ========== داشبورد فروشنده سوله (رفع مشکل حذف) ==========
 window.loadSellerShedDashboard = async function() {
     if (!currentUser) return;
     
@@ -4115,95 +4089,103 @@ window.loadSellerShedDashboard = async function() {
         // بارگذاری سطح اعتبار
         await window.loadVendorTrustLevel('shed');
         
-        // دریافت همه پیشنهادهای این فروشنده
+        // ========== بخش اصلی اصلاح شده ==========
+        // دریافت همه پیشنهادهای این فروشنده به همراه اطلاعات درخواست مربوطه
         const { data: myBids } = await supabase
             .from('shed_bids')
-            .select('request_id, selected')
+            .select(`
+                id,
+                selected,
+                price_per_kg,
+                estimated_weight,
+                total_price,
+                delivery_time,
+                notes,
+                request_id,
+                shed_requests!inner (*)
+            `)
             .eq('seller_id', user.id);
-        
-        const myRequestIds = (myBids || []).map(bid => bid.request_id);
-        const myBidMap = new Map();
-        (myBids || []).forEach(bid => {
-            myBidMap.set(bid.request_id, bid);
-        });
-        
-        // دریافت درخواست‌هایی که فروشنده براشون پیشنهاد داده (حتی اگه بسته باشن)
-        let biddedRequests = [];
-        if (myRequestIds.length > 0) {
-            const { data: bidsRequests } = await supabase
-                .from('shed_requests')
-                .select('*')
-                .in('id', myRequestIds);
-            biddedRequests = bidsRequests || [];
-        }
-        
-        // دریافت درخواست‌های باز (برای پیشنهادهای جدید)
-        const { data: openRequests } = await supabase
-            .from('shed_requests')
-            .select('*')
-            .eq('status', 'open');
-        
-        // ترکیب و حذف تکراری
-        const allRequests = [...(openRequests || []), ...biddedRequests];
-        const uniqueRequests = Array.from(new Map(allRequests.map(r => [r.id, r])).values());
-        
-        // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
-        uniqueRequests.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         
         const container = document.getElementById('seller-shed-requests');
         
-        if (!uniqueRequests.length) {
-            container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
+        if (!myBids || myBids.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: var(--muted);">هنوز پیشنهادی ارسال نکرده‌اید</p>';
         } else {
             let html = '';
-            for (const req of uniqueRequests) {
-                const myBid = myBidMap.get(req.id);
-                const hasBid = !!myBid;
+            
+            // مرتب‌سازی بر اساس تاریخ ایجاد درخواست (جدیدترین اول)
+            const sortedBids = [...myBids].sort((a, b) => 
+                new Date(b.shed_requests.created_at) - new Date(a.shed_requests.created_at)
+            );
+            
+            for (const bid of sortedBids) {
+                const req = bid.shed_requests;
                 const dims = req.dimensions || {};
                 
                 html += `
-                    <div class="request-item" style="border-right-color: ${hasBid ? (myBid?.selected ? '#10b981' : '#f59e0b') : '#004586'};">
+                    <div class="request-item" style="border-right-color: ${bid.selected ? '#10b981' : '#f59e0b'};">
                         <div class="request-header">
                             <div class="request-title">درخواست سوله</div>
                             <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'تکمیل شده'}</span>
                         </div>
                         <div class="request-details">
-                            <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
+                            <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'} متر</div>
                             <div><strong>مکان:</strong> ${req.location || 'نامشخص'}</div>
                             <div><strong>کاربری:</strong> ${req.usage || 'نامشخص'}</div>
                         </div>
-                        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; margin: 10px 0;">
-                            <strong>جزئیات پروژه:</strong>
-                            <p><strong>نقشه:</strong> ${req.has_drawing ? 'دارد' : 'ندارد'}</p>
-                            <p><strong>جرثقیل:</strong> ${req.needs_crane ? `بله (${req.crane_tonnage} تن)` : 'خیر'}</p>
-                            <p><strong>فونداسیون:</strong> ${req.foundation === 'yes' ? 'آماده' : 'نیاز دارد'}</p>
-                            <p><strong>رنگ:</strong> ${req.paint_type || '—'} (${req.paint_thickness || '—'} میکرون)</p>
-                            <p><strong>وزن:</strong> ${req.weight || 'نامشخص'} تن</p>
-                            <p><strong>مسئولیت خریدار:</strong> ${req.buyer_responsibilities?.map(r => {
-                                if (r === 'steel') return 'تهیه آهن آلات';
-                                if (r === 'bolts') return 'تهیه پیچ و مهره';
-                                if (r === 'transport') return 'حمل';
-                                return r;
-                            }).join('، ') || 'هیچکدام'}</p>
+                        
+                        <div style="background: #f0f9ff; padding: 12px; border-radius: 6px; margin: 10px 0; border-right: 3px solid var(--info);">
+                            <strong style="color: var(--primary); display: block; margin-bottom: 8px;">📋 جزئیات پروژه:</strong>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                                <div><strong>نقشه:</strong> ${req.has_drawing ? 'دارد' : 'ندارد'}</div>
+                                <div><strong>جرثقیل:</strong> ${req.needs_crane ? `بله (${req.crane_tonnage} تن)` : 'خیر'}</div>
+                                <div><strong>فونداسیون:</strong> ${req.foundation === 'yes' ? 'آماده' : 'نیاز دارد'}</div>
+                                <div><strong>رنگ:</strong> ${req.paint_type || '—'} (${req.paint_thickness || '—'} میکرون)</div>
+                                <div><strong>وزن تخمینی:</strong> ${req.weight || 'نامشخص'} تن</div>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <strong>مسئولیت خریدار:</strong> ${req.buyer_responsibilities?.map(r => {
+                                    if (r === 'steel') return 'تهیه آهن آلات';
+                                    if (r === 'bolts') return 'تهیه پیچ و مهره';
+                                    if (r === 'transport') return 'حمل';
+                                    return r;
+                                }).join('، ') || 'هیچکدام'}
+                            </div>
                         </div>
-                        <div class="request-actions">
-                            ${!hasBid && req.status === 'open' ? `
-                                <button class="btn btn-primary" onclick='window.showShedBidModal("${req.id}", ${JSON.stringify(dims)})'>
-                                    <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
+                        
+                        <div style="background: #f8fafc; padding: 12px; border-radius: 6px; margin: 10px 0;">
+                            <strong style="color: var(--primary); display: block; margin-bottom: 8px;">💰 پیشنهاد شما:</strong>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                                <div><strong>قیمت هر کیلو:</strong> ${bid.price_per_kg?.toLocaleString('fa-IR')} ریال</div>
+                                <div><strong>وزن تخمینی:</strong> ${bid.estimated_weight?.toLocaleString('fa-IR')} کیلوگرم</div>
+                                <div><strong>قیمت کل:</strong> ${bid.total_price?.toLocaleString('fa-IR')} ریال</div>
+                                <div><strong>زمان تحویل:</strong> ${bid.delivery_time || '—'} روز</div>
+                            </div>
+                            <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+                                <strong>وضعیت:</strong> 
+                                ${bid.selected ? 
+                                    '<span style="color: #10b981; background: #e6f7e6; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-check-circle"></i> انتخاب شده</span>' : 
+                                    '<span style="color: #f59e0b; background: #fef3c7; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-clock"></i> در انتظار انتخاب</span>'
+                                }
+                            </div>
+                            ${bid.notes ? `<div style="margin-top: 8px; background: #fff3cd; padding: 8px; border-radius: 4px;"><strong>یادداشت:</strong> ${bid.notes}</div>` : ''}
+                        </div>
+                        
+                        <div class="request-actions" style="justify-content: flex-start; gap: 10px;">
+                            ${!bid.selected && req.status === 'open' ? `
+                                <button class="btn btn-edit btn-sm" onclick="window.showEditShedBidModal('${bid.id}')">
+                                    <i class="fas fa-edit"></i> ویرایش پیشنهاد
                                 </button>
-                            ` : hasBid ? `
-                                <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
-                                    <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
+                            ` : bid.selected ? `
+                                <span style="color: var(--success); font-weight: 600; padding: 8px 15px; background: #e6f7e6; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fas fa-star"></i> پیشنهاد منتخب
                                 </span>
-                                ${!myBid.selected && req.status === 'open' ? `
-                                    <button class="btn btn-edit btn-sm" onclick="window.showEditShedBidModal('${myBid.id}')">
-                                        <i class="fas fa-edit"></i> ویرایش
-                                    </button>
-                                ` : myBid.selected ? `
-                                    <span style="color: var(--success); font-weight: 600;">
-                                        <i class="fas fa-star"></i> انتخاب شده
-                                    </span>
-                                ` : ''}
+                            ` : ''}
+                            
+                            ${req.status === 'completed' && !bid.selected ? `
+                                <span style="color: #6b7280; font-size: 0.9rem;">
+                                    <i class="fas fa-lock"></i> درخواست بسته شده
+                                </span>
                             ` : ''}
                         </div>
                     </div>
@@ -4214,7 +4196,7 @@ window.loadSellerShedDashboard = async function() {
         }
         
     } catch (error) {
-        console.error('خطا:', error);
+        console.error('خطا در بارگذاری داشبورد سوله:', error);
         document.getElementById('seller-shed-requests').innerHTML = 
             '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
     }
