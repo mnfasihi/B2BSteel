@@ -4635,7 +4635,7 @@ window.loadSellerShedDashboard = async function() {
         }
     };
     
-  // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
+ // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
 window.selectBid = async function(bidId, type) {
     if (!confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟ با انتخاب این پیشنهاد، اطلاعات فروشنده برای شما نمایش داده می‌شود و درخواست بسته خواهد شد.')) return;
     
@@ -4698,7 +4698,7 @@ window.selectBid = async function(bidId, type) {
         document.getElementById('seller-info-content').innerHTML = sellerInfo;
         document.getElementById('seller-info-modal').classList.add('active');
         
-        // تشخیص زبانه فعلی و به‌روزرسانی همان زبانه
+        // تشخیص زبانه فعلی و به‌روزرسانی همان زبانه برای خریدار
         const activeTab = document.querySelector('.dashboard-actions .btn-primary');
         let tabType = 'all';
         if (activeTab) {
@@ -4709,8 +4709,51 @@ window.selectBid = async function(bidId, type) {
             }
         }
         
-        // به‌روزرسانی لیست درخواست‌ها با همان زبانه
+        // به‌روزرسانی لیست درخواست‌های خریدار
         window.loadMyRequests(tabType);
+        
+        // ========== بخش جدید: به‌روزرسانی داشبورد فروشنده ==========
+        // بررسی اینکه فروشنده در کدام داشبورد است و به‌روزرسانی آن
+        const sellerFormworkPage = document.getElementById('seller-formwork-dashboard-page');
+        const sellerShedPage = document.getElementById('seller-shed-dashboard-page');
+        
+        if (sellerFormworkPage && !sellerFormworkPage.classList.contains('hidden')) {
+            // اگر فروشنده در صفحه قالب بتن است
+            setTimeout(() => {
+                window.loadSellerFormworkDashboard();
+            }, 500);
+        } else if (sellerShedPage && !sellerShedPage.classList.contains('hidden')) {
+            // اگر فروشنده در صفحه سوله است
+            setTimeout(() => {
+                window.loadSellerShedDashboard();
+            }, 500);
+        }
+        
+        // ارسال نوتیفیکیشن به فروشنده (اختیاری)
+        try {
+            // بررسی وجود جدول notifications
+            const { error: tableCheck } = await supabase
+                .from('notifications')
+                .select('id')
+                .limit(1);
+            
+            if (!tableCheck) {
+                await supabase.from('notifications').insert([{
+                    user_id: bid.seller_id,
+                    title: '🎉 پیشنهاد شما انتخاب شد',
+                    message: `پیشنهاد شما برای ${type === 'concrete' ? 'قالب بتن' : 'سوله'} توسط خریدار انتخاب شد.`,
+                    type: 'bid_selected',
+                    related_id: bidId,
+                    is_read: false,
+                    created_at: new Date().toISOString()
+                }]);
+            }
+        } catch (notifError) {
+            console.log('ارسال نوتیفیکیشن امکان‌پذیر نیست:', notifError);
+        }
+        
+        // نمایش پیام موفقیت
+        alert('✅ پیشنهاد با موفقیت انتخاب شد. اطلاعات فروشنده نمایش داده شد.');
         
     } catch (error) {
         alert(error.message);
