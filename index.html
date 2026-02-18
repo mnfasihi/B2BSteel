@@ -4579,7 +4579,7 @@ window.selectBid = async function(bidId, type) {
         // به‌روزرسانی لیست درخواست‌های خریدار
         window.loadMyRequests(tabType);
         
-        // ========== بخش جدید: به‌روزرسانی داشبورد فروشنده ==========
+        // ========== بخش به‌روزرسانی داشبورد فروشنده ==========
         // بررسی اینکه فروشنده در کدام داشبورد است و به‌روزرسانی آن
         const sellerFormworkPage = document.getElementById('seller-formwork-dashboard-page');
         const sellerShedPage = document.getElementById('seller-shed-dashboard-page');
@@ -4594,29 +4594,6 @@ window.selectBid = async function(bidId, type) {
             setTimeout(() => {
                 window.loadSellerShedDashboard();
             }, 500);
-        }
-        
-        // ارسال نوتیفیکیشن به فروشنده (اختیاری)
-        try {
-            // بررسی وجود جدول notifications
-            const { error: tableCheck } = await supabase
-                .from('notifications')
-                .select('id')
-                .limit(1);
-            
-            if (!tableCheck) {
-                await supabase.from('notifications').insert([{
-                    user_id: bid.seller_id,
-                    title: '🎉 پیشنهاد شما انتخاب شد',
-                    message: `پیشنهاد شما برای ${type === 'concrete' ? 'قالب بتن' : 'سوله'} توسط خریدار انتخاب شد.`,
-                    type: 'bid_selected',
-                    related_id: bidId,
-                    is_read: false,
-                    created_at: new Date().toISOString()
-                }]);
-            }
-        } catch (notifError) {
-            console.log('ارسال نوتیفیکیشن امکان‌پذیر نیست:', notifError);
         }
         
         // نمایش پیام موفقیت
