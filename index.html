@@ -3935,7 +3935,7 @@ window.showBidDetails = async function(bidId, type) {
     document.getElementById('bid-details-modal').classList.add('active');
 };
     
-// ========== داشبورد فروشنده قالب ==========
+// ========== داشبورد فروشنده قالب بتن (اصلاح شده) ==========
 window.loadSellerFormworkDashboard = async function() {
     if (!currentUser) return;
     
@@ -3974,31 +3974,48 @@ window.loadSellerFormworkDashboard = async function() {
         // بارگذاری سطح اعتبار
         await window.loadVendorTrustLevel('formwork');
         
-        // دریافت درخواست‌های باز
-        const { data: requests } = await supabase
+        // دریافت همه پیشنهادهای این فروشنده
+        const { data: myBids } = await supabase
+            .from('formwork_bids')
+            .select('request_id, selected')
+            .eq('seller_id', user.id);
+        
+        const myRequestIds = (myBids || []).map(bid => bid.request_id);
+        const myBidMap = new Map();
+        (myBids || []).forEach(bid => {
+            myBidMap.set(bid.request_id, bid);
+        });
+        
+        // دریافت درخواست‌هایی که فروشنده براشون پیشنهاد داده (حتی اگه بسته باشن)
+        let biddedRequests = [];
+        if (myRequestIds.length > 0) {
+            const { data: bidsRequests } = await supabase
+                .from('concrete_requests')
+                .select('*')
+                .in('id', myRequestIds);
+            biddedRequests = bidsRequests || [];
+        }
+        
+        // دریافت درخواست‌های باز (برای پیشنهادهای جدید)
+        const { data: openRequests } = await supabase
             .from('concrete_requests')
             .select('*')
-            .eq('status', 'open')
-            .order('created_at', { ascending: false });
+            .eq('status', 'open');
+        
+        // ترکیب و حذف تکراری
+        const allRequests = [...(openRequests || []), ...biddedRequests];
+        const uniqueRequests = Array.from(new Map(allRequests.map(r => [r.id, r])).values());
+        
+        // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
+        uniqueRequests.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         
         const container = document.getElementById('seller-formwork-requests');
         
-        if (!requests?.length) {
+        if (!uniqueRequests.length) {
             container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
         } else {
-            // دریافت پیشنهادات ارسالی این فروشنده به همراه وضعیت selected
-            const { data: myBids } = await supabase
-                .from('formwork_bids')
-                .select('*')
-                .eq('seller_id', user.id);
-            
-            const myBidMap = new Map();
-            (myBids || []).forEach(bid => {
-                myBidMap.set(bid.request_id, bid);
-            });
-            
             let html = '';
-            for (const req of requests) {
+            for (const req of uniqueRequests) {
                 const myBid = myBidMap.get(req.id);
                 const hasBid = !!myBid;
                 
@@ -4006,7 +4023,7 @@ window.loadSellerFormworkDashboard = async function() {
                     <div class="request-item" style="border-right-color: ${hasBid ? (myBid?.selected ? '#10b981' : '#f59e0b') : '#004586'};">
                         <div class="request-header">
                             <div class="request-title">${req.title || 'درخواست قالب'}</div>
-                            <span class="request-badge badge-open">باز</span>
+                            <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'تکمیل شده'}</span>
                         </div>
                         <div class="request-details">
                             <div><strong>مکان:</strong> ${req.project_location || 'نامشخص'}</div>
@@ -4020,24 +4037,24 @@ window.loadSellerFormworkDashboard = async function() {
                             ${req.deadline ? `<p><strong>مهلت:</strong> ${req.deadline}</p>` : ''}
                         </div>
                         <div class="request-actions">
-                            ${!hasBid ? `
+                            ${!hasBid && req.status === 'open' ? `
                                 <button class="btn btn-primary" onclick="window.showFormworkBidModal('${req.id}', '${req.title || 'درخواست قالب'}', '${req.description || ''}')">
                                     <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
                                 </button>
-                            ` : `
+                            ` : hasBid ? `
                                 <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
                                     <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
                                 </span>
-                                ${!myBid.selected ? `
+                                ${!myBid.selected && req.status === 'open' ? `
                                     <button class="btn btn-edit btn-sm" onclick="window.showEditFormworkBidModal('${myBid.id}')">
                                         <i class="fas fa-edit"></i> ویرایش
                                     </button>
-                                ` : `
+                                ` : myBid.selected ? `
                                     <span style="color: var(--success); font-weight: 600;">
                                         <i class="fas fa-star"></i> انتخاب شده
                                     </span>
-                                `}
-                            `}
+                                ` : ''}
+                            ` : ''}
                         </div>
                     </div>
                 `;
@@ -4052,15 +4069,14 @@ window.loadSellerFormworkDashboard = async function() {
             '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
     }
     
-    // رفرش خودکار هر 30 ثانیه - باید بیرون از try/catch باشه
+    // رفرش خودکار هر 30 ثانیه
     setTimeout(() => {
         if (document.getElementById('seller-formwork-dashboard-page')?.classList.contains('hidden') === false) {
             window.loadSellerFormworkDashboard();
         }
     }, 30000);
 };
-
-// ========== داشبورد فروشنده سوله ==========
+// ========== داشبورد فروشنده سوله (اصلاح شده) ==========
 window.loadSellerShedDashboard = async function() {
     if (!currentUser) return;
     
@@ -4099,31 +4115,48 @@ window.loadSellerShedDashboard = async function() {
         // بارگذاری سطح اعتبار
         await window.loadVendorTrustLevel('shed');
         
-        // دریافت درخواست‌های باز
-        const { data: requests } = await supabase
+        // دریافت همه پیشنهادهای این فروشنده
+        const { data: myBids } = await supabase
+            .from('shed_bids')
+            .select('request_id, selected')
+            .eq('seller_id', user.id);
+        
+        const myRequestIds = (myBids || []).map(bid => bid.request_id);
+        const myBidMap = new Map();
+        (myBids || []).forEach(bid => {
+            myBidMap.set(bid.request_id, bid);
+        });
+        
+        // دریافت درخواست‌هایی که فروشنده براشون پیشنهاد داده (حتی اگه بسته باشن)
+        let biddedRequests = [];
+        if (myRequestIds.length > 0) {
+            const { data: bidsRequests } = await supabase
+                .from('shed_requests')
+                .select('*')
+                .in('id', myRequestIds);
+            biddedRequests = bidsRequests || [];
+        }
+        
+        // دریافت درخواست‌های باز (برای پیشنهادهای جدید)
+        const { data: openRequests } = await supabase
             .from('shed_requests')
             .select('*')
-            .eq('status', 'open')
-            .order('created_at', { ascending: false });
+            .eq('status', 'open');
+        
+        // ترکیب و حذف تکراری
+        const allRequests = [...(openRequests || []), ...biddedRequests];
+        const uniqueRequests = Array.from(new Map(allRequests.map(r => [r.id, r])).values());
+        
+        // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
+        uniqueRequests.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         
         const container = document.getElementById('seller-shed-requests');
         
-        if (!requests?.length) {
+        if (!uniqueRequests.length) {
             container.innerHTML = '<p style="text-align: center; color: var(--muted);">درخواستی وجود ندارد</p>';
         } else {
-            // دریافت پیشنهادات ارسالی این فروشنده به همراه وضعیت selected
-            const { data: myBids } = await supabase
-                .from('shed_bids')
-                .select('*')
-                .eq('seller_id', user.id);
-            
-            const myBidMap = new Map();
-            (myBids || []).forEach(bid => {
-                myBidMap.set(bid.request_id, bid);
-            });
-            
             let html = '';
-            for (const req of requests) {
+            for (const req of uniqueRequests) {
                 const myBid = myBidMap.get(req.id);
                 const hasBid = !!myBid;
                 const dims = req.dimensions || {};
@@ -4132,7 +4165,7 @@ window.loadSellerShedDashboard = async function() {
                     <div class="request-item" style="border-right-color: ${hasBid ? (myBid?.selected ? '#10b981' : '#f59e0b') : '#004586'};">
                         <div class="request-header">
                             <div class="request-title">درخواست سوله</div>
-                            <span class="request-badge badge-open">باز</span>
+                            <span class="request-badge badge-${req.status}">${req.status === 'open' ? 'باز' : 'تکمیل شده'}</span>
                         </div>
                         <div class="request-details">
                             <div><strong>ابعاد:</strong> ${dims.length || '?'}×${dims.width || '?'}×${dims.height || '?'}</div>
@@ -4154,24 +4187,24 @@ window.loadSellerShedDashboard = async function() {
                             }).join('، ') || 'هیچکدام'}</p>
                         </div>
                         <div class="request-actions">
-                            ${!hasBid ? `
+                            ${!hasBid && req.status === 'open' ? `
                                 <button class="btn btn-primary" onclick='window.showShedBidModal("${req.id}", ${JSON.stringify(dims)})'>
                                     <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
                                 </button>
-                            ` : `
+                            ` : hasBid ? `
                                 <span style="color: #10b981; background: #e6f7e6; padding: 8px 15px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px;">
                                     <i class="fas fa-check-circle"></i> پیشنهاد ارسال شده
                                 </span>
-                                ${!myBid.selected ? `
+                                ${!myBid.selected && req.status === 'open' ? `
                                     <button class="btn btn-edit btn-sm" onclick="window.showEditShedBidModal('${myBid.id}')">
                                         <i class="fas fa-edit"></i> ویرایش
                                     </button>
-                                ` : `
+                                ` : myBid.selected ? `
                                     <span style="color: var(--success); font-weight: 600;">
                                         <i class="fas fa-star"></i> انتخاب شده
                                     </span>
-                                `}
-                            `}
+                                ` : ''}
+                            ` : ''}
                         </div>
                     </div>
                 `;
@@ -4186,7 +4219,7 @@ window.loadSellerShedDashboard = async function() {
             '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
     }
     
-    // رفرش خودکار هر 30 ثانیه - باید بیرون از try/catch باشه
+    // رفرش خودکار هر 30 ثانیه
     setTimeout(() => {
         if (document.getElementById('seller-shed-dashboard-page')?.classList.contains('hidden') === false) {
             window.loadSellerShedDashboard();
