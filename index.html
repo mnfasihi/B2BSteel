@@ -1628,7 +1628,7 @@
     </div>
 </section>
 
-<!-- صفحه درخواست قالب بتن -->
+<!-- صفحه درخواست قالب بتن (نسخه کامل) -->
 <section id="new-concrete-request-page" class="page hidden">
     <div class="container">
         <div style="max-width: 800px; margin: 0 auto; padding: 2rem 0;">
@@ -1650,7 +1650,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>اقلام درخواستی</label>
+                        <label>اقلام درخواستی (۱۰ مورد)</label>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem;">
                             <label style="display: flex; align-items: center; gap: 8px;">
                                 <input type="checkbox" name="concrete-items" value="مدولار"> قالب مدولار
@@ -1663,6 +1663,24 @@
                             </label>
                             <label style="display: flex; align-items: center; gap: 8px;">
                                 <input type="checkbox" name="concrete-items" value="داربست"> داربست
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="concrete-items" value="کاپلاک"> کاپلاک
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="concrete-items" value="ملحقات"> ملحقات
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="concrete-items" value="ستونی گرد"> ستونی گرد
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="concrete-items" value="لغزنده"> لغزنده
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="concrete-items" value="بالارونده"> بالارونده
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="concrete-items" value="پنلی"> پنلی
                             </label>
                         </div>
                     </div>
@@ -1682,9 +1700,54 @@
                         <input type="text" id="concrete-location" class="form-control" required placeholder="استان، شهر">
                     </div>
                     
+                    <!-- مهلت ارسال پیشنهاد به شکل ساده -->
                     <div class="form-group">
-                        <label for="concrete-deadline">مهلت ارسال پیشنهاد</label>
-                        <input type="text" id="concrete-deadline" class="form-control" placeholder="مثال: ۱۴۰۴/۰۳/۱۵">
+                        <label>مهلت ارسال پیشنهاد</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <select id="concrete-deadline-day" class="form-control" style="width: 80px;" required>
+                                <option value="">روز</option>
+                                <option value="01">۱</option><option value="02">۲</option><option value="03">۳</option>
+                                <option value="04">۴</option><option value="05">۵</option><option value="06">۶</option>
+                                <option value="07">۷</option><option value="08">۸</option><option value="09">۹</option>
+                                <option value="10">۱۰</option><option value="11">۱۱</option><option value="12">۱۲</option>
+                                <option value="13">۱۳</option><option value="14">۱۴</option><option value="15">۱۵</option>
+                                <option value="16">۱۶</option><option value="17">۱۷</option><option value="18">۱۸</option>
+                                <option value="19">۱۹</option><option value="20">۲۰</option><option value="21">۲۱</option>
+                                <option value="22">۲۲</option><option value="23">۲۳</option><option value="24">۲۴</option>
+                                <option value="25">۲۵</option><option value="26">۲۶</option><option value="27">۲۷</option>
+                                <option value="28">۲۸</option><option value="29">۲۹</option><option value="30">۳۰</option>
+                                <option value="31">۳۱</option>
+                            </select>
+                            
+                            <select id="concrete-deadline-month" class="form-control" style="width: 100px;" required>
+                                <option value="">ماه</option>
+                                <option value="01">فروردین</option><option value="02">اردیبهشت</option>
+                                <option value="03">خرداد</option><option value="04">تیر</option>
+                                <option value="05">مرداد</option><option value="06">شهریور</option>
+                                <option value="07">مهر</option><option value="08">آبان</option>
+                                <option value="09">آذر</option><option value="10">دی</option>
+                                <option value="11">بهمن</option><option value="12">اسفند</option>
+                            </select>
+                            
+                            <select id="concrete-deadline-year" class="form-control" style="width: 90px;" required>
+                                <option value="">سال</option>
+                                <option value="1404">۱۴۰۴</option><option value="1405">۱۴۰۵</option>
+                                <option value="1406">۱۴۰۶</option><option value="1407">۱۴۰۷</option>
+                                <option value="1408">۱۴۰۸</option>
+                            </select>
+                        </div>
+                        <div class="form-help">تاریخ مهلت ارسال پیشنهاد را انتخاب کنید</div>
+                    </div>
+                    
+                    <!-- آپلود عکس -->
+                    <div class="form-group">
+                        <label>آپلود عکس نمونه (اختیاری)</label>
+                        <div class="image-upload-container" onclick="document.getElementById('concrete-image-upload').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>برای آپلود عکس کلیک کنید</p>
+                            <input type="file" id="concrete-image-upload" accept="image/*" style="display: none;" onchange="previewConcreteImage(event)">
+                            <img id="concrete-image-preview" class="image-preview" alt="پیش‌نمایش">
+                        </div>
                     </div>
                 </div>
                 
@@ -1696,7 +1759,6 @@
         </div>
     </div>
 </section>
-
 <!-- صفحه قوانین و شرایط -->
 <section id="terms-page" class="page hidden">
     <div class="container" style="max-width: 900px; margin: 0 auto; padding: 3rem 0;">
