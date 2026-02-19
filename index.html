@@ -4547,7 +4547,7 @@ window.loadSellerShedDashboard = async function() {
         }
     };
     
- // ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده ==========
+// ========== انتخاب پیشنهاد با نمایش اطلاعات فروشنده (نسخه مقاوم) ==========
 window.selectBid = async function(bidId, type) {
     if (!confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟ با انتخاب این پیشنهاد، اطلاعات فروشنده برای شما نمایش داده می‌شود و درخواست بسته خواهد شد.')) return;
     
@@ -4555,53 +4555,65 @@ window.selectBid = async function(bidId, type) {
     const requestTable = type === 'concrete' ? 'concrete_requests' : 'shed_requests';
     
     try {
-        // دریافت اطلاعات پیشنهاد و فروشنده
+        // ۱. اول اطلاعات پیشنهاد رو بگیر
         const { data: bid, error: bidError } = await supabase
             .from(table)
-            .select('*, profiles(full_name, company_name, phone, email)')
+            .select('*')
             .eq('id', bidId)
             .single();
         
         if (bidError) throw bidError;
+        if (!bid) throw new Error('پیشنهاد یافت نشد');
         
-        // غیرفعال کردن همه پیشنهادات این درخواست
-        await supabase
-            .from(table)
-            .update({ selected: false })
-            .eq('request_id', bid.request_id);
+        console.log('✅ پیشنهاد پیدا شد:', bid);
         
-        // انتخاب این پیشنهاد
-        await supabase
-            .from(table)
-            .update({ selected: true })
-            .eq('id', bidId);
-        
-        // بستن درخواست
-        await supabase
+        // ۲. اول درخواست رو ببندیم
+        const { error: requestError } = await supabase
             .from(requestTable)
             .update({ status: 'completed' })
             .eq('id', bid.request_id);
         
-        // نمایش اطلاعات فروشنده
+        if (requestError) throw requestError;
+        console.log('✅ درخواست بسته شد');
+        
+        // ۳. حالا پیشنهاد رو انتخاب کنیم
+        const { error: updateError } = await supabase
+            .from(table)
+            .update({ selected: true })
+            .eq('id', bidId);
+        
+        if (updateError) throw updateError;
+        console.log('✅ پیشنهاد انتخاب شد');
+        
+        // ۴. حالا اطلاعات فروشنده رو بگیر (با یه کوئری جدا)
+        const { data: seller, error: sellerError } = await supabase
+            .from('profiles')
+            .select('full_name, company_name, phone, email')
+            .eq('user_id', bid.seller_id)
+            .single();
+        
+        if (sellerError) console.warn('خطا در دریافت اطلاعات فروشنده:', sellerError);
+        
+        // ۵. نمایش اطلاعات فروشنده
         const sellerInfo = `
             <div class="seller-contact-info">
                 <h4><i class="fas fa-check-circle" style="color: var(--success);"></i> پیشنهاد با موفقیت انتخاب شد</h4>
                 <p>اطلاعات تماس فروشنده برای شما ارسال شد:</p>
                 <div class="contact-item">
                     <div class="contact-icon"><i class="fas fa-user"></i></div>
-                    <div><strong>نام:</strong> ${bid.profiles?.full_name || '—'}</div>
+                    <div><strong>نام:</strong> ${seller?.full_name || '—'}</div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon"><i class="fas fa-building"></i></div>
-                    <div><strong>شرکت:</strong> ${bid.profiles?.company_name || '—'}</div>
+                    <div><strong>شرکت:</strong> ${seller?.company_name || '—'}</div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                    <div><strong>تلفن:</strong> ${bid.profiles?.phone || '—'}</div>
+                    <div><strong>تلفن:</strong> ${seller?.phone || '—'}</div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                    <div><strong>ایمیل:</strong> ${bid.profiles?.email || '—'}</div>
+                    <div><strong>ایمیل:</strong> ${seller?.email || '—'}</div>
                 </div>
             </div>
             <p style="margin-top: 15px;">اکنون می‌توانید مستقیماً با فروشنده تماس بگیرید و مراحل بعدی را پیگیری کنید.</p>
@@ -4610,42 +4622,24 @@ window.selectBid = async function(bidId, type) {
         document.getElementById('seller-info-content').innerHTML = sellerInfo;
         document.getElementById('seller-info-modal').classList.add('active');
         
-        // تشخیص زبانه فعلی و به‌روزرسانی همان زبانه برای خریدار
-        const activeTab = document.querySelector('.dashboard-actions .btn-primary');
-        let tabType = 'all';
-        if (activeTab) {
-            if (activeTab.getAttribute('onclick')?.includes("'concrete'")) {
-                tabType = 'concrete';
-            } else if (activeTab.getAttribute('onclick')?.includes("'shed'")) {
-                tabType = 'shed';
-            }
-        }
+        // ۶. به‌روزرسانی رابط کاربری
+        window.loadMyRequests('all');
         
-        // به‌روزرسانی لیست درخواست‌های خریدار
-        window.loadMyRequests(tabType);
-        
-        // ========== بخش به‌روزرسانی داشبورد فروشنده ==========
-        // بررسی اینکه فروشنده در کدام داشبورد است و به‌روزرسانی آن
+        // ۷. به‌روزرسانی داشبورد فروشنده
         const sellerFormworkPage = document.getElementById('seller-formwork-dashboard-page');
         const sellerShedPage = document.getElementById('seller-shed-dashboard-page');
         
         if (sellerFormworkPage && !sellerFormworkPage.classList.contains('hidden')) {
-            // اگر فروشنده در صفحه قالب بتن است
-            setTimeout(() => {
-                window.loadSellerFormworkDashboard();
-            }, 500);
+            setTimeout(() => window.loadSellerFormworkDashboard(), 500);
         } else if (sellerShedPage && !sellerShedPage.classList.contains('hidden')) {
-            // اگر فروشنده در صفحه سوله است
-            setTimeout(() => {
-                window.loadSellerShedDashboard();
-            }, 500);
+            setTimeout(() => window.loadSellerShedDashboard(), 500);
         }
         
-        // نمایش پیام موفقیت
         alert('✅ پیشنهاد با موفقیت انتخاب شد. اطلاعات فروشنده نمایش داده شد.');
         
     } catch (error) {
-        alert(error.message);
+        console.error('❌ خطا:', error);
+        alert('خطا: ' + error.message);
     }
 };
     // ========== امتیاز دهی ==========
