@@ -4201,14 +4201,19 @@ window.loadSellerShedDashboard = async function() {
                             <div><strong>گارانتی:</strong> ${bid.warranty_months || '—'} ماه</div>
                         </div>
                         
-                        <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
-                            <strong>وضعیت:</strong> 
-                            ${bid.selected ? 
-                                '<span style="color: #10b981; background: #e6f7e6; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-check-circle"></i> انتخاب شده</span>' : 
-                                '<span style="color: #f59e0b; background: #fef3c7; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-clock"></i> در انتظار انتخاب</span>'
-                            }
-                        </div>
-                        
+                        <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+    <strong>وضعیت:</strong> 
+    ${bid.selected ? 
+        '<span style="color: #10b981; background: #e6f7e6; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-check-circle"></i> انتخاب شده</span>' : 
+        (req.status === 'completed' ? 
+            '<span style="color: #6b7280; background: #e5e7eb; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-lock"></i> درخواست بسته شده</span>' :
+            '<span style="color: #f59e0b; background: #fef3c7; padding: 4px 12px; border-radius: 20px;"><i class="fas fa-clock"></i> در انتظار انتخاب</span>'
+        )
+    }
+    ${req.status === 'completed' && !bid.selected ? 
+        '<span style="color: #6b7280; font-size: 0.85rem;">(پیشنهاد انتخاب نشد)</span>' : ''
+    }
+</div>
                         ${bid.notes ? `<div style="margin-top: 8px; background: #fff3cd; padding: 8px; border-radius: 4px;"><strong>یادداشت:</strong> ${bid.notes}</div>` : ''}
                     </div>
                     
