@@ -1173,17 +1173,15 @@
 
 <!-- ========== ناوبری اصلی ========== -->
 <nav class="navbar">
-    <div class="container nav-container">
-        <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-cubes"></i>
-            </div>
-            <div class="logo-text">
-                <h1>B2BSteel</h1>
-                <div class="slogan">اعتماد - شفافیت - سرعت</div>
-            </div>
-        </div>
-        
+    <div class="logo">
+    <img src="https://s8.uupload.ir/files/chatgpt_image_feb_19,_2026,_09_31_27_pm_jv0g.png" 
+         alt="B2BSteel Logo" 
+         style="height: 60px; width: auto; margin-left: 10px;">
+    <div class="logo-text">
+        <h1>B2BSteel</h1>
+        <div class="slogan">اعتماد - شفافیت - سرعت</div>
+    </div>
+</div>
         <div class="nav-links">
             <a href="#" class="nav-link" onclick="window.showPage('home')">خانه</a>
             <a href="#" class="nav-link" onclick="window.showPage('concrete-formwork')">قالب بتن</a>
@@ -3122,7 +3120,48 @@
             preview.src = '';
         }
     };
+window.previewBidImage = function(event) {
+    const input = event.target;
+    const preview = document.getElementById('bid-image-preview');
+    
+    if (!preview) return;
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.style.display = 'none';
+        preview.src = '';
+    }
+};
 
+// ========== پیش‌نمایش عکس درخواست قالب بتن ==========
+window.previewConcreteImage = function(event) {
+    const input = event.target;
+    const preview = document.getElementById('concrete-image-preview');
+    
+    if (!preview) return;
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            preview.classList.add('active');
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.style.display = 'none';
+        preview.src = '';
+    }
+};
+
+// ========== بلاگ تخصصی ==========
+const blogPosts = [
     // ========== بلاگ تخصصی ==========
     const blogPosts = [
         {
