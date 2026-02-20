@@ -5420,7 +5420,7 @@ window.loadUserTransactions = async function() {
         container.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری تراکنش‌ها</p>';
     }
 };
-// ========== نمایش مودال ویرایش پروفایل (نسخه نهایی) ==========
+// ========== نمایش مودال ویرایش پروفایل (نسخه خیلی ساده) ==========
 window.showEditProfileModal2 = function() {
     console.log('🚀 showEditProfileModal2 فراخوانی شد');
     
@@ -5429,12 +5429,12 @@ window.showEditProfileModal2 = function() {
         window.showPage('login');
         return;
     }
-    // مودال قبلی رو هر جا هست پاک کن
+    
+    // مودال قبلی رو پاک کن
     const existingModal = document.getElementById('edit-profile-modal');
-    if (existingModal) {
-        existingModal.remove();
-    }
-    // یه مودال جدید بساز
+    if (existingModal) existingModal.remove();
+    
+    // یه مودال خیلی ساده با id درست بساز
     const modal = document.createElement('div');
     modal.id = 'edit-profile-modal';
     modal.style.cssText = `
@@ -5444,119 +5444,34 @@ window.showEditProfileModal2 = function() {
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 10000;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999999;
         align-items: center;
         justify-content: center;
     `;
-    // محتوای مودال با قابلیت اسکرول
+    
+    // محتوای ساده (همون مودال تست با idهای درست)
     modal.innerHTML = `
-        <div style="
-            width: 500px;
-            max-width: 90%;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        ">
-            <!-- هدر ثابت -->
-            <div style="
-                padding: 20px;
-                border-bottom: 1px solid #e5e7eb;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background: white;
-                border-radius: 10px 10px 0 0;
-            ">
-                <h3 style="margin:0; color: #004586;">
-                    <i class="fas fa-user-edit"></i> ویرایش پروفایل
-                </h3>
+        <div style="width: 500px; background: white; border-radius: 10px; overflow: hidden;">
+            <div style="padding: 20px; border-bottom: 1px solid #ddd;">
+                <h3 style="margin:0; color: #004586;"><i class="fas fa-user-edit"></i> ویرایش پروفایل</h3>
+            </div>
+            <div style="padding: 20px;">
+                <p>نام: <span id="test-name2">${currentUser.full_name || 'نامشخص'}</span></p>
+                <p>ایمیل: <span id="test-email2">${currentUser.email || 'نامشخص'}</span></p>
+                <p>تلفن: <span id="test-phone2">${currentUser.phone || 'ثبت نشده'}</span></p>
+            </div>
+            <div style="padding: 20px; border-top: 1px solid #ddd; text-align: left;">
                 <button onclick="document.getElementById('edit-profile-modal').remove()" 
-                    style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">
-                    &times;
+                        style="padding: 10px 20px; background: #004586; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    بستن
                 </button>
-            </div>
-            <!-- محتوای اسکرول‌دار -->
-            <div style="
-                padding: 20px;
-                overflow-y: auto;
-                flex-grow: 1;
-            ">
-                <form id="edit-profile-form">
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">نام و نام خانوادگی</label>
-                        <input type="text" id="edit-fullname" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">شماره تماس</label>
-                        <input type="tel" id="edit-phone" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required placeholder="۰۹۱۲۱۲۳۴۵۶۷">
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">آدرس (اختیاری)</label>
-                        <textarea id="edit-address" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" rows="2" placeholder="استان - شهر - خیابان - پلاک"></textarea>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">نام شرکت</label>
-                        <input type="text" id="edit-company" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                    </div>
-                    <hr style="margin: 20px 0;">
-                    <h4 style="color: #004586; margin-bottom: 15px;">تغییر رمز عبور (اختیاری)</h4>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">رمز عبور فعلی</label>
-                        <input type="password" id="edit-current-password" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">رمز عبور جدید</label>
-                        <input type="password" id="edit-new-password" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">تکرار رمز جدید</label>
-                        <input type="password" id="edit-confirm-password" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                    </div>
-                </form>
-            </div>
-            <!-- فوتر ثابت -->
-            <div style="
-                padding: 20px;
-                border-top: 1px solid #e5e7eb;
-                display: flex;
-                gap: 10px;
-                justify-content: flex-end;
-                background: white;
-                border-radius: 0 0 10px 10px;
-            ">
-                <button onclick="document.getElementById('edit-profile-modal').remove()" 
-                    class="btn btn-secondary">انصراف</button>
-                <button onclick="window.saveProfileChanges()" 
-                    class="btn btn-primary">ذخیره تغییرات</button>
             </div>
         </div>
     `;
-    // به body اضافه کن
+    
     document.body.appendChild(modal);
-    // پر کردن فرم با اطلاعات فعلی
-    setTimeout(() => {
-        const fullNameInput = document.getElementById('edit-fullname');
-        const phoneInput = document.getElementById('edit-phone');
-        const addressInput = document.getElementById('edit-address');
-        const companyInput = document.getElementById('edit-company');
-        if (fullNameInput) fullNameInput.value = currentUser.full_name || '';
-        if (phoneInput) phoneInput.value = currentUser.phone || '';
-        if (addressInput) addressInput.value = currentUser.address || '';
-        if (companyInput) companyInput.value = currentUser.companyName || '';
-        // پاک کردن فیلدهای رمز
-        const currentPass = document.getElementById('edit-current-password');
-        const newPass = document.getElementById('edit-new-password');
-        const confirmPass = document.getElementById('edit-confirm-password');
-        if (currentPass) currentPass.value = '';
-        if (newPass) newPass.value = '';
-        if (confirmPass) confirmPass.value = '';
-    }, 100);
-    console.log('✅ مودال جدید ساخته شد');
+    console.log('✅ مودال ساده ساخته شد');
 };
         // ========== توابع نمایش جزئیات پروژه ==========
     
