@@ -1227,6 +1227,58 @@
         justify-content: center;
     }
 }
+/* فشرده‌سازی منو برای نمایش همه آیتم‌ها */
+.nav-links {
+    gap: 5px; /* کاهش فاصله بین آیتم‌ها */
+}
+
+.nav-link, .nav-links .btn, .nav-links a {
+    padding: 8px 12px !important; /* کاهش فضای داخلی */
+    font-size: 1rem !important; /* کاهش سایز فونت */
+    margin: 0 2px;
+    white-space: nowrap;
+}
+
+/* دکمه‌های ورود و پروفایل هم اندازه منو */
+.nav-links .btn-sm {
+    padding: 6px 10px !important;
+    font-size: 0.9rem !important;
+}
+
+/* لوگو کمی کوچکتر بشه */
+.logo img {
+    height: 60px; /* کاهش از ۷۰ به ۶۰ */
+}
+
+.logo-text h1 {
+    font-size: 1.3rem; /* کاهش سایز عنوان */
+}
+
+.logo-text .slogan {
+    font-size: 0.7rem; /* کاهش سایز شعار */
+}
+
+/* برای نمایش در موبایل و تبلت */
+@media (max-width: 1200px) {
+    .nav-links {
+        gap: 3px;
+    }
+    .nav-link, .nav-links .btn, .nav-links a {
+        padding: 6px 8px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .nav-container {
+        flex-direction: column;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+    }
+}
 /* بکگراند محو با لوگو فقط برای بخش شمارنده‌ها */
 #home-page .counters {
     background-image: url('https://vohwipmyblmvyxiguknv.supabase.co/storage/v1/object/public/logo/logo%20final.png');
