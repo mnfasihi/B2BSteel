@@ -73,11 +73,91 @@
             }
         }
 
-        /* ========== ناوبری ========== */
+        .fade-in-hidden {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in-hidden.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== انیمیشن‌های Toast ========== */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-50%);
+            }
+        }
+
+        /* ========== لودینگ اسپینر ========== */
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f4f6;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+
+        /* ========== ناوبری بهبود یافته ========== */
         .navbar {
-            background: var(--card-bg);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 1rem 0;
+            background: linear-gradient(135deg, var(--card-bg) 0%, #ffffff 100%);
+            box-shadow: 0 4px 20px rgba(0,69,134,0.1);
+            padding: 0.8rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -85,7 +165,7 @@
         }
 
         .navbar:hover {
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 25px rgba(0,69,134,0.15);
         }
 
         .nav-container {
@@ -137,15 +217,32 @@
         .nav-link {
             color: #4b5563;
             padding: 12px 20px;
-            border-radius: 6px;
+            border-radius: 8px;
             transition: all 0.3s;
             font-size: 1.5rem;
             white-space: nowrap;
             font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: all 0.3s;
+            transform: translateX(50%);
+        }
+
+        .nav-link:hover::after {
+            width: 70%;
         }
 
         .nav-link:hover {
-            background: #f3f4f6;
+            background: rgba(0,69,134,0.05);
             color: var(--primary);
         }
 
@@ -156,7 +253,7 @@
             }
         }
 
-        /* ========== دکمه‌ها ========== */
+        /* ========== دکمه‌های بهبود یافته ========== */
         .btn {
             display: inline-block;
             padding: 8px 16px;
@@ -166,66 +263,101 @@
             transition: all 0.3s;
             font-size: 0.95rem;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,69,134,0.3);
         }
 
         .btn-primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,69,134,0.4);
         }
 
         .btn-success {
-            background: var(--success);
+            background: linear-gradient(135deg, var(--success), #059669);
             color: white;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
         }
 
         .btn-success:hover {
             background: #059669;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16,185,129,0.4);
         }
 
         .btn-danger {
-            background: var(--danger);
+            background: linear-gradient(135deg, var(--danger), #dc2626);
             color: white;
+            box-shadow: 0 4px 15px rgba(239,68,68,0.3);
         }
 
         .btn-danger:hover {
             background: #dc2626;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239,68,68,0.4);
         }
 
         .btn-warning {
-            background: var(--warning);
+            background: linear-gradient(135deg, var(--warning), #d97706);
             color: white;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
         }
 
         .btn-warning:hover {
             background: #d97706;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(245,158,11,0.4);
         }
 
         .btn-info {
-            background: var(--info);
+            background: linear-gradient(135deg, var(--info), #2563eb);
             color: white;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
         }
 
         .btn-info:hover {
             background: #2563eb;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59,130,246,0.4);
         }
 
         .btn-secondary {
-            background: var(--muted);
+            background: linear-gradient(135deg, var(--muted), #4b5563);
             color: white;
+            box-shadow: 0 4px 15px rgba(107,114,128,0.3);
         }
 
         .btn-secondary:hover {
             background: #4b5563;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(107,114,128,0.4);
         }
 
         .btn-sm {
@@ -233,10 +365,10 @@
             font-size: 0.85rem;
         }
 
-        /* ========== صفحه اصلی - اسلایدشو ========== */
+        /* ========== اسلایدشو بهبود یافته ========== */
         .hero-slideshow {
             width: 100%;
-            height: 500px;
+            height: 600px;
             position: relative;
             overflow: hidden;
             cursor: pointer;
@@ -249,116 +381,101 @@
             top: 0;
             left: 0;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 1s ease-in-out;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .hero-slide.active {
             opacity: 1;
         }
 
-        .hero-slide::before {
-            content: "";
+        .hero-slide::after {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0);
+            background: linear-gradient(135deg, rgba(0,69,134,0.7) 0%, rgba(230,184,0,0.3) 100%);
             z-index: 1;
         }
 
         .hero-slide-content {
             position: relative;
-            z-index: 2;
+            z-index: 10;
             color: white;
             text-align: center;
             top: 50%;
             transform: translateY(-50%);
+            animation: slideUp 1s ease-out;
         }
 
         .hero-slide-content h2 {
-            font-size: 3rem;
+            font-size: 4rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .hero-slide-content p {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            opacity: 0.9;
             max-width: 800px;
             margin: 0 auto;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        /* ========== شمارنده‌ها ========== */
+        /* ========== شمارنده‌های بهبود یافته ========== */
         .counters {
             background: white;
-            padding: 3rem 0;
+            padding: 4rem 0;
             margin: 2rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .counters::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,69,134,0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
         .counters-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .counter-item {
             text-align: center;
-            padding: 1.5rem;
+            padding: 2rem;
+            position: relative;
         }
 
         .counter-number {
-            font-size: 3rem;
-            font-weight: bold;
+            font-size: 4rem;
+            font-weight: 800;
             color: var(--primary);
             margin-bottom: 0.5rem;
+            animation: countUp 2s ease-out;
         }
 
         .counter-label {
             font-size: 1.2rem;
             color: #4b5563;
+            font-weight: 500;
         }
 
-        /* ========== صفحه سوله با بکگراند محو ========== */
-        #shed-page {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .shed-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: url('images/slide1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: blur(5px) brightness(0.5);
-            transform: scale(1.1);
-        }
-
-        .shed-content {
-            width: 70%;
-            margin: 2rem auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 3rem 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* ========== کارت‌های ویژگی‌ها ========== */
+        /* ========== کارت‌های ویژگی بهبود یافته ========== */
         .features {
             padding: 4rem 0;
         }
@@ -378,29 +495,54 @@
 
         .feature-card {
             background: var(--card-bg);
-            border-radius: 14px;
+            border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-            transition: all 0.35s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,69,134,0.1);
             height: 100%;
         }
 
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: translateX(0);
+        }
+
         .feature-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,69,134,0.15);
         }
 
         .feature-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.7rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            border-radius: 50%;
+            transform: rotate(360deg);
         }
 
         .feature-card h3 {
@@ -408,89 +550,42 @@
             color: var(--primary);
         }
 
-        /* ========== فرم‌های احراز هویت ========== */
-        .auth-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            padding: 2rem;
-        }
-
-        .auth-card {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .auth-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--primary);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #4b5563;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .user-type-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .user-type-btn {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #d1d5db;
-            border-radius: 6px;
-            background: white;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .user-type-btn.active {
-            border-color: var(--primary);
-            background: #eff6ff;
-            color: var(--primary);
-        }
-
-        /* ========== استایل کارت درخواست‌ها ========== */
+        /* ========== کارت‌های درخواست بهبود یافته ========== */
         .request-item {
             background: white;
-            border-radius: 10px;
+            border-radius: 16px;
             padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-right: 4px solid var(--primary);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .request-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+        .request-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 8px 25px rgba(0,69,134,0.1);
         }
 
         .request-header {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -843,40 +938,72 @@
             border-top: 2px dashed #e5e7eb;
         }
 
-        /* ========== فوتر ========== */
+        /* ========== فوتر بهبود یافته ========== */
         .footer {
-            background: var(--primary-dark);
-            color: #ddd;
-            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary-dark), #001f3f);
+            color: #fff;
+            padding: 4rem 0 2rem;
+            position: relative;
+            overflow: hidden;
             margin-top: 4rem;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), transparent);
         }
 
         .footer h3 {
             color: var(--accent);
-            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
         }
 
         .footer a {
-            color: #ccc;
-            transition: color 0.2s;
+            color: #9ca3af;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-bottom: 0.5rem;
         }
 
         .footer a:hover {
             color: var(--accent);
+            transform: translateX(-5px);
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
             margin-top: 2rem;
-            border-top: 1px solid #374151;
+            border-top: 1px solid rgba(255,255,255,0.1);
             color: #9ca3af;
+            position: relative;
+            z-index: 2;
         }
 
         /* ========== بلاگ ========== */
@@ -1469,42 +1596,42 @@
         <div class="container">
             <h2 class="section-title">چرا B2BSteel؟</h2>
             <div class="features-grid">
-                <div class="feature-card fade-in">
+                <div class="feature-card fade-in-hidden">
                     <div class="feature-icon">
                         <i class="fas fa-lock"></i>
                     </div>
                     <h3>حریم خصوصی کاملاً محفوظ</h3>
                     <p>اطلاعات هویتی فروشندگان تا زمان انتخاب نهایی مخفی می‌ماند.</p>
                 </div>
-                <div class="feature-card fade-in">
+                <div class="feature-card fade-in-hidden">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3>شفافیت کامل قیمت</h3>
                     <p>مقایسه آسان پیشنهادات قیمت فروشندگان مختلف.</p>
                 </div>
-                <div class="feature-card fade-in">
+                <div class="feature-card fade-in-hidden">
                     <div class="feature-icon">
                         <i class="fas fa-handshake"></i>
                     </div>
                     <h3>ارتباط مستقیم و سریع</h3>
                     <p>بدون واسطه، ارتباط مستقیم با فروشندگان معتبر.</p>
                 </div>
-                <div class="feature-card fade-in">
+                <div class="feature-card fade-in-hidden">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3>تایید هویت اعضا</h3>
                     <p>تمام اعضا پس از بررسی مدارک تایید می‌شوند.</p>
                 </div>
-                <div class="feature-card fade-in">
+                <div class="feature-card fade-in-hidden">
                     <div class="feature-icon">
                         <i class="fas fa-trophy"></i>
                     </div>
                     <h3>گارانتی و تضمین کیفیت</h3>
                     <p>سیستم امتیازدهی کیفیت را تضمین می‌کند.</p>
                 </div>
-                <div class="feature-card fade-in">
+                <div class="feature-card fade-in-hidden">
                     <div class="feature-icon">
                         <i class="fas fa-headset"></i>
                     </div>
@@ -3244,6 +3371,41 @@
     let selectedSellerType = 'formwork';
     let currentRating = 0;
     let slideInterval;
+
+    // ========== تابع نمایش Toast ==========
+    window.showToast = function(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: ${type === 'success' ? 'var(--success)' : 'var(--danger)'};
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+            font-weight: 500;
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideUp 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    };
 
     // ========== توابع مودال قوانین ==========
     window.showTermsModal = function() {
@@ -5692,9 +5854,7 @@ window.showEditProfileModal2 = function() {
                     updated_at: new Date().toISOString()
                 })
                 .eq('id', bidId);
-            
             if (error) throw error;
-            
             alert('✅ پیشنهاد با موفقیت ویرایش شد');
             window.closeModal('edit-formwork-bid-modal');
             window.loadSellerFormworkDashboard();
@@ -5702,23 +5862,18 @@ window.showEditProfileModal2 = function() {
             alert('❌ خطا: ' + error.message);
         }
     };
-
     // محاسبه قیمت در مودال ویرایش سوله
     window.calculateEditShedTotal = function() {
         const priceInput = document.getElementById('edit-shed-bid-price-per-kg');
         const weightInput = document.getElementById('edit-shed-bid-estimated-weight');
-        
         if (!priceInput || !weightInput) return;
-        
         const pricePerKg = parseFormattedNumber(priceInput.value);
         const estimatedWeight = parseFormattedNumber(weightInput.value);
         const totalPrice = pricePerKg * estimatedWeight;
-        
         document.getElementById('edit-display-price-per-kg').textContent = formatNumberFarsiDisplay(pricePerKg) + ' ریال';
         document.getElementById('edit-display-estimated-weight').textContent = formatNumberFarsiDisplay(estimatedWeight) + ' کیلوگرم';
         document.getElementById('edit-display-shed-total').textContent = formatNumberFarsiDisplay(totalPrice) + ' ریال';
     };
-
     // نمایش مودال ویرایش پیشنهاد سوله
     window.showEditShedBidModal = async function(bidId) {
         const { data: bid } = await supabase
@@ -5726,9 +5881,7 @@ window.showEditProfileModal2 = function() {
             .select('*')
             .eq('id', bidId)
             .single();
-        
         if (!bid) return;
-        
         document.getElementById('edit-shed-bid-id').value = bid.id;
         document.getElementById('edit-shed-request-id').value = bid.request_id;
         document.getElementById('edit-shed-bid-price-per-kg').value = bid.price_per_kg.toLocaleString('fa-IR');
@@ -5736,12 +5889,9 @@ window.showEditProfileModal2 = function() {
         document.getElementById('edit-shed-bid-delivery').value = bid.delivery_time;
         document.getElementById('edit-shed-bid-warranty').value = bid.warranty_months;
         document.getElementById('edit-shed-bid-notes').value = bid.notes || '';
-        
         window.calculateEditShedTotal();
-        
         document.getElementById('edit-shed-bid-modal').classList.add('active');
     };
-
     // به‌روزرسانی پیشنهاد سوله
     window.updateShedBid = async function() {
         const bidId = document.getElementById('edit-shed-bid-id').value;
@@ -5762,9 +5912,7 @@ window.showEditProfileModal2 = function() {
                     updated_at: new Date().toISOString()
                 })
                 .eq('id', bidId);
-            
             if (error) throw error;
-            
             alert('✅ پیشنهاد با موفقیت ویرایش شد');
             window.closeModal('edit-shed-bid-modal');
             window.loadSellerShedDashboard();
@@ -5785,7 +5933,6 @@ window.showEditProfileModal2 = function() {
                 <p style="color: var(--muted);">در حال بارگذاری...</p>
             </div>
         `;
-        
         // تأخیر کوتاه برای نمایش لودینگ
         await new Promise(resolve => setTimeout(resolve, 300));
         
@@ -5798,7 +5945,6 @@ window.showEditProfileModal2 = function() {
                 console.error('خطا:', error);
                 content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری کاربران</p>';
             }
-            
         } else if (tab === 'pending') {
             try {
                 const { data: pendingUsers } = await supabase
@@ -5807,14 +5953,11 @@ window.showEditProfileModal2 = function() {
                     .eq('user_type', 'seller')
                     .eq('verification_status', 'pending')
                     .order('created_at', { ascending: false });
-                
                 displayUsersList(pendingUsers);
-                
             } catch (error) {
                 console.error('خطا:', error);
                 content.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری</p>';
             }
-            
         } else if (tab === 'concrete-requests') {
             try {
                 const { data: requests } = await supabase
@@ -5826,7 +5969,6 @@ window.showEditProfileModal2 = function() {
                     content.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">درخواستی وجود ندارد</p>';
                     return;
                 }
-                
                 let html = '';
                 for (const req of requests || []) {
                     const { data: bids } = await supabase
@@ -5839,7 +5981,6 @@ window.showEditProfileModal2 = function() {
                         .select('full_name, email')
                         .eq('user_id', req.user_id)
                         .single();
-                    
                     html += `
                         <div class="request-with-bids">
                             <div class="request-header">
@@ -5972,9 +6113,7 @@ window.showEditProfileModal2 = function() {
             `;
         }
     };
-
     // ========== توابع مدیریت کاربران ==========
-
     // تأیید فروشنده
     window.verifySeller = async function(userId) {
         if (!confirm('آیا از تأیید این فروشنده اطمینان دارید؟')) return;
@@ -5993,7 +6132,6 @@ window.showEditProfileModal2 = function() {
             alert('❌ خطا: ' + error.message);
         }
     };
-
     // رد فروشنده
     window.rejectSeller = async function(userId) {
         const reason = prompt('لطفاً دلیل رد فروشنده را وارد کنید:');
@@ -6016,7 +6154,6 @@ window.showEditProfileModal2 = function() {
             alert('❌ خطا: ' + error.message);
         }
     };
-
     // مسدود کردن کاربر
     window.blockUser = async function(userId, fullName) {
         if (!confirm(`آیا از مسدود کردن کاربر "${fullName}" اطمینان دارید؟`)) return;
@@ -6038,7 +6175,6 @@ window.showEditProfileModal2 = function() {
             alert('❌ خطا: ' + error.message);
         }
     };
-
     // فعال کردن مجدد کاربر
     window.activateUser = async function(userId, fullName) {
         if (!confirm(`آیا کاربر "${fullName}" فعال شود؟`)) return;
@@ -6060,7 +6196,6 @@ window.showEditProfileModal2 = function() {
             alert('❌ خطا: ' + error.message);
         }
     };
-
     // جستجوی کاربران
     window.searchUsers = async function() {
         const searchTerm = document.getElementById('user-search').value.toLowerCase();
@@ -6083,9 +6218,7 @@ window.showEditProfileModal2 = function() {
                     query = query.eq('verification_status', 'blocked');
                 }
             }
-            
             const { data: users } = await query.order('created_at', { ascending: false });
-            
             // فیلتر جستجو
             const filteredUsers = users?.filter(user => 
                 user.full_name?.toLowerCase().includes(searchTerm) ||
@@ -6100,7 +6233,6 @@ window.showEditProfileModal2 = function() {
             console.error('خطا:', error);
         }
     };
-
     // نمایش لیست کاربران
     function displayUsersList(users) {
         const content = document.getElementById('admin-content');
@@ -6114,7 +6246,6 @@ window.showEditProfileModal2 = function() {
             `;
             return;
         }
-        
         let html = `
             <div style="margin-bottom: 1rem; display: flex; gap: 10px; flex-wrap: wrap;">
                 <input type="text" id="user-search" placeholder="جستجو..." class="form-control" style="flex: 1;" onkeyup="window.searchUsers()">
@@ -6129,7 +6260,6 @@ window.showEditProfileModal2 = function() {
             </div>
             <div class="requests-list">
         `;
-        
         users.forEach(user => {
             const userType = user.user_type === 'buyer' ? 'خریدار' : (user.user_type === 'seller' ? 'فروشنده' : 'نامشخص');
             const userStatus = user.verification_status || 'pending';
@@ -6226,12 +6356,10 @@ window.showEditProfileModal2 = function() {
         console.error('❌ صفحه پیدا نشد:', pageId);
         return;
     }
-    
     // به‌روزرسانی منو
     if (typeof window.updateNavigation === 'function') {
         window.updateNavigation();
     }
-    
     // توابع مخصوص هر صفحه
     if (pageId === 'dashboard') {
         if (typeof window.loadBuyerDashboard === 'function') window.loadBuyerDashboard();
@@ -6278,6 +6406,26 @@ window.showEditProfileModal2 = function() {
         if (typeof window.initSlideshow === 'function') {
             window.initSlideshow();
         }
+        // ========== اضافه کردن observer برای اسکرول انیمیشن ==========
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // اضافه کردن کلاس fade-in-hidden به عناصر مورد نظر
+        document.querySelectorAll('.feature-card, .counter-item, .blog-card').forEach(el => {
+            el.classList.add('fade-in-hidden');
+            observer.observe(el);
+        });
     });   
 </script>
 </body>
