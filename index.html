@@ -2495,9 +2495,9 @@
             <p id="profile-email" style="color: var(--muted); margin-bottom: 0.5rem;">ایمیل</p>
             <p id="profile-type" style="background: #f3f4f6; padding: 5px 15px; border-radius: 20px; display: inline-block;">نوع حساب: خریدار</p>
         </div>
-        <button class="btn btn-primary" onclick="window.showEditProfileModal()">
-            <i class="fas fa-edit"></i> ویرایش پروفایل
-        </button>
+        <button class="btn btn-primary" onclick="window.showEditProfileModal2()">
+    <i class="fas fa-edit"></i> ویرایش پروفایل
+</button>
     </div>
 </div>
             <!-- راهنمای سطوح اعتبار (برای فروشندگان) -->
@@ -2963,7 +2963,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="window.closeModal('edit-profile-modal')">انصراف</button>
+            <button class="btn btn-secondary" onclick="window.closeEditProfileModal()">انصراف</button>
             <button class="btn btn-primary" onclick="window.saveProfileChanges()">ذخیره تغییرات</button>
         </div>
     </div>
@@ -5412,13 +5412,19 @@ window.loadUserTransactions = async function() {
         container.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری تراکنش‌ها</p>';
     }
 };
-// ========== نمایش مودال ویرایش پروفایل ==========
-window.showEditProfileModal = function() {
-    console.log('🟢 showEditProfileModal فراخوانی شد');
+// ========== نمایش مودال ویرایش پروفایل (نسخه قوی) ==========
+window.showEditProfileModal2 = function() {
+    console.log('🚀 showEditProfileModal2 فراخوانی شد');
     
     if (!currentUser) {
         alert('لطفاً ابتدا وارد شوید');
         window.showPage('login');
+        return;
+    }
+    
+    const modal = document.getElementById('edit-profile-modal');
+    if (!modal) {
+        console.error('❌ مودال پیدا نشد');
         return;
     }
     
@@ -5442,104 +5448,26 @@ window.showEditProfileModal = function() {
     if (newPass) newPass.value = '';
     if (confirmPass) confirmPass.value = '';
     
-    const modal = document.getElementById('edit-profile-modal');
-    if (modal) {
-        modal.classList.add('active');
-        console.log('✅ مودال ویرایش فعال شد');
-    } else {
-        console.error('❌ مودال edit-profile-modal پیدا نشد');
-    }
+    // اعمال استایل مستقیم
+    modal.style.display = 'flex';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    modal.style.zIndex = '9999';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    
+    console.log('✅ مودال با استایل مستقیم فعال شد');
 };
 
-// ========== ذخیره تغییرات پروفایل ==========
-window.saveProfileChanges = async function() {
-    console.log('🟢 saveProfileChanges فراخوانی شد');
-    
-    if (!currentUser) {
-        alert('لطفاً ابتدا وارد شوید');
-        return;
-    }
-    
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-        alert('خطا در دریافت اطلاعات کاربر');
-        return;
-    }
-    
-    const newFullName = document.getElementById('edit-fullname')?.value;
-    const newPhone = document.getElementById('edit-phone')?.value;
-    const newAddress = document.getElementById('edit-address')?.value;
-    const newCompany = document.getElementById('edit-company')?.value;
-    
-    const currentPass = document.getElementById('edit-current-password')?.value;
-    const newPass = document.getElementById('edit-new-password')?.value;
-    const confirmPass = document.getElementById('edit-confirm-password')?.value;
-    
-    try {
-        // به‌روزرسانی اطلاعات در جدول profiles
-        const updateData = {};
-        if (newFullName) updateData.full_name = newFullName;
-        if (newPhone) updateData.phone = newPhone;
-        if (newAddress) updateData.address = newAddress;
-        if (newCompany) updateData.company_name = newCompany;
-        
-        if (Object.keys(updateData).length > 0) {
-            const { error: profileError } = await supabase
-                .from('profiles')
-                .update(updateData)
-                .eq('user_id', user.id);
-            
-            if (profileError) throw profileError;
-            console.log('✅ پروفایل آپدیت شد');
-        }
-        
-        // اگر رمز عبور هم تغییر کرده
-        if (currentPass && newPass && confirmPass) {
-            if (newPass !== confirmPass) {
-                alert('رمز عبور جدید و تکرار آن مطابقت ندارند');
-                return;
-            }
-            
-            // اول رمز فعلی رو چک کن
-            const { error: signInError } = await supabase.auth.signInWithPassword({
-                email: currentUser.email,
-                password: currentPass
-            });
-            
-            if (signInError) {
-                alert('رمز عبور فعلی اشتباه است');
-                return;
-            }
-            
-            // بعد رمز جدید رو ست کن
-            const { error: passError } = await supabase.auth.updateUser({
-                password: newPass
-            });
-            
-            if (passError) throw passError;
-            console.log('✅ رمز عبور تغییر کرد');
-        }
-        
-        // به‌روزرسانی currentUser
-        currentUser.full_name = newFullName || currentUser.full_name;
-        currentUser.phone = newPhone || currentUser.phone;
-        currentUser.address = newAddress || currentUser.address;
-        currentUser.companyName = newCompany || currentUser.companyName;
-        localStorage.setItem('current_user', JSON.stringify(currentUser));
-        
-        // به‌روزرسانی صفحه پروفایل
-        const nameEl = document.getElementById('profile-name');
-        const avatarEl = document.getElementById('profile-avatar');
-        
-        if (nameEl) nameEl.textContent = currentUser.full_name || 'کاربر';
-        if (avatarEl) avatarEl.textContent = (currentUser.full_name || '?').charAt(0);
-        
-        alert('✅ اطلاعات با موفقیت به‌روزرسانی شد');
-        window.closeModal('edit-profile-modal');
-        
-    } catch (error) {
-        alert('❌ خطا: ' + error.message);
-        console.error(error);
+// ========== بستن مودال ویرایش پروفایل (نسخه قوی) ==========
+window.closeEditProfileModal = function() {
+    const modal = document.getElementById('edit-profile-modal');
+    if (modal) {
+        modal.style.display = 'none';
     }
 };
     // نمایش مودال ارتقاء سطح
