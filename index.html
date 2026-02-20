@@ -2919,7 +2919,7 @@
     <div class="modal-content" style="max-width: 500px;">
         <div class="modal-header">
             <h3><i class="fas fa-user-edit"></i> ویرایش پروفایل</h3>
-            <button class="close-modal" onclick="window.closeModal('edit-profile-modal')">&times;</button>
+            <button class="close-modal" onclick="window.closeEditProfileModal()">&times;</button>
         </div>
         <div class="modal-body">
             <form id="edit-profile-form">
@@ -3260,9 +3260,13 @@
             console.log('✅ قوانین پذیرفته شد');
         }
         // بستن مودال
-        window.closeModal('terms-modal');
-    };
-    
+    window.closeModal('terms-modal');
+};
+// ========== بستن مودال ویرایش پروفایل ==========
+window.closeEditProfileModal = function() {
+    const modal = document.getElementById('edit-profile-modal');
+    if (modal) modal.remove();
+};
     // اتصال لینک قوانین به مودال
     document.addEventListener('DOMContentLoaded', function() {
         const termsLink = document.getElementById('terms-link');
@@ -5463,118 +5467,123 @@ window.showEditProfileModal2 = function() {
     console.log('✅ مودال با استایل مستقیم فعال شد');
 };
 
-// ========== بستن مودال ویرایش پروفایل (نسخه قوی) ==========
-window.closeEditProfileModal = function() {
-    const modal = document.getElementById('edit-profile-modal');
-    if (modal) {
-        modal.style.display = 'none';
+// ========== نمایش مودال ویرایش پروفایل (نسخه نهایی و قطعی) ==========
+window.showEditProfileModal2 = function() {
+    console.log('🚀 showEditProfileModal2 فراخوانی شد');
+    
+    if (!currentUser) {
+        alert('لطفاً ابتدا وارد شوید');
+        window.showPage('login');
+        return;
     }
-};
-    // نمایش مودال ارتقاء سطح
-    window.showUpgradeModal = function(sellerType) {
-        document.getElementById('upgrade-seller-type').value = sellerType;
-        document.getElementById('upgrade-trust-modal').classList.add('active');
-        
-        // ریست کردن انتخاب قبلی
-        window.selectTrustLevel(2); // پیش‌فرض سطح 2
-    };
-
-    // انتخاب سطح در مودال
-    window.selectTrustLevel = function(level) {
-        document.getElementById('selected-trust-level').value = level;
-        
-        // به‌روزرسانی استایل کارت‌ها
-        for (let i = 1; i <= 4; i++) {
-            const card = document.getElementById(`level-${i}-card`);
-            if (card) {
-                if (i === level) {
-                    card.style.background = '#e0f2fe';
-                    card.style.borderColor = 'var(--primary)';
-                    card.style.opacity = '1';
-                } else {
-                    card.style.background = '#f3f4f6';
-                    card.style.borderColor = '#d1d5db';
-                    card.style.opacity = '0.8';
-                }
-            }
-        }
-        
-        // نمایش فرم مربوطه
-        document.querySelectorAll('.trust-level-fields').forEach(el => el.classList.add('hidden'));
-        document.getElementById(`level-${level}-fields`).classList.remove('hidden');
-    };
-
-    // ارسال درخواست ارتقاء سطح
-    window.submitUpgradeRequest = async function() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-            alert('لطفاً وارد شوید');
-            return;
-        }
-
-        const level = parseInt(document.getElementById('selected-trust-level').value);
-        const sellerType = document.getElementById('upgrade-seller-type').value;
-        
-        // اعتبارسنجی ساده
-        if (level === 2) {
-            if (!document.getElementById('trust-economic-code').value || 
-                !document.getElementById('trust-phone').value) {
-                alert('لطفاً تمام فیلدهای اجباری را پر کنید');
-                return;
-            }
-        }
-
-        try {
-            // ذخیره اطلاعات درخواست
-            const upgradeRequest = {
-                user_id: user.id,
-                requested_level: level,
-                seller_type: sellerType,
-                economic_code: document.getElementById('trust-economic-code')?.value || null,
-                phone: document.getElementById('trust-phone')?.value || null,
-                address: document.getElementById('trust-address')?.value || null,
-                notes: document.getElementById('trust-extra-notes')?.value || null,
-                status: 'pending',
-                created_at: new Date().toISOString()
-            };
-
-            const { error: requestError } = await supabase
-                .from('trust_upgrade_requests')
-                .insert([upgradeRequest]);
-
-            if (requestError) throw requestError;
-
-            // آپلود فایل‌ها (اگر وجود داشته باشند)
-            const fileInputs = [
-                'trust-license', 'trust-financial', 'trust-certificate',
-                'trust-bank-guarantee', 'trust-check'
-            ];
-
-            for (const inputId of fileInputs) {
-                const fileInput = document.getElementById(inputId);
-                if (fileInput && fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    const filePath = `trust-docs/${user.id}/${Date.now()}_${file.name}`;
+    
+    // اول مودال قبلی رو پاک کن (اگه وجود داره)
+    const oldModal = document.getElementById('edit-profile-modal');
+    if (oldModal) oldModal.remove();
+    
+    // یه مودال جدید با استایل inline و ساده بساز
+    const modal = document.createElement('div');
+    modal.id = 'edit-profile-modal';
+    modal.style.cssText = `
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-color: rgba(0,0,0,0.5) !important;
+        z-index: 999999 !important;
+        align-items: center !important;
+        justify-content: center !important;
+    `;
+    
+    // محتوای مودال
+    modal.innerHTML = `
+        <div style="width: 500px; max-width: 90%; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+            <div style="padding: 20px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin:0; color: #004586;"><i class="fas fa-user-edit"></i> ویرایش پروفایل</h3>
+                <button onclick="this.closest('#edit-profile-modal').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
+            </div>
+            
+            <div style="padding: 20px;">
+                <form id="edit-profile-form">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">نام و نام خانوادگی</label>
+                        <input type="text" id="edit-fullname" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+                    </div>
                     
-                    const { error: uploadError } = await supabase.storage
-                        .from('vendor-documents')
-                        .upload(filePath, file);
-
-                    if (uploadError) throw uploadError;
-                }
-            }
-
-            alert('✅ درخواست ارتقاء سطح با موفقیت ثبت شد و در انتظار بررسی است.');
-            window.closeModal('upgrade-trust-modal');
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">شماره تماس</label>
+                        <input type="tel" id="edit-phone" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required placeholder="۰۹۱۲۱۲۳۴۵۶۷">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">آدرس (اختیاری)</label>
+                        <textarea id="edit-address" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" rows="2" placeholder="استان - شهر - خیابان - پلاک"></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">نام شرکت</label>
+                        <input type="text" id="edit-company" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <hr style="margin: 20px 0;">
+                    <h4 style="color: #004586; margin-bottom: 15px;">تغییر رمز عبور (اختیاری)</h4>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">رمز عبور فعلی</label>
+                        <input type="password" id="edit-current-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">رمز عبور جدید</label>
+                        <input type="password" id="edit-new-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">تکرار رمز جدید</label>
+                        <input type="password" id="edit-confirm-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                </form>
+            </div>
             
-            // بارگذاری مجدد سطح فعلی (هنوز تغییر نکرده)
-            window.loadVendorTrustLevel(sellerType);
-            
-        } catch (error) {
-            alert('❌ خطا: ' + error.message);
-            console.error(error);
-        }
-    };
+            <div style="padding: 20px; border-top: 1px solid #e5e7eb; text-align: left; display: flex; gap: 10px; justify-content: flex-end;">
+                <button onclick="document.getElementById('edit-profile-modal').remove()" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">انصراف</button>
+                <button onclick="window.saveProfileChanges()" style="padding: 10px 20px; background: #004586; color: white; border: none; border-radius: 5px; cursor: pointer;">ذخیره تغییرات</button>
+            </div>
+        </div>
+    `;
+    
+    // به body اضافه کن
+    document.body.appendChild(modal);
+    
+    // پر کردن فرم با اطلاعات فعلی
+    const fullNameInput = document.getElementById('edit-fullname');
+    const phoneInput = document.getElementById('edit-phone');
+    const addressInput = document.getElementById('edit-address');
+    const companyInput = document.getElementById('edit-company');
+    
+    if (fullNameInput) fullNameInput.value = currentUser.full_name || '';
+    if (phoneInput) phoneInput.value = currentUser.phone || '';
+    if (addressInput) addressInput.value = currentUser.address || '';
+    if (companyInput) companyInput.value = currentUser.companyName || '';
+    
+    // پاک کردن فیلدهای رمز
+    const currentPass = document.getElementById('edit-current-password');
+    const newPass = document.getElementById('edit-new-password');
+    const confirmPass = document.getElementById('edit-confirm-password');
+    
+    if (currentPass) currentPass.value = '';
+    if (newPass) newPass.value = '';
+    if (confirmPass) confirmPass.value = '';
+    
+    console.log('✅ مودال جدید ساخته شد و به body اضافه گردید');
+    
+    // یه تست دیگه برای اطمینان
+    setTimeout(() => {
+        console.log('ابعاد مودال بعد از ۱ ثانیه:', document.getElementById('edit-profile-modal').getBoundingClientRect());
+    }, 1000);
+};
         // ========== توابع نمایش جزئیات پروژه ==========
     
     // نمایش جزئیات کامل درخواست برای فروشنده
