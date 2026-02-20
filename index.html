@@ -1301,6 +1301,12 @@
                 <button class="btn btn-primary btn-sm" onclick="window.showPage('dashboard')">داشبورد</button>
                 <button class="btn btn-danger btn-sm" onclick="window.logout()">خروج</button>
             </div>
+<!-- ========== لینک پروفایل برای همه کاربران ========== -->
+<div id="profile-link" class="hidden">
+    <a href="#" class="nav-link" onclick="window.showPage('profile')">
+        <i class="fas fa-user-circle"></i> پروفایل
+    </a>
+</div>
         </div>
     </div>
 </nav>
@@ -2406,81 +2412,7 @@
         </div>
     </div>
 </section>
-<!-- ========== صفحه پروفایل کاربر ========== -->
-<section id="profile-page" class="page hidden">
-    <div class="container" style="padding: 2rem 0;">
-        <div style="max-width: 900px; margin: 0 auto;">
-            <!-- هدر پروفایل -->
-            <div style="background: white; border-radius: 15px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-                    <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold;" id="profile-avatar">
-                        ?
-                    </div>
-                    <div>
-                        <h1 id="profile-name" style="color: var(--primary); margin-bottom: 0.5rem;">نام کاربر</h1>
-                        <p id="profile-email" style="color: var(--muted); margin-bottom: 0.5rem;">ایمیل</p>
-                        <p id="profile-type" style="background: #f3f4f6; padding: 5px 15px; border-radius: 20px; display: inline-block;">نوع حساب: خریدار</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- راهنمای سطوح اعتبار (برای فروشندگان) -->
-            <div id="seller-trust-guide" class="hidden" style="background: linear-gradient(135deg, #f6f9fc, #e9f2f9); border-radius: 15px; padding: 2rem; margin-bottom: 2rem;">
-                <h3 style="color: var(--primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-shield-alt"></i> راهنمای سطوح اعتبار فروشندگان
-                </h3>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                    <!-- سطح ۱ -->
-                    <div style="background: white; border-radius: 10px; padding: 1.5rem; text-align: center; border: 2px solid #10b981;">
-                        <div style="width: 50px; height: 50px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem;">۱</div>
-                        <h4 style="margin-bottom: 0.5rem;">سطح پایه</h4>
-                        <p style="color: var(--muted); font-size: 0.9rem;">ثبت‌نام اولیه</p>
-                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">خریداران فقط می‌توانند پیشنهاد شما را ببینند</p>
-                    </div>
-                    
-                    <!-- سطح ۲ -->
-                    <div style="background: white; border-radius: 10px; padding: 1.5rem; text-align: center; border: 2px solid #6b7280;">
-                        <div style="width: 50px; height: 50px; background: #6b7280; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem;">۲</div>
-                        <h4 style="margin-bottom: 0.5rem;">سطح نقره‌ای</h4>
-                        <p style="color: var(--muted); font-size: 0.9rem;">تکمیل اطلاعات ثبتی</p>
-                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">کد اقتصادی + تلفن ثابت + آدرس</p>
-                    </div>
-                    
-                    <!-- سطح ۳ -->
-                    <div style="background: white; border-radius: 10px; padding: 1.5rem; text-align: center; border: 2px solid #f59e0b;">
-                        <div style="width: 50px; height: 50px; background: #f59e0b; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem;">۳</div>
-                        <h4 style="margin-bottom: 0.5rem;">سطح طلایی</h4>
-                        <p style="color: var(--muted); font-size: 0.9rem;">تأیید مدارک</p>
-                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">آگهی تاسیس + صورت مالی + گواهی صلاحیت</p>
-                    </div>
-                    
-                    <!-- سطح ۴ -->
-                    <div style="background: white; border-radius: 10px; padding: 1.5rem; text-align: center; border: 2px solid #8b5cf6;">
-                        <div style="width: 50px; height: 50px; background: #8b5cf6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.5rem;">۴</div>
-                        <h4 style="margin-bottom: 0.5rem;">سطح الماس</h4>
-                        <p style="color: var(--muted); font-size: 0.9rem;">ضمانت‌نامه معتبر</p>
-                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">ضمانت‌نامه بانکی + چک ضمانت</p>
-                    </div>
-                </div>
-                
-                <p style="margin-top: 1.5rem; padding: 1rem; background: #f0f9ff; border-radius: 8px; font-size: 0.95rem;">
-                    <i class="fas fa-info-circle" style="color: var(--info);"></i>
-                    با ارتقاء سطح اعتبار، خریداران بیشتری به شما اعتماد می‌کنند و پروژه‌های بزرگ‌تری دریافت می‌کنید.
-                </p>
-            </div>
-
-            <!-- تاریخچه تراکنش‌ها -->
-            <div style="background: white; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">تاریخچه تراکنش‌ها</h3>
-                
-                <div id="transactions-list" style="min-height: 200px;">
-                    <p style="text-align: center; color: var(--muted);">در حال بارگذاری...</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <!-- مودال ارسال پیشنهاد قالب بتن -->
 <div id="submit-formwork-bid-modal" class="modal">
     <div class="modal-content">
@@ -3597,46 +3529,49 @@ window.loadCounters = async function() {
     
     // ========== ناوبری ==========
     window.updateNavigation = function() {
-        const auth = document.getElementById('auth-buttons');
-        const user = document.getElementById('user-menu');
-        const sellerF = document.getElementById('seller-formwork-menu');
-        const sellerS = document.getElementById('seller-shed-menu');
-        const admin = document.getElementById('admin-menu');
+    const auth = document.getElementById('auth-buttons');
+    const user = document.getElementById('user-menu');
+    const sellerF = document.getElementById('seller-formwork-menu');
+    const sellerS = document.getElementById('seller-shed-menu');
+    const admin = document.getElementById('admin-menu');
+    const profileLink = document.getElementById('profile-link'); // اضافه کن
+    
+    if (currentUser) {
+        auth.classList.add('hidden');
+        profileLink.classList.remove('hidden'); // پروفایل رو نشون بده
         
-        if (currentUser) {
-            auth.classList.add('hidden');
-            if (currentUser.isAdmin) {
-                admin.classList.remove('hidden');
-                user.classList.add('hidden');
-                sellerF.classList.add('hidden');
-                sellerS.classList.add('hidden');
-            } else if (currentUser.userType === 'buyer') {
-                user.classList.remove('hidden');
-                admin.classList.add('hidden');
-                sellerF.classList.add('hidden');
-                sellerS.classList.add('hidden');
-            } else if (currentUser.userType === 'seller') {
-                if (currentUser.sellerType === 'formwork') {
-                    sellerF.classList.remove('hidden');
-                    user.classList.add('hidden');
-                    admin.classList.add('hidden');
-                    sellerS.classList.add('hidden');
-                } else if (currentUser.sellerType === 'shed') {
-                    sellerS.classList.remove('hidden');
-                    user.classList.add('hidden');
-                    admin.classList.add('hidden');
-                    sellerF.classList.add('hidden');
-                }
-            }
-        } else {
-            auth.classList.remove('hidden');
+        if (currentUser.isAdmin) {
+            admin.classList.remove('hidden');
             user.classList.add('hidden');
             sellerF.classList.add('hidden');
             sellerS.classList.add('hidden');
+        } else if (currentUser.userType === 'buyer') {
+            user.classList.remove('hidden');
             admin.classList.add('hidden');
+            sellerF.classList.add('hidden');
+            sellerS.classList.add('hidden');
+        } else if (currentUser.userType === 'seller') {
+            if (currentUser.sellerType === 'formwork') {
+                sellerF.classList.remove('hidden');
+                user.classList.add('hidden');
+                admin.classList.add('hidden');
+                sellerS.classList.add('hidden');
+            } else if (currentUser.sellerType === 'shed') {
+                sellerS.classList.remove('hidden');
+                user.classList.add('hidden');
+                admin.classList.add('hidden');
+                sellerF.classList.add('hidden');
+            }
         }
-    };
-    
+    } else {
+        auth.classList.remove('hidden');
+        profileLink.classList.add('hidden'); // پروفایل رو مخفی کن
+        user.classList.add('hidden');
+        sellerF.classList.add('hidden');
+        sellerS.classList.add('hidden');
+        admin.classList.add('hidden');
+    }
+};
     window.closeModal = function(modalId) {
         document.getElementById(modalId)?.classList.remove('active');
         
@@ -5136,165 +5071,7 @@ window.loadVendorTrustLevel = async function(sellerType) {
         }
     }
 };
-// ========== صفحه پروفایل کاربر ==========
-window.loadProfilePage = async function() {
-    if (!currentUser) {
-        window.showPage('login');
-        return;
-    }
-    
-    // اطلاعات پایه
-    document.getElementById('profile-name').textContent = currentUser.full_name || 'کاربر';
-    document.getElementById('profile-email').textContent = currentUser.email || '';
-    document.getElementById('profile-avatar').textContent = (currentUser.full_name || '?').charAt(0);
-    
-    let userTypeText = 'نوع حساب: ';
-    if (currentUser.isAdmin) userTypeText += 'مدیر سیستم';
-    else if (currentUser.userType === 'buyer') userTypeText += 'خریدار';
-    else if (currentUser.userType === 'seller') userTypeText += `فروشنده ${currentUser.sellerType === 'formwork' ? 'قالب بتن' : 'سوله'}`;
-    document.getElementById('profile-type').textContent = userTypeText;
-    
-    // نمایش راهنمای سطوح اعتبار فقط برای فروشندگان
-    const guideEl = document.getElementById('seller-trust-guide');
-    if (guideEl) {
-        if (currentUser.userType === 'seller') {
-            guideEl.classList.remove('hidden');
-        } else {
-            guideEl.classList.add('hidden');
-        }
-    }
-    
-    // بارگذاری تراکنش‌ها
-    await window.loadUserTransactions();
-};
 
-// ========== بارگذاری تراکنش‌های کاربر ==========
-window.loadUserTransactions = async function() {
-    if (!currentUser) return;
-    
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    
-    let allTransactions = [];
-    
-    try {
-        // تراکنش‌هایی که کاربر خریدار بوده
-        const { data: buyerConcrete } = await supabase
-            .from('concrete_requests')
-            .select('*, formwork_bids!inner(*)')
-            .eq('user_id', user.id)
-            .eq('formwork_bids.selected', true);
-            
-        const { data: buyerShed } = await supabase
-            .from('shed_requests')
-            .select('*, shed_bids!inner(*)')
-            .eq('user_id', user.id)
-            .eq('shed_bids.selected', true);
-        
-        // تراکنش‌هایی که کاربر فروشنده بوده
-        const { data: sellerConcrete } = await supabase
-            .from('formwork_bids')
-            .select('*, concrete_requests(*)')
-            .eq('seller_id', user.id)
-            .eq('selected', true);
-            
-        const { data: sellerShed } = await supabase
-            .from('shed_bids')
-            .select('*, shed_requests(*)')
-            .eq('seller_id', user.id)
-            .eq('selected', true);
-        
-        // ترکیب و فرمت‌دهی
-        if (buyerConcrete) {
-            buyerConcrete.forEach(req => {
-                if (req.formwork_bids && req.formwork_bids.length > 0) {
-                    allTransactions.push({
-                        type: 'خرید قالب بتن',
-                        title: req.title || 'بدون عنوان',
-                        amount: req.formwork_bids[0]?.total_price || 0,
-                        date: req.updated_at || req.created_at,
-                        role: 'buyer'
-                    });
-                }
-            });
-        }
-        
-        if (buyerShed) {
-            buyerShed.forEach(req => {
-                if (req.shed_bids && req.shed_bids.length > 0) {
-                    allTransactions.push({
-                        type: 'خرید سوله',
-                        title: `سوله ${req.dimensions?.length || '?'}x${req.dimensions?.width || '?'}`,
-                        amount: req.shed_bids[0]?.total_price || 0,
-                        date: req.updated_at || req.created_at,
-                        role: 'buyer'
-                    });
-                }
-            });
-        }
-        
-        if (sellerConcrete) {
-            sellerConcrete.forEach(bid => {
-                allTransactions.push({
-                    type: 'فروش قالب بتن',
-                    title: bid.concrete_requests?.title || 'قالب بتن',
-                    amount: bid.total_price || 0,
-                    date: bid.updated_at || bid.created_at,
-                    role: 'seller'
-                });
-            });
-        }
-        
-        if (sellerShed) {
-            sellerShed.forEach(bid => {
-                allTransactions.push({
-                    type: 'فروش سوله',
-                    title: `سوله ${bid.shed_requests?.dimensions?.length || '?'}x${bid.shed_requests?.dimensions?.width || '?'}`,
-                    amount: bid.total_price || 0,
-                    date: bid.updated_at || bid.created_at,
-                    role: 'seller'
-                });
-            });
-        }
-        
-        // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
-        allTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-        
-        const container = document.getElementById('transactions-list');
-        if (!container) return;
-        
-        if (allTransactions.length === 0) {
-            container.innerHTML = '<p style="text-align: center; color: var(--muted);">تاکنون تراکنشی انجام نشده است.</p>';
-            return;
-        }
-        
-        let html = '';
-        allTransactions.forEach(trans => {
-            html += `
-                <div style="padding: 1rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <div>
-                        <div style="font-weight: 600; color: var(--primary);">${trans.type}</div>
-                        <div style="font-size: 0.9rem; color: var(--muted);">${trans.title}</div>
-                        <div style="font-size: 0.85rem; color: #9ca3af;">${new Date(trans.date).toLocaleDateString('fa-IR')}</div>
-                    </div>
-                    <div style="font-weight: bold; color: ${trans.role === 'buyer' ? '#ef4444' : '#10b981'};">
-                        ${trans.role === 'buyer' ? 'پرداخت: ' : 'دریافت: '}
-                        ${trans.amount.toLocaleString('fa-IR')} ریال
-                    </div>
-                </div>
-            `;
-        });
-        
-        container.innerHTML = html;
-        
-    } catch (error) {
-        console.error('خطا در بارگذاری تراکنش‌ها:', error);
-        const container = document.getElementById('transactions-list');
-        if (container) {
-            container.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری تراکنش‌ها</p>';
-        }
-    }
-};
     // نمایش مودال ارتقاء سطح
     window.showUpgradeModal = function(sellerType) {
         document.getElementById('upgrade-seller-type').value = sellerType;
@@ -6059,9 +5836,6 @@ window.loadUserTransactions = async function() {
         else if (pageId === 'admin') {
             if (typeof window.loadAdminPanel === 'function') window.loadAdminPanel();
         }
-else if (pageId === 'profile') {
-    if (typeof window.loadProfilePage === 'function') window.loadProfilePage();
-}
         else if (pageId === 'seller-formwork-dashboard') {
             if (typeof window.loadSellerFormworkDashboard === 'function') window.loadSellerFormworkDashboard();
         }
