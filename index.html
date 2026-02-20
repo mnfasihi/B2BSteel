@@ -2513,10 +2513,6 @@
 </section>
 <!-- مودال ارسال پیشنهاد قالب بتن -->
 <div id="submit-formwork-bid-modal" class="modal">
-    ...
-</div>
-<!-- مودال ارسال پیشنهاد قالب بتن -->
-<div id="submit-formwork-bid-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <h3>ارسال پیشنهاد قیمت قالب بتن</h3>
@@ -2872,7 +2868,60 @@
                     <div style="font-size: 0.8rem; color: var(--muted);">ضمانت‌نامه</div>
                 </div>
             </div>
-
+<!-- مودال ویرایش پروفایل -->
+<div id="edit-profile-modal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3><i class="fas fa-user-edit"></i> ویرایش پروفایل</h3>
+            <button class="close-modal" onclick="window.closeModal('edit-profile-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="edit-profile-form">
+                <div class="form-group">
+                    <label for="edit-fullname">نام و نام خانوادگی</label>
+                    <input type="text" id="edit-fullname" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-phone">شماره تماس</label>
+                    <input type="tel" id="edit-phone" class="form-control" required placeholder="۰۹۱۲۱۲۳۴۵۶۷">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-address">آدرس (اختیاری)</label>
+                    <textarea id="edit-address" class="form-control" rows="2" placeholder="استان - شهر - خیابان - پلاک"></textarea>
+                </div>
+                
+                <div id="edit-company-field" class="form-group">
+                    <label for="edit-company">نام شرکت</label>
+                    <input type="text" id="edit-company" class="form-control">
+                </div>
+                
+                <hr style="margin: 20px 0;">
+                <h4 style="color: var(--primary); margin-bottom: 15px;">تغییر رمز عبور (اختیاری)</h4>
+                
+                <div class="form-group">
+                    <label for="edit-current-password">رمز عبور فعلی</label>
+                    <input type="password" id="edit-current-password" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-new-password">رمز عبور جدید</label>
+                    <input type="password" id="edit-new-password" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-confirm-password">تکرار رمز جدید</label>
+                    <input type="password" id="edit-confirm-password" class="form-control">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="window.closeModal('edit-profile-modal')">انصراف</button>
+            <button class="btn btn-primary" onclick="window.saveProfileChanges()">ذخیره تغییرات</button>
+        </div>
+    </div>
+</div>
             <!-- فرم‌های پویا برای هر سطح -->
             <form id="upgrade-trust-form">
                 <input type="hidden" id="selected-trust-level" value="2">
@@ -5315,6 +5364,136 @@ window.loadUserTransactions = async function() {
     } catch (error) {
         console.error('خطا در بارگذاری تراکنش‌ها:', error);
         container.innerHTML = '<p style="color: red; text-align: center;">خطا در بارگذاری تراکنش‌ها</p>';
+    }
+};
+// ========== نمایش مودال ویرایش پروفایل ==========
+window.showEditProfileModal = function() {
+    console.log('🟢 showEditProfileModal فراخوانی شد');
+    
+    if (!currentUser) {
+        alert('لطفاً ابتدا وارد شوید');
+        window.showPage('login');
+        return;
+    }
+    
+    // پر کردن فرم با اطلاعات فعلی
+    const fullNameInput = document.getElementById('edit-fullname');
+    const phoneInput = document.getElementById('edit-phone');
+    const addressInput = document.getElementById('edit-address');
+    const companyInput = document.getElementById('edit-company');
+    
+    if (fullNameInput) fullNameInput.value = currentUser.full_name || '';
+    if (phoneInput) phoneInput.value = currentUser.phone || '';
+    if (addressInput) addressInput.value = currentUser.address || '';
+    if (companyInput) companyInput.value = currentUser.companyName || '';
+    
+    // پاک کردن فیلدهای رمز
+    const currentPass = document.getElementById('edit-current-password');
+    const newPass = document.getElementById('edit-new-password');
+    const confirmPass = document.getElementById('edit-confirm-password');
+    
+    if (currentPass) currentPass.value = '';
+    if (newPass) newPass.value = '';
+    if (confirmPass) confirmPass.value = '';
+    
+    const modal = document.getElementById('edit-profile-modal');
+    if (modal) {
+        modal.classList.add('active');
+        console.log('✅ مودال ویرایش فعال شد');
+    } else {
+        console.error('❌ مودال edit-profile-modal پیدا نشد');
+    }
+};
+
+// ========== ذخیره تغییرات پروفایل ==========
+window.saveProfileChanges = async function() {
+    console.log('🟢 saveProfileChanges فراخوانی شد');
+    
+    if (!currentUser) {
+        alert('لطفاً ابتدا وارد شوید');
+        return;
+    }
+    
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        alert('خطا در دریافت اطلاعات کاربر');
+        return;
+    }
+    
+    const newFullName = document.getElementById('edit-fullname')?.value;
+    const newPhone = document.getElementById('edit-phone')?.value;
+    const newAddress = document.getElementById('edit-address')?.value;
+    const newCompany = document.getElementById('edit-company')?.value;
+    
+    const currentPass = document.getElementById('edit-current-password')?.value;
+    const newPass = document.getElementById('edit-new-password')?.value;
+    const confirmPass = document.getElementById('edit-confirm-password')?.value;
+    
+    try {
+        // به‌روزرسانی اطلاعات در جدول profiles
+        const updateData = {};
+        if (newFullName) updateData.full_name = newFullName;
+        if (newPhone) updateData.phone = newPhone;
+        if (newAddress) updateData.address = newAddress;
+        if (newCompany) updateData.company_name = newCompany;
+        
+        if (Object.keys(updateData).length > 0) {
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .update(updateData)
+                .eq('user_id', user.id);
+            
+            if (profileError) throw profileError;
+            console.log('✅ پروفایل آپدیت شد');
+        }
+        
+        // اگر رمز عبور هم تغییر کرده
+        if (currentPass && newPass && confirmPass) {
+            if (newPass !== confirmPass) {
+                alert('رمز عبور جدید و تکرار آن مطابقت ندارند');
+                return;
+            }
+            
+            // اول رمز فعلی رو چک کن
+            const { error: signInError } = await supabase.auth.signInWithPassword({
+                email: currentUser.email,
+                password: currentPass
+            });
+            
+            if (signInError) {
+                alert('رمز عبور فعلی اشتباه است');
+                return;
+            }
+            
+            // بعد رمز جدید رو ست کن
+            const { error: passError } = await supabase.auth.updateUser({
+                password: newPass
+            });
+            
+            if (passError) throw passError;
+            console.log('✅ رمز عبور تغییر کرد');
+        }
+        
+        // به‌روزرسانی currentUser
+        currentUser.full_name = newFullName || currentUser.full_name;
+        currentUser.phone = newPhone || currentUser.phone;
+        currentUser.address = newAddress || currentUser.address;
+        currentUser.companyName = newCompany || currentUser.companyName;
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
+        
+        // به‌روزرسانی صفحه پروفایل
+        const nameEl = document.getElementById('profile-name');
+        const avatarEl = document.getElementById('profile-avatar');
+        
+        if (nameEl) nameEl.textContent = currentUser.full_name || 'کاربر';
+        if (avatarEl) avatarEl.textContent = (currentUser.full_name || '?').charAt(0);
+        
+        alert('✅ اطلاعات با موفقیت به‌روزرسانی شد');
+        window.closeModal('edit-profile-modal');
+        
+    } catch (error) {
+        alert('❌ خطا: ' + error.message);
+        console.error(error);
     }
 };
     // نمایش مودال ارتقاء سطح
