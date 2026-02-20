@@ -1167,17 +1167,66 @@
     background: #d97706;
     transform: translateY(-2px);
 }
-/* ========== استایل دکمه ویرایش ========== */
-.btn-edit {
-    background: var(--warning);
-    color: white;
+/* تنظیمات ناوبری برای جلوگیری از دو خطی شدن */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
 }
 
-.btn-edit:hover {
-    background: #d97706;
-    transform: translateY(-2px);
+.logo {
+    flex-shrink: 0;
+    min-width: fit-content;
 }
 
+.logo img {
+    height: 70px;
+    width: auto;
+    margin-left: 5px;
+}
+
+.logo-text {
+    white-space: nowrap;
+}
+
+.logo-text h1 {
+    font-size: 1.5rem;
+    white-space: nowrap;
+}
+
+.logo-text .slogan {
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.nav-links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
+}
+
+@media (max-width: 1200px) {
+    .nav-links {
+        gap: 10px;
+    }
+    .nav-link {
+        padding: 8px 12px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .nav-container {
+        flex-wrap: wrap;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
 /* بکگراند محو با لوگو فقط برای صفحه اصلی */
 #home-page .hero {
     background-image: url('https://vohwipmyblmvyxiguknv.supabase.co/storage/v1/object/public/logo/logo%20final.png');
@@ -1210,6 +1259,13 @@
 
 #home-page .hero p {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* اطمینان از اینکه بکگراند توی کل صفحه اصلی هست */
+#home-page .hero {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
 }
     </style>
 </head>
