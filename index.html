@@ -1167,6 +1167,50 @@
     background: #d97706;
     transform: translateY(-2px);
 }
+/* ========== استایل دکمه ویرایش ========== */
+.btn-edit {
+    background: var(--warning);
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #d97706;
+    transform: translateY(-2px);
+}
+
+/* بکگراند محو با لوگو فقط برای صفحه اصلی */
+#home-page .hero {
+    background-image: url('https://vohwipmyblmvyxiguknv.supabase.co/storage/v1/object/public/logo/logo%20final.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+}
+
+#home-page .hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 69, 134, 0.9), rgba(0, 47, 92, 0.95));
+    z-index: 1;
+}
+
+#home-page .hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+#home-page .hero h2 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#home-page .hero p {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
     </style>
 </head>
 <body>
@@ -1174,13 +1218,13 @@
 <!-- ========== ناوبری اصلی ========== -->
 <nav class="navbar">
     <div class="container nav-container">
-        <div class="logo">
+       <div class="logo">
     <img src="https://vohwipmyblmvyxiguknv.supabase.co/storage/v1/object/public/logo/logo%20final.png" 
          alt="B2BSteel Logo" 
-         style="height: 55px; width: auto; margin-left: 0; position: relative; right: -10px;">
+         style="height: 70px; width: auto; margin-left: 0; position: relative; right: -10px;">
     <div class="logo-text" style="margin-right: 5px;">
-        <h1>B2BSteel</h1>
-        <div class="slogan">اعتماد - شفافیت - سرعت</div>
+        <h1 style="text-align: center; margin-bottom: 2px;">B2BSteel</h1>
+        <div class="slogan" style="text-align: center;">اعتماد - شفافیت - سرعت</div>
     </div>
 </div>
         <div class="nav-links">
@@ -3408,20 +3452,36 @@ const blogPosts = [
     };
     
     // ========== شمارنده‌ها ==========
-    window.loadCounters = async function() {
-        try {
-            const { count: sellers } = await supabase
-                .from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'seller');
-            const { count: buyers } = await supabase
-                .from('profiles').select('*', { count: 'exact', head: true }).eq('user_type', 'buyer');
+window.loadCounters = async function() {
+    try {
+        const { count: sellers } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_type', 'seller');
             
-            document.getElementById('counter-sellers').textContent = sellers || 0;
-            document.getElementById('counter-buyers').textContent = buyers || 0;
-            document.getElementById('counter-transactions').textContent = '۰';
-        } catch (error) {
-            console.error(error);
-        }
-    };
+        const { count: buyers } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_type', 'buyer');
+            
+        const { count: transactions } = await supabase
+            .from('concrete_requests')
+            .select('*', { count: 'exact', head: true })
+            .eq('status', 'completed');
+        
+        document.getElementById('counter-sellers').textContent = sellers || 0;
+        document.getElementById('counter-buyers').textContent = buyers || 0;
+        document.getElementById('counter-transactions').textContent = transactions || 0;
+        
+        console.log('📊 شمارنده‌ها:', { sellers, buyers, transactions });
+    } catch (error) {
+        console.error('خطا در شمارنده‌ها:', error);
+        // مقدار تستی در صورت خطا
+        document.getElementById('counter-sellers').textContent = '۲';
+        document.getElementById('counter-buyers').textContent = '۲';
+        document.getElementById('counter-transactions').textContent = '۲';
+    }
+};
     
     // ========== ناوبری ==========
     window.updateNavigation = function() {
