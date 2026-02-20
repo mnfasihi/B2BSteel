@@ -3534,12 +3534,11 @@ window.loadCounters = async function() {
     const sellerF = document.getElementById('seller-formwork-menu');
     const sellerS = document.getElementById('seller-shed-menu');
     const admin = document.getElementById('admin-menu');
-    const profileLink = document.getElementById('profile-link'); // اضافه کن
+    const profileLink = document.getElementById('profile-link');
     
     if (currentUser) {
         auth.classList.add('hidden');
         profileLink.classList.remove('hidden'); // پروفایل رو نشون بده
-        
         if (currentUser.isAdmin) {
             admin.classList.remove('hidden');
             user.classList.add('hidden');
